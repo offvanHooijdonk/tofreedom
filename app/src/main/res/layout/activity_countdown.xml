@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="by.offvanhooijdonk.tofreedom.ui.countdown.CountdownActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/blockYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="28dp">
+
+            <TextView
+                android:id="@+id/txtYears"
+                style="@style/CountdownYearText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1" />
+
+            <TextView
+                android:id="@+id/txtLabelYear"
+                style="@style/CountdownYearText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_left_year" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/blockMonthDay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="28dp">
+
+            <TextView
+                android:id="@+id/txtMonths"
+                style="@style/CountdownMonthDayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5" />
+
+            <TextView
+                android:id="@+id/txtLabelMonth"
+                style="@style/CountdownMonthDayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_left_months" />
+
+            <TextView
+                android:id="@+id/txtDays"
+                style="@style/CountdownMonthDayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26" />
+
+            <TextView
+                android:id="@+id/txtLabelDay"
+                style="@style/CountdownMonthDayText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_left_days" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/blockTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtHours"
+                style="@style/CountdownTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="7" />
+
+            <TextView
+                android:id="@+id/txtDelimiter1"
+                style="@style/CountdownTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time_delimiter" />
+
+            <TextView
+                android:id="@+id/txtMinutes"
+                style="@style/CountdownTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="58" />
+
+            <TextView
+                android:id="@+id/txtDelimiter2"
+                style="@style/CountdownTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time_delimiter" />
+
+            <TextView
+                android:id="@+id/txtSeconds"
+                style="@style/CountdownTimeText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="47" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="by.offvanhooijdonk.tofreedom">
+
+    <application
+        android:name=".app.ToFreedomApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <activity
+            android:name=".ui.StartActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.countdown.CountdownActivity"
+            android:label="@string/countdown_activity_title">
+
+        </activity>
+        <activity android:name=".ui.pref.PreferenceActivity"
+            android:label="@string/action_settings">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+
+                <category android:name="android.intent.category.PREFERENCE" />
+            </intent-filter>
+        </activity>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <by.offvanhooijdonk.tofreedom.ui.pref.DateTimePreference
+        android:key="@string/pref_freedom_date_key"
+        android:title="@string/pref_freedom_date_title"
+        android:defaultValue="0"/>
+
+</PreferenceScreen>

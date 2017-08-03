@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">To Freedom</string>
+    <string name="pref_freedom_date_key" translatable="false">pref_freedom_date</string>
+    <string name="pref_freedom_date_title">Your Freedom Date</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_drop_time">Drop Time</string>
+    <string name="dialog_btn_positive">Yes</string>
+    <string name="dialog_btn_negative">No</string>
+    <string name="confirm_drop_title">Confirm</string>
+    <string name="confirm_drop_message">Are you sure you want to drop Freedom Time?</string>
+    <string name="start_set_freedom_day">Set Your Freedom Day</string>
+    <string name="start_set_freedom_time">And Freedom Time</string>
+    <string name="btn_continue">Continue</string>
+    <string name="fish_date_time">Thursday, 26 July 2017 18:30</string>
+    <string name="countdown_activity_title">Freedom Countdown</string>
+
+    <string name="label_left_year">year</string>
+    <string name="label_left_months">months</string>
+    <string name="label_left_days">days</string>
+    <string name="label_left_hours">hours</string>
+    <string name="label_left_minutes">minutes</string>
+    <string name="label_left_seconds">seconds</string>
+    <string name="time_delimiter">:</string>
+</resources>
