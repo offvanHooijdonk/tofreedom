@@ -11,3 +11,4 @@
 /.idea
 /gradlew
 /gradlew.bat
+/**/*.apk
