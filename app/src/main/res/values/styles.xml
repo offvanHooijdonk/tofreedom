@@ -35,17 +35,30 @@
 
     <style name="CountdownYearText">
         <item name="android:textSize">42sp</item>
-        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="android:layout_marginStart">@dimen/countdown_text_margin_h</item>
+    </style>
+
+    <style name="CountdownYearNumber">
+        <item name="textSize">44sp</item>
+        <item name="android:layout_marginStart">@dimen/countdown_number_margin_h</item>
     </style>
 
     <style name="CountdownMonthDayText">
-        <item name="android:textSize">32sp</item>
-        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:textColor">@color/md_white_1000</item>
+        <item name="android:layout_marginStart">@dimen/countdown_text_margin_h</item>
     </style>
 
-    <style name="CountdownTimeText">
-        <item name="android:textSize">36sp</item>
-        <item name="android:layout_marginEnd">4dp</item>
+    <style name="CountdownMonthDayNumber">
+        <item name="textSize">40sp</item>
+        <item name="android:layout_marginStart">@dimen/countdown_number_margin_h</item>
+    </style>
+
+    <style name="CountdownTimeNumber">
+        <item name="textSize">56sp</item>
     </style>
 
 </resources>

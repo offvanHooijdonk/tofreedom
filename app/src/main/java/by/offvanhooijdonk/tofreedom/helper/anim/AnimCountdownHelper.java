@@ -1,6 +1,7 @@
 package by.offvanhooijdonk.tofreedom.helper.anim;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.view.View;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AnimCountdownHelper {
-    private static final int DURATION = 350;
+    public static final int DURATION = 350;
     private static final float ALPHA_ON = 1.0f;
     private static final float ALPHA_OFF = 0.0f;
 
@@ -56,8 +57,24 @@ public class AnimCountdownHelper {
         setFadeIn.start();
     }
 
+    public static void fadeAway(View v) {
+        Animator animator = ObjectAnimator.ofFloat(v, View.ALPHA, ALPHA_ON, ALPHA_OFF).setDuration(DURATION);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+
+                v.setVisibility(View.GONE);
+                v.setAlpha(ALPHA_ON);
+            }
+        });
+
+        animator.start();
+    }
+
     public void clearAnimations() {
         listFadeIn.clear();
         listFadeOut.clear();
     }
+
 }

@@ -5,4 +5,7 @@
     <dimen name="start_chain_size">80dp</dimen>
     <dimen name="start_text_margin_v">8dp</dimen>
     <dimen name="start_picked_time">14sp</dimen>
+
+    <dimen name="countdown_number_margin_h">16dp</dimen>
+    <dimen name="countdown_text_margin_h">8dp</dimen>
 </resources>

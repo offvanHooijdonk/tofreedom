@@ -22,6 +22,14 @@ public class PrefHelper {
         provideSharedPreferences(ctx).edit().putLong(ctx.getString(R.string.pref_freedom_date_key), FREEDOM_TIME_DEFAULT).apply();
     }
 
+    public static long getCountdownStartDate(Context ctx) {
+        return provideSharedPreferences(ctx).getLong(ctx.getString(R.string.pref_cnt_started_date_key), FREEDOM_TIME_DEFAULT);
+    }
+
+    public static void setCountdownStartDate(Context ctx, long value) {
+        provideSharedPreferences(ctx).edit().putLong(ctx.getString(R.string.pref_cnt_started_date_key), value).apply();
+    }
+
     private static SharedPreferences provideSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }

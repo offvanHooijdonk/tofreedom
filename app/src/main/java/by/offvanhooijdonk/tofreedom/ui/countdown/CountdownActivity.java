@@ -3,15 +3,23 @@ package by.offvanhooijdonk.tofreedom.ui.countdown;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bydavy.morpher.DigitalClockView;
 
 import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
@@ -27,16 +35,11 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     private CountdownBean countdown = new CountdownBean();
     private long freedomTime;
     private CountdownBean emptyCountdown = new CountdownBean();
-    private CountdownBean diffCountdown = new CountdownBean();
 
-    private TextView txtYear;
-    private TextView txtMonth;
-    private TextView txtDay;
-    private TextView txtHour;
-    private TextView txtMinute;
-    private TextView txtSecond;
-    private TextView txtDelimiter1;
-    private TextView txtDelimiter2;
+    private DigitalClockView txtYear;
+    private DigitalClockView txtMonth;
+    private DigitalClockView txtDay;
+    private DigitalClockView txtTime;
     private TextView txtLabelMonth;
     private TextView txtLabelDay;
     private View blockYear;
@@ -44,11 +47,39 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     private View blockTime;
 
     private AnimCountdownHelper animHelper;
+    private StringBuilder builderTime = new StringBuilder();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_countdown);
+
+        // TODO  make special helper class for this
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                actionBar.setBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.md_blue_grey_500, null)));
+            } else {
+                actionBar.setBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.md_blue_grey_500)));
+            }
+            /*actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);*/
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            int color;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                color = this.getResources().getColor(R.color.md_blue_grey_700, null);
+            } else {
+                color = this.getResources().getColor(R.color.md_blue_grey_700);
+            }
+            window.setStatusBarColor(color);
+        }
+
+        // ------------
 
         DateFormatHelper.formatForCountdown(emptyCountdown, 0);
 
@@ -84,27 +115,20 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     }
 
     @Override
-    public void onCountdownChange(CountdownBean newDiffCountdown) {
-        copyCountdown(this.diffCountdown, newDiffCountdown);
+    public void onCountdownChange(CountdownBean diffCountdown) {
+        updateCountdownWithDiff(diffCountdown);
 
-        /*if (diffCountdown.year != null) {
-            txtYear.setText(diffCountdown.year);
+        if (countdown.year != null) {
+            txtYear.setTime(countdown.year);
         }
-        if (diffCountdown.month != null) {
-            txtMonth.setText(diffCountdown.month);
+        if (countdown.month != null) {
+            txtYear.setTime(countdown.month);
         }
-        if (diffCountdown.day != null) {
-            txtDay.setText(diffCountdown.day);
+        if (countdown.day != null) {
+            txtYear.setTime(countdown.day);
         }
-        if (diffCountdown.hour != null) {
-            txtHour.setText(diffCountdown.hour);
-        }
-        if (diffCountdown.minute != null) {
-            txtMinute.setText(diffCountdown.minute);
-        }*/
 
-        animHelper.addView(txtSecond);
-        animHelper.animateFadeOut();
+        txtTime.setTime(timeToString());
     }
 
     @Override
@@ -147,25 +171,21 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
             return;
         }
 
-        updateCountdownBean(timeDiff);
+        DateFormatHelper.formatForCountdown(countdown, timeDiff);
+        initCountdownValue();
         drawInitialCountdown();
         countdownTimer = new FreedomCountdownTimer(freedomTime - System.currentTimeMillis(), this).start();
     }
 
     private void initViews() {
-        txtYear = (TextView) findViewById(R.id.txtYears);
-        txtMonth = (TextView) findViewById(R.id.txtMonths);
-        txtDay = (TextView) findViewById(R.id.txtDays);
-        txtHour = (TextView) findViewById(R.id.txtHours);
-        txtMinute = (TextView) findViewById(R.id.txtMinutes);
-        txtSecond = (TextView) findViewById(R.id.txtSeconds);
-        txtDelimiter1 = (TextView) findViewById(R.id.txtDelimiter1);
-        txtDelimiter2 = (TextView) findViewById(R.id.txtDelimiter2);
+        txtYear = (DigitalClockView) findViewById(R.id.txtYears);
+        txtMonth = (DigitalClockView) findViewById(R.id.txtMonths);
+        txtDay = (DigitalClockView) findViewById(R.id.txtDays);
+        txtTime = (DigitalClockView) findViewById(R.id.txtTime);
         txtLabelMonth = (TextView) findViewById(R.id.txtLabelMonth);
         txtLabelDay = (TextView) findViewById(R.id.txtLabelDay);
         blockYear = findViewById(R.id.blockYear);
         blockMonthDay = findViewById(R.id.blockMonthDay);
-        blockTime = findViewById(R.id.blockTime);
     }
 
     private void startDropConfirmDialog() {
@@ -186,37 +206,78 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         startActivity(intent);
     }
 
-    private void updateCountdownBean(long diffTimeMillis) {
-        DateFormatHelper.formatForCountdown(diffCountdown, diffTimeMillis);
+    private void initCountdownValue() {
 
-        boolean isYearEmpty = diffCountdown.year.equals(emptyCountdown.year);
-        boolean isMonthEmpty = isYearEmpty &&   diffCountdown.month.equals(emptyCountdown.month);
-        boolean isDayEmpty = isMonthEmpty &&    diffCountdown.day.equals(emptyCountdown.day);
-        boolean isHourEmpty = isDayEmpty &&     diffCountdown.hour.equals(emptyCountdown.hour);
-        boolean isMinuteEmpty = isHourEmpty &&  diffCountdown.minute.equals(emptyCountdown.minute);
+        boolean isYearEmpty = countdown.year.equals(emptyCountdown.year);
+        boolean isMonthEmpty = isYearEmpty && countdown.month.equals(emptyCountdown.month);
+        boolean isDayEmpty = isMonthEmpty && countdown.day.equals(emptyCountdown.day);
+        boolean isHourEmpty = isDayEmpty && countdown.hour.equals(emptyCountdown.hour);
+        boolean isMinuteEmpty = isHourEmpty && countdown.minute.equals(emptyCountdown.minute);
 
-        countdown.year = isYearEmpty ? null : diffCountdown.year;
-        countdown.month = isMonthEmpty ? null : diffCountdown.month;
-        countdown.day = isDayEmpty ? null : diffCountdown.day;
-        countdown.hour = isHourEmpty ? null : diffCountdown.hour;
-        countdown.minute = isMinuteEmpty ? null : diffCountdown.minute;
+        countdown.year = isYearEmpty ? null : countdown.year;
+        countdown.month = isMonthEmpty ? null : countdown.month;
+        countdown.day = isDayEmpty ? null : countdown.day;
+        countdown.hour = isHourEmpty ? null : countdown.hour;
+        countdown.minute = isMinuteEmpty ? null : countdown.minute;
+    }
+
+    private void updateCountdownWithDiff(CountdownBean diffCountdown) {
+        if (countdown.year != null) {
+            countdown.year = pickChanges(countdown.year, diffCountdown.year, emptyCountdown.year);
+            if (countdown.year == null) AnimCountdownHelper.fadeAway(blockYear);
+        }
+
+        if (countdown.month != null) {
+            countdown.month = pickChanges(countdown.month, diffCountdown.month, emptyCountdown.month);
+            if (countdown.month == null) {
+                AnimCountdownHelper.fadeAway(txtMonth);
+                AnimCountdownHelper.fadeAway(txtLabelMonth);
+            }
+        }
+
+        if (countdown.day != null) {
+            countdown.day = pickChanges(countdown.day, diffCountdown.day, emptyCountdown.day);
+            if (countdown.day == null) {
+                AnimCountdownHelper.fadeAway(txtDay);
+                AnimCountdownHelper.fadeAway(txtLabelDay);
+            }
+        }
+
+        if (countdown.month == null && countdown.day == null) {
+            new Handler().postDelayed(() -> blockMonthDay.setVisibility(View.GONE), AnimCountdownHelper.DURATION);
+        }
+        countdown.hour = pickChanges(countdown.hour, diffCountdown.hour, emptyCountdown.hour);
+        countdown.minute = pickChanges(countdown.minute, diffCountdown.minute, emptyCountdown.minute);
+
+        // assume seconds always change
         countdown.second = diffCountdown.second;
     }
 
-    private void copyCountdown(CountdownBean dest, CountdownBean source) {
-        dest.year = source.year;
-        dest.month = source.month;
-        dest.day = source.day;
-        dest.hour = source.hour;
-        dest.minute = source.minute;
-        dest.second = source.second;
+    private String pickChanges(String currValue, String diffValue, String emptyValue) {
+        return diffValue != null ?
+                (diffValue.equals(emptyValue) ? null : diffValue)
+                : currValue;
+    }
+
+    private String timeToString() {
+        builderTime.delete(0, builderTime.length());
+        if (countdown.hour != null) {
+            builderTime.append(countdown.hour).append(this.getString(R.string.time_delimiter));
+        }
+        if (countdown.minute != null) {
+            builderTime.append(countdown.minute).append(this.getString(R.string.time_delimiter));
+        }
+
+        builderTime.append(countdown.second);
+
+        return builderTime.toString();
     }
 
     private void drawInitialCountdown() {
         if (countdown.year == null) {
             blockYear.setVisibility(View.GONE);
         } else {
-            txtYear.setText(countdown.year);
+            txtYear.setTime(countdown.year);
             blockYear.setVisibility(View.VISIBLE);
         }
 
@@ -227,7 +288,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
                 txtMonth.setVisibility(View.GONE);
                 txtLabelMonth.setVisibility(View.GONE);
             } else {
-                txtMonth.setText(countdown.month);
+                txtMonth.setTime(countdown.month);
                 txtMonth.setVisibility(View.VISIBLE);
                 txtLabelMonth.setVisibility(View.VISIBLE);
             }
@@ -236,31 +297,13 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
                 txtDay.setVisibility(View.GONE);
                 txtLabelDay.setVisibility(View.GONE);
             } else {
-                txtDay.setText(countdown.day);
+                txtDay.setTime(countdown.day);
                 txtDay.setVisibility(View.VISIBLE);
                 txtLabelDay.setVisibility(View.VISIBLE);
             }
         }
 
-        if (countdown.hour == null) {
-            txtHour.setVisibility(View.GONE);
-            txtDelimiter1.setVisibility(View.GONE);
-        } else {
-            txtHour.setText(countdown.hour);
-            txtHour.setVisibility(View.VISIBLE);
-            txtDelimiter1.setVisibility(View.VISIBLE);
-        }
-
-        if (countdown.minute == null) {
-            txtMinute.setVisibility(View.GONE);
-            txtDelimiter2.setVisibility(View.GONE);
-        } else {
-            txtMinute.setText(countdown.minute);
-            txtMinute.setVisibility(View.VISIBLE);
-            txtDelimiter2.setVisibility(View.VISIBLE);
-        }
-
-        txtSecond.setText(countdown.second);
+        txtTime.setTime(timeToString());
     }
 
     private class FadeOutListener extends AnimatorListenerAdapter {
@@ -269,7 +312,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
             super.onAnimationEnd(animation);
 
             // TODO do all settings and hidings here
-            txtSecond.setText(diffCountdown.second);
+            //txtSecond.setText(diffCountdown.second);
 
             animHelper.animateFadeIn();
         }

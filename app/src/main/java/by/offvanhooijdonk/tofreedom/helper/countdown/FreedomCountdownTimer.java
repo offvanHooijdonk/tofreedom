@@ -28,22 +28,26 @@ public class FreedomCountdownTimer extends CountDownTimer {
 
     @Override
     public void onTick(long millisUntilFinished) {
-        updateCountdown(currentCountdown, millisUntilFinished);
+        DateFormatHelper.formatCountdownForUpdate(currentCountdown, millisUntilFinished);
 
         if (!currentCountdown.equals(prevCountdown)) {
-            diffCountdown.year =    currentCountdown.year.equals(prevCountdown.year) ? null :   currentCountdown.year;
-            diffCountdown.month =   currentCountdown.month.equals(prevCountdown.month) ? null : currentCountdown.month;
-            diffCountdown.day =     currentCountdown.day.equals(prevCountdown.day) ? null :     currentCountdown.day;
-            diffCountdown.hour =    currentCountdown.hour.equals(prevCountdown.hour) ? null :   currentCountdown.hour;
-            diffCountdown.minute =  currentCountdown.minute.equals(prevCountdown.minute) ? null : currentCountdown.minute;
-            diffCountdown.second =  currentCountdown.second.equals(prevCountdown.second) ? null : currentCountdown.second;
+            diffCountdown.year =    pickChanges(currentCountdown.year, prevCountdown.year);
+            diffCountdown.month =   pickChanges(currentCountdown.month, prevCountdown.year);
+            diffCountdown.day =     pickChanges(currentCountdown.day, prevCountdown.year);
+            diffCountdown.hour =    pickChanges(currentCountdown.hour, prevCountdown.year);
+            diffCountdown.minute =  pickChanges(currentCountdown.minute, prevCountdown.year);
+            diffCountdown.second =  pickChanges(currentCountdown.second, prevCountdown.second);
         }
 
         if (listener != null) {
             listener.onCountdownChange(diffCountdown);
         }
 
-        copyCurrentToPrevious();
+        copyCountDownValues(prevCountdown, currentCountdown);
+    }
+
+    private String pickChanges(String currValue, String prevValue) {
+        return currValue == null || currValue.equals(prevValue) ? null : currValue;
     }
 
     @Override
@@ -57,13 +61,13 @@ public class FreedomCountdownTimer extends CountDownTimer {
         DateFormatHelper.formatForCountdown(cnt, timeMillis);
     }
 
-    private void copyCurrentToPrevious() {
-        prevCountdown.year = currentCountdown.year;
-        prevCountdown.month = currentCountdown.month;
-        prevCountdown.day = currentCountdown.day;
-        prevCountdown.hour = currentCountdown.hour;
-        prevCountdown.minute = currentCountdown.minute;
-        prevCountdown.second = currentCountdown.second;
+    public static void copyCountDownValues(CountdownBean dest, CountdownBean source) {
+        dest.year = source.year;
+        dest.month = source.month;
+        dest.day = source.day;
+        dest.hour = source.hour;
+        dest.minute = source.minute;
+        dest.second = source.second;
     }
 
     public interface CountdownListener {

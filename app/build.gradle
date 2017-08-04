@@ -34,6 +34,8 @@ dependencies {
     compile "com.android.support:design:$support_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
+    compile 'com.github.ronaldsmartin:android-number-morphing:v1.0.0'
+
     compile 'joda-time:joda-time:2.9.9'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])

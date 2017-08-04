@@ -20,21 +20,21 @@ import java.util.Date;
 import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 
-public class DateTimePreference extends Preference implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class FreedomDateTimePreference extends Preference implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     public static final int DEFAULT_VALUE = 0;
     private static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.FULL);
     @SuppressLint("SimpleDateFormat")
     private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
-    public DateTimePreference(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FreedomDateTimePreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public DateTimePreference(Context context, AttributeSet attrs) {
+    public FreedomDateTimePreference(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DateTimePreference(Context context) {
+    public FreedomDateTimePreference(Context context) {
         super(context);
     }
 
@@ -76,6 +76,7 @@ public class DateTimePreference extends Preference implements DatePickerDialog.O
 
     private void saveValue(long timeMillis) {
         persistLong(timeMillis);
+        PrefHelper.setCountdownStartDate(getContext(), System.currentTimeMillis());
 
         updateSummary(timeMillis);
     }
@@ -88,7 +89,7 @@ public class DateTimePreference extends Preference implements DatePickerDialog.O
     private void startDateDialog() {
         Calendar dateForDialog = getValueAsCalendar();
 
-        DatePickerDialog dialog = new DatePickerDialog(getContext(), DateTimePreference.this,
+        DatePickerDialog dialog = new DatePickerDialog(getContext(), FreedomDateTimePreference.this,
                 dateForDialog.get(Calendar.YEAR),
                 dateForDialog.get(Calendar.MONTH),
                 dateForDialog.get(Calendar.DAY_OF_MONTH));
@@ -105,7 +106,7 @@ public class DateTimePreference extends Preference implements DatePickerDialog.O
     private void startTimeDialog() {
         Calendar timeForDialog = getValueAsCalendar();
 
-        new TimePickerDialog(getContext(), DateTimePreference.this,
+        new TimePickerDialog(getContext(), FreedomDateTimePreference.this,
                 timeForDialog.get(Calendar.HOUR_OF_DAY),
                 timeForDialog.get(Calendar.MINUTE),
                 true).show();

@@ -81,6 +81,7 @@ public class StartActivity extends AppCompatActivity implements DatePickerDialog
         btnContinue.setOnClickListener(v -> {
             if (freedomTime != PrefHelper.FREEDOM_TIME_DEFAULT) {
                 PrefHelper.setFreedomTime(StartActivity.this, freedomTime);
+                PrefHelper.setCountdownStartDate(StartActivity.this, System.currentTimeMillis());
                 navigateCountdownView();
             } else {
                 btnContinue.setEnabled(false);

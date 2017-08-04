@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/md_blue_grey_500"
     tools:context="by.offvanhooijdonk.tofreedom.ui.countdown.CountdownActivity">
 
     <LinearLayout
@@ -11,6 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -20,12 +22,12 @@
             android:id="@+id/blockYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="28dp">
+            android:layout_marginBottom="28dp"
+            android:orientation="horizontal">
 
-            <TextView
+            <com.bydavy.morpher.DigitalClockView
                 android:id="@+id/txtYears"
-                style="@style/CountdownYearText"
+                style="@style/CountdownYearNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1" />
@@ -42,15 +44,14 @@
             android:id="@+id/blockMonthDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="28dp">
+            android:layout_marginBottom="28dp"
+            android:orientation="horizontal">
 
-            <TextView
+            <com.bydavy.morpher.DigitalClockView
                 android:id="@+id/txtMonths"
-                style="@style/CountdownMonthDayText"
+                style="@style/CountdownMonthDayNumber"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="5" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/txtLabelMonth"
@@ -59,12 +60,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/label_left_months" />
 
-            <TextView
+            <com.bydavy.morpher.DigitalClockView
                 android:id="@+id/txtDays"
-                style="@style/CountdownMonthDayText"
+                style="@style/CountdownMonthDayNumber"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="26" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/txtLabelDay"
@@ -81,40 +81,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/txtHours"
-                style="@style/CountdownTimeText"
+            <com.bydavy.morpher.DigitalClockView
+                style="@style/CountdownTimeNumber"
+                android:id="@+id/txtTime"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="7" />
-
-            <TextView
-                android:id="@+id/txtDelimiter1"
-                style="@style/CountdownTimeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time_delimiter" />
-
-            <TextView
-                android:id="@+id/txtMinutes"
-                style="@style/CountdownTimeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="58" />
-
-            <TextView
-                android:id="@+id/txtDelimiter2"
-                style="@style/CountdownTimeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/time_delimiter" />
-
-            <TextView
-                android:id="@+id/txtSeconds"
-                style="@style/CountdownTimeText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="47" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </LinearLayout>

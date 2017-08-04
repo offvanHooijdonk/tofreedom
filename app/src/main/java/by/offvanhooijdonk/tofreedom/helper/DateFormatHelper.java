@@ -13,6 +13,7 @@ import by.offvanhooijdonk.tofreedom.helper.countdown.CountdownBean;
 
 @SuppressLint("SimpleDateFormat")
 public class DateFormatHelper {
+    private static final String SECOND_MAX = "59";
 
     private static final SimpleDateFormat MINUTE_FORMAT = new SimpleDateFormat("mm");
     private static final SimpleDateFormat SECOND_FORMAT = new SimpleDateFormat("ss");
@@ -22,6 +23,18 @@ public class DateFormatHelper {
     private static final DateFormat START_TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
     private static final Date FORMATTED_DATE = new Date();
+
+    public static void formatCountdownForUpdate(CountdownBean countdownBean, long timeMillis) {
+        FORMATTED_DATE.setTime(timeMillis);
+
+        String seconds = SECOND_FORMAT.format(FORMATTED_DATE).intern();
+
+        if (seconds.equals(SECOND_MAX)) {
+            formatForCountdown(countdownBean, timeMillis);
+        } else {
+            countdownBean.second = seconds;
+        }
+    }
 
     public static void formatForCountdown(CountdownBean countdownBean, long timeMillis) {
         FORMATTED_DATE.setTime(timeMillis);
