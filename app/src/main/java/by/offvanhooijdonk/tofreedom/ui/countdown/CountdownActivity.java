@@ -122,10 +122,10 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
             txtYear.setTime(countdown.year);
         }
         if (countdown.month != null) {
-            txtYear.setTime(countdown.month);
+            txtMonth.setTime(countdown.month);
         }
         if (countdown.day != null) {
-            txtYear.setTime(countdown.day);
+            txtDay.setTime(countdown.day);
         }
 
         txtTime.setTime(timeToString());

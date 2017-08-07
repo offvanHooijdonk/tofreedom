@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="96dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -22,7 +22,7 @@
             android:id="@+id/blockYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="32dp"
             android:orientation="horizontal">
 
             <com.bydavy.morpher.DigitalClockView
@@ -44,7 +44,7 @@
             android:id="@+id/blockMonthDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp"
+            android:layout_marginBottom="32dp"
             android:orientation="horizontal">
 
             <com.bydavy.morpher.DigitalClockView
