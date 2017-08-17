@@ -3,7 +3,7 @@
     package="by.offvanhooijdonk.tofreedom">
 
     <application
-        android:name=".app.ToFreedomApplication"
+        android:name=".app.ToFreedomApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

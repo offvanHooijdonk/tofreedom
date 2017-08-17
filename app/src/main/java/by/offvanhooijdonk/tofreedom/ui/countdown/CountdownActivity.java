@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,7 +22,14 @@ import android.widget.Toast;
 
 import com.bydavy.morpher.DigitalClockView;
 
+import net.time4j.CalendarUnit;
+import net.time4j.PrettyTime;
+import net.time4j.format.TextWidth;
+
+import java.util.Locale;
+
 import by.offvanhooijdonk.tofreedom.R;
+import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.helper.anim.AnimCountdownHelper;
@@ -40,6 +48,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     private DigitalClockView txtMonth;
     private DigitalClockView txtDay;
     private DigitalClockView txtTime;
+    private TextView txtLabelYear;
     private TextView txtLabelMonth;
     private TextView txtLabelDay;
     private View blockYear;
@@ -48,7 +57,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
     private AnimCountdownHelper animHelper;
     private StringBuilder builderTime = new StringBuilder();
-
+    int prevTimeTextLength = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,15 +129,33 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
         if (countdown.year != null) {
             txtYear.setTime(countdown.year);
+            txtLabelYear.setText(getLocalCalendarUnitText(countdown.year, CalendarUnit.YEARS));
         }
         if (countdown.month != null) {
             txtMonth.setTime(countdown.month);
+            txtLabelMonth.setText(getLocalCalendarUnitText(countdown.month, CalendarUnit.MONTHS));
         }
         if (countdown.day != null) {
             txtDay.setTime(countdown.day);
+            txtLabelDay.setText(getLocalCalendarUnitText(countdown.day, CalendarUnit.DAYS));
         }
 
-        txtTime.setTime(timeToString());
+        String timeText = timeToString();
+        int textDiff = prevTimeTextLength - timeText.length();
+        if (textDiff >= 2 || textDiff <=-2) {
+            // TODO do some animation to smooth the process
+            animHelper.addView(txtTime);
+            animHelper.animateFadeOut(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    txtTime.setTime(timeText);
+                }
+            }, AnimCountdownHelper.DURATION_SHORT);
+        } else {
+            txtTime.setTime(timeText);
+        }
+        prevTimeTextLength = timeText.length();
     }
 
     @Override
@@ -182,6 +209,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         txtMonth = (DigitalClockView) findViewById(R.id.txtMonths);
         txtDay = (DigitalClockView) findViewById(R.id.txtDays);
         txtTime = (DigitalClockView) findViewById(R.id.txtTime);
+        txtLabelYear = (TextView) findViewById(R.id.txtLabelYear);
         txtLabelMonth = (TextView) findViewById(R.id.txtLabelMonth);
         txtLabelDay = (TextView) findViewById(R.id.txtLabelDay);
         blockYear = findViewById(R.id.blockYear);
@@ -209,10 +237,10 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     private void initCountdownValue() {
 
         boolean isYearEmpty = countdown.year.equals(emptyCountdown.year);
-        boolean isMonthEmpty = isYearEmpty && countdown.month.equals(emptyCountdown.month);
-        boolean isDayEmpty = isMonthEmpty && countdown.day.equals(emptyCountdown.day);
-        boolean isHourEmpty = isDayEmpty && countdown.hour.equals(emptyCountdown.hour);
-        boolean isMinuteEmpty = isHourEmpty && countdown.minute.equals(emptyCountdown.minute);
+        boolean isMonthEmpty = /*isYearEmpty && */countdown.month.equals(emptyCountdown.month);
+        boolean isDayEmpty = /*isMonthEmpty && */countdown.day.equals(emptyCountdown.day);
+        boolean isHourEmpty = /*isDayEmpty && */countdown.hour.equals(emptyCountdown.hour);
+        boolean isMinuteEmpty = /*isHourEmpty && */countdown.minute.equals(emptyCountdown.minute);
 
         countdown.year = isYearEmpty ? null : countdown.year;
         countdown.month = isMonthEmpty ? null : countdown.month;
@@ -244,7 +272,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         }
 
         if (countdown.month == null && countdown.day == null) {
-            new Handler().postDelayed(() -> blockMonthDay.setVisibility(View.GONE), AnimCountdownHelper.DURATION);
+            new Handler().postDelayed(() -> blockMonthDay.setVisibility(View.GONE), AnimCountdownHelper.DURATION_DEFAULT);
         }
         countdown.hour = pickChanges(countdown.hour, diffCountdown.hour, emptyCountdown.hour);
         countdown.minute = pickChanges(countdown.minute, diffCountdown.minute, emptyCountdown.minute);
@@ -257,6 +285,23 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         return diffValue != null ?
                 (diffValue.equals(emptyValue) ? null : diffValue)
                 : currValue;
+    }
+
+    private String getLocalCalendarUnitText(String value, CalendarUnit unit) {
+        if (value != null && !value.isEmpty()) {
+            int valueNum = Integer.valueOf(countdown.year);
+            String unitText = PrettyTime.of(Locale.getDefault()).print(valueNum, unit, TextWidth.WIDE);
+            try {
+                unitText = unitText.substring(unitText.indexOf(countdown.year) + 2).intern();
+            } catch (IndexOutOfBoundsException e) {
+                Log.e(ToFreedomApp.LOG, "Error while substring date locale representation: " + unitText, e);
+                return "";
+            }
+            return unitText;
+        } else {
+            // TODO handle properly
+            return "";
+        }
     }
 
     private String timeToString() {
@@ -303,7 +348,9 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
             }
         }
 
-        txtTime.setTime(timeToString());
+        String timeText = timeToString();
+        prevTimeTextLength = timeText.length();
+        txtTime.setTime(timeText);
     }
 
     private class FadeOutListener extends AnimatorListenerAdapter {

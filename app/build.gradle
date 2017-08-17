@@ -37,6 +37,7 @@ dependencies {
     compile 'com.github.ronaldsmartin:android-number-morphing:v1.0.0'
 
     compile 'joda-time:joda-time:2.9.9'
+    compile "net.time4j:time4j-android:3.33-2017b"
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

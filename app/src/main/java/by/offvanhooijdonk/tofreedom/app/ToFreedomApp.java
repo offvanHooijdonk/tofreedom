@@ -3,13 +3,11 @@ package by.offvanhooijdonk.tofreedom.app;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
+import net.time4j.android.ApplicationStarter;
+
 import by.offvanhooijdonk.tofreedom.R;
 
-/**
- * Created by Yahor_Fralou on 8/2/2017 3:32 PM.
- */
-
-public class ToFreedomApplication extends Application {
+public class ToFreedomApp extends Application {
     public static final String LOG = "toFreedom";
 
     @Override
@@ -17,5 +15,6 @@ public class ToFreedomApplication extends Application {
         super.onCreate();
 
         PreferenceManager.setDefaultValues(this, R.xml.pref, false);
+        ApplicationStarter.initialize(this, true);
     }
 }

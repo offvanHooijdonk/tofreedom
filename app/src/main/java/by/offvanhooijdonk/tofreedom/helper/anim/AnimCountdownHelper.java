@@ -13,7 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AnimCountdownHelper {
-    public static final int DURATION = 350;
+    public static final int DURATION_DEFAULT = 350;
+    public static final int DURATION_SHORT = 75;
     private static final float ALPHA_ON = 1.0f;
     private static final float ALPHA_OFF = 0.0f;
 
@@ -27,8 +28,12 @@ public class AnimCountdownHelper {
     private AnimatorSet setFadeIn = new AnimatorSet();
 
     public AnimCountdownHelper(Animator.AnimatorListener fadeOutListener, Animator.AnimatorListener fadeInListener) {
-        setFadeOut.addListener(fadeOutListener);
-        setFadeIn.addListener(fadeInListener);
+        if (fadeOutListener != null) {
+            setFadeOut.addListener(fadeOutListener);
+        }
+        if (fadeInListener != null) {
+            setFadeIn.addListener(fadeInListener);
+        }
 
         setFadeOut.setInterpolator(new AccelerateDecelerateInterpolator());
         setFadeIn.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -36,19 +41,27 @@ public class AnimCountdownHelper {
 
     public void addView(View v) {
         if (poolFadeOut.get(v) == null) {
-            poolFadeOut.put(v, ObjectAnimator.ofFloat(v, View.ALPHA, ALPHA_ON, ALPHA_OFF).setDuration(DURATION));
+            poolFadeOut.put(v, ObjectAnimator.ofFloat(v, View.ALPHA, ALPHA_ON, ALPHA_OFF).setDuration(DURATION_DEFAULT));
         }
 
         if (poolFadeIn.get(v) == null) {
-            poolFadeIn.put(v, ObjectAnimator.ofFloat(v, View.ALPHA, ALPHA_OFF, ALPHA_ON).setDuration(DURATION));
+            poolFadeIn.put(v, ObjectAnimator.ofFloat(v, View.ALPHA, ALPHA_OFF, ALPHA_ON).setDuration(DURATION_DEFAULT));
         }
 
         listFadeOut.add(poolFadeOut.get(v));
         listFadeIn.add(poolFadeIn.get(v));
     }
 
-    public void animateFadeOut() {
+    public void animateFadeOut(Animator.AnimatorListener fadeOutListener) {
+        animateFadeOut(fadeOutListener, DURATION_DEFAULT);
+    }
+
+    public void animateFadeOut(Animator.AnimatorListener fadeOutListener, int duration) {
+        if (fadeOutListener != null) {
+            setFadeOut.addListener(fadeOutListener);
+        }
         setFadeOut.playTogether(listFadeOut);
+        setFadeOut.setDuration(duration);
         setFadeOut.start();
     }
 
@@ -58,7 +71,7 @@ public class AnimCountdownHelper {
     }
 
     public static void fadeAway(View v) {
-        Animator animator = ObjectAnimator.ofFloat(v, View.ALPHA, ALPHA_ON, ALPHA_OFF).setDuration(DURATION);
+        Animator animator = ObjectAnimator.ofFloat(v, View.ALPHA, ALPHA_ON, ALPHA_OFF).setDuration(DURATION_DEFAULT);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
