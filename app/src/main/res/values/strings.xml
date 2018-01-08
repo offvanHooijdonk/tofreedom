@@ -13,13 +13,13 @@
     <string name="fish_date_time">Thursday, 26 July 2017 18:30</string>
     <string name="countdown_activity_title">Freedom Countdown</string>
 
-    <string name="label_left_year">year</string>
-    <string name="label_left_months">months</string>
-    <string name="label_left_days">days</string>
-    <string name="label_left_hours">hours</string>
-    <string name="label_left_minutes">minutes</string>
-    <string name="label_left_seconds">seconds</string>
-    <string name="time_delimiter">:</string>
+    <string name="label_left_year" translatable="false">year</string>
+    <string name="label_left_months" translatable="false">months</string>
+    <string name="label_left_days" translatable="false">days</string>
+    <string name="label_left_hours" translatable="false">hours</string>
+    <string name="label_left_minutes" translatable="false">minutes</string>
+    <string name="label_left_seconds" translatable="false">seconds</string>
+    <string name="time_delimiter" translatable="false">:</string>
 
     <string name="pref_freedom_date_key" translatable="false">pref_freedom_date</string>
     <string name="pref_cnt_started_date_key" translatable="false">pref_cnt_started_date_key</string>

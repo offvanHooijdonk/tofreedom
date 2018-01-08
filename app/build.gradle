@@ -16,7 +16,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -27,7 +27,7 @@ android {
 }
 
 dependencies {
-    ext.support_version = "25.3.1"
+    ext.support_version = "25.4.0"
     ext.butterknife_version = "7.0.1"
 
     compile "com.android.support:appcompat-v7:$support_version"
@@ -36,7 +36,8 @@ dependencies {
 
     compile 'com.github.ronaldsmartin:android-number-morphing:v1.0.0'
 
-    compile 'joda-time:joda-time:2.9.9'
+    //compile 'joda-time:joda-time:2.9.9'
+    compile 'net.danlew:android.joda:2.9.9.1'
     compile "net.time4j:time4j-android:3.33-2017b"
 
     compile fileTree(dir: 'libs', include: ['*.jar'])

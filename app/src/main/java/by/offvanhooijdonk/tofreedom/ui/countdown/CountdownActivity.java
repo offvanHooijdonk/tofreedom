@@ -141,6 +141,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         }
 
         String timeText = timeToString();
+        Log.i(ToFreedomApp.LOG, "Time to output: " + timeText);
         int textDiff = prevTimeTextLength - timeText.length();
         if (textDiff >= 2 || textDiff <=-2) {
             // TODO do some animation to smooth the process
@@ -201,7 +202,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         DateFormatHelper.formatForCountdown(countdown, timeDiff);
         initCountdownValue();
         drawInitialCountdown();
-        countdownTimer = new FreedomCountdownTimer(freedomTime - System.currentTimeMillis(), this).start();
+        countdownTimer = new FreedomCountdownTimer(freedomTime, this).start();
     }
 
     private void initViews() {
@@ -289,10 +290,10 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
     private String getLocalCalendarUnitText(String value, CalendarUnit unit) {
         if (value != null && !value.isEmpty()) {
-            int valueNum = Integer.valueOf(countdown.year);
+            int valueNum = Integer.valueOf(value);
             String unitText = PrettyTime.of(Locale.getDefault()).print(valueNum, unit, TextWidth.WIDE);
             try {
-                unitText = unitText.substring(unitText.indexOf(countdown.year) + 2).intern();
+                unitText = unitText.substring(unitText.indexOf(value) + 2).intern();
             } catch (IndexOutOfBoundsException e) {
                 Log.e(ToFreedomApp.LOG, "Error while substring date locale representation: " + unitText, e);
                 return "";

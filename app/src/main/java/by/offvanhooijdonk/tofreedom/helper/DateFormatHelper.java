@@ -42,7 +42,7 @@ public class DateFormatHelper {
 
         countdownBean.year = String.valueOf(period.getYears()).intern();
         countdownBean.month = String.valueOf(period.getMonths()).intern();
-        countdownBean.day = String.valueOf(period.getDays()).intern();
+        countdownBean.day = String.valueOf(period.getDays() + 7 * period.getWeeks()).intern();
         countdownBean.hour = String.valueOf(period.getHours()).intern();
         countdownBean.minute = MINUTE_FORMAT.format(FORMATTED_DATE).intern();
         countdownBean.second = SECOND_FORMAT.format(FORMATTED_DATE).intern();

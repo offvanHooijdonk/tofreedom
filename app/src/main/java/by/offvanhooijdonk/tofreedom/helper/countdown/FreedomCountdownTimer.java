@@ -28,15 +28,15 @@ public class FreedomCountdownTimer extends CountDownTimer {
 
     @Override
     public void onTick(long millisUntilFinished) {
-        DateFormatHelper.formatCountdownForUpdate(currentCountdown, millisUntilFinished);
+        DateFormatHelper.formatCountdownForUpdate(currentCountdown, millisUntilFinished - System.currentTimeMillis());
 
         if (!currentCountdown.equals(prevCountdown)) {
             diffCountdown.year =    pickChanges(currentCountdown.year, prevCountdown.year);
-            diffCountdown.month =   pickChanges(currentCountdown.month, prevCountdown.year);
-            diffCountdown.day =     pickChanges(currentCountdown.day, prevCountdown.year);
-            diffCountdown.hour =    pickChanges(currentCountdown.hour, prevCountdown.year);
-            diffCountdown.minute =  pickChanges(currentCountdown.minute, prevCountdown.year);
-            diffCountdown.second =  pickChanges(currentCountdown.second, prevCountdown.second);
+            diffCountdown.month =   pickChanges(currentCountdown.month, prevCountdown.month);
+            diffCountdown.day =     pickChanges(currentCountdown.day, prevCountdown.day);
+            diffCountdown.hour =    pickChanges(currentCountdown.hour, prevCountdown.hour);
+            diffCountdown.minute =  pickChanges(currentCountdown.minute, prevCountdown.minute);
+            diffCountdown.second =  currentCountdown.second;
         }
 
         if (listener != null) {
