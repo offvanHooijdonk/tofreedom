@@ -202,7 +202,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         DateFormatHelper.formatForCountdown(countdown, timeDiff);
         initCountdownValue();
         drawInitialCountdown();
-        countdownTimer = new FreedomCountdownTimer(freedomTime, this).start();
+        countdownTimer = new FreedomCountdownTimer(freedomTime - System.currentTimeMillis(), this).start();
     }
 
     private void initViews() {

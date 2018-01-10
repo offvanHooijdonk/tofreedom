@@ -1,7 +1,9 @@
 package by.offvanhooijdonk.tofreedom.helper.countdown;
 
 import android.os.CountDownTimer;
+import android.util.Log;
 
+import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
 
 /**
@@ -23,12 +25,14 @@ public class FreedomCountdownTimer extends CountDownTimer {
         this.millisInFuture = millisInFuture;
         this.listener = l;
 
-        updateCountdown(prevCountdown, millisInFuture - System.currentTimeMillis());
+        updateCountdown(prevCountdown, millisInFuture);
     }
 
     @Override
     public void onTick(long millisUntilFinished) {
-        DateFormatHelper.formatCountdownForUpdate(currentCountdown, millisUntilFinished - System.currentTimeMillis());
+        Log.i(ToFreedomApp.LOG, "Millis Until Finished: " + millisUntilFinished);
+        DateFormatHelper.formatCountdownForUpdate(currentCountdown, millisUntilFinished);
+        Log.i(ToFreedomApp.LOG, "Current Countdown" + currentCountdown.toString());
 
         if (!currentCountdown.equals(prevCountdown)) {
             diffCountdown.year =    pickChanges(currentCountdown.year, prevCountdown.year);
@@ -38,6 +42,8 @@ public class FreedomCountdownTimer extends CountDownTimer {
             diffCountdown.minute =  pickChanges(currentCountdown.minute, prevCountdown.minute);
             diffCountdown.second =  currentCountdown.second;
         }
+
+        Log.i(ToFreedomApp.LOG, "DIFF Countdown" + diffCountdown.toString());
 
         if (listener != null) {
             listener.onCountdownChange(diffCountdown);

@@ -43,4 +43,16 @@ public class CountdownBean {
                 && this.minute.equals(cnt.minute)
                 && this.second.equals(cnt.second);
     }
+
+    @Override
+    public String toString() {
+        return "CountdownBean{" +
+                "year='" + year + '\'' +
+                ", month='" + month + '\'' +
+                ", day='" + day + '\'' +
+                ", hour='" + hour + '\'' +
+                ", minute='" + minute + '\'' +
+                ", second='" + second + '\'' +
+                '}';
+    }
 }
