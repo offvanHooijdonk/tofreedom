@@ -7,26 +7,25 @@
     android:background="@color/colorPrimary"
     tools:context="by.offvanhooijdonk.tofreedom.ui.StartActivity">
 
-    <ImageView
-        android:layout_width="@dimen/start_chain_size"
-        android:layout_height="@dimen/start_chain_size"
-        android:layout_marginEnd="@dimen/activity_margin_h"
-        android:src="@drawable/ic_broken_chain"
-        android:tint="@color/md_white_1000"
-        app:layout_constraintBottom_toTopOf="@+id/blockText"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/blockText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/activity_margin_v"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/txtPickedTime"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/start_chain_size"
+            android:layout_height="@dimen/start_chain_size"
+            android:layout_marginBottom="@dimen/logo_bottom_margin"
+            android:src="@drawable/ic_broken_chain"
+            android:tint="@color/md_white_1000" />
 
         <TextView
             android:id="@+id/txtSetFreedomDate"
@@ -40,10 +39,9 @@
             style="@style/StartText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/txtSetFreedomDate"
             android:layout_marginTop="@dimen/start_text_margin_v"
             android:text="@string/start_set_freedom_time" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnContinue"

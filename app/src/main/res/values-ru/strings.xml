@@ -13,4 +13,6 @@
     <string name="start_set_freedom_time">И Время Свободы</string>
     <string name="pref_freedom_date_title">Ваши День и Время Свободы</string>
     <string name="countdown_activity_title">На Свободу</string>
+    <string name="date_warning_title">Внимание</string>
+    <string name="date_warning_msg">Пожалуйста, выберите дату в будущем.</string>
 </resources>

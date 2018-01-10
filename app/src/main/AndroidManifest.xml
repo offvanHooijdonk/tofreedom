@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="by.offvanhooijdonk.tofreedom">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".app.ToFreedomApp"
         android:allowBackup="true"
@@ -13,21 +15,23 @@
 
         <activity
             android:name=".ui.StartActivity"
+            android:configChanges="orientation|screenSize"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.countdown.CountdownActivity"
+        <activity
+            android:name=".ui.countdown.CountdownActivity"
             android:label="@string/countdown_activity_title">
 
         </activity>
-        <activity android:name=".ui.pref.PreferenceActivity"
+        <activity
+            android:name=".ui.pref.PreferenceActivity"
             android:label="@string/action_settings">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />

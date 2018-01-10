@@ -3,7 +3,9 @@ package by.offvanhooijdonk.tofreedom.ui;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +28,7 @@ public class StartActivity extends AppCompatActivity implements DatePickerDialog
     private Button btnContinue;
 
     private long freedomTime = PrefHelper.FREEDOM_TIME_DEFAULT;
+    private boolean isDateSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +40,24 @@ public class StartActivity extends AppCompatActivity implements DatePickerDialog
         } else {
             init();
         }
+    }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar timeNewValue = Calendar.getInstance();
-        timeNewValue.setTimeInMillis(freedomTime);
+        if (freedomTime != PrefHelper.FREEDOM_TIME_DEFAULT) {
+            timeNewValue.setTimeInMillis(freedomTime);
+        } else {
+            timeNewValue.set(Calendar.HOUR_OF_DAY, 12);
+            timeNewValue.set(Calendar.MINUTE, 0);
+            timeNewValue.set(Calendar.SECOND, 0);
+            timeNewValue.set(Calendar.MILLISECOND, 0);
+        }
 
         timeNewValue.set(Calendar.YEAR, year);
         timeNewValue.set(Calendar.MONTH, month);
@@ -52,7 +66,7 @@ public class StartActivity extends AppCompatActivity implements DatePickerDialog
         freedomTime = timeNewValue.getTimeInMillis();
         updateFreedomDateView();
 
-        btnContinue.setEnabled(true);
+        isDateSet = true;
     }
 
     @Override
@@ -77,14 +91,18 @@ public class StartActivity extends AppCompatActivity implements DatePickerDialog
 
         txtSetFreedomDate.setOnClickListener(v -> onFreedomDateClick());
         txtSetFreedomTime.setOnClickListener(v -> onFreedomDateTime());
-        btnContinue.setEnabled(false);
         btnContinue.setOnClickListener(v -> {
-            if (freedomTime != PrefHelper.FREEDOM_TIME_DEFAULT) {
+            if (isDateSet && freedomTime > System.currentTimeMillis()) {
                 PrefHelper.setFreedomTime(StartActivity.this, freedomTime);
                 PrefHelper.setCountdownStartDate(StartActivity.this, System.currentTimeMillis());
                 navigateCountdownView();
             } else {
-                btnContinue.setEnabled(false);
+                new AlertDialog.Builder(this)
+                        .setCancelable(true)
+                        .setTitle(R.string.date_warning_title)
+                        .setMessage(R.string.date_warning_msg)
+                        .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
+                        .show();
             }
         });
 
