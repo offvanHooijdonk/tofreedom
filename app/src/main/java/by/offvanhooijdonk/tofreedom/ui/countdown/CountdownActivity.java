@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bydavy.morpher.DigitalClockView;
 
@@ -36,6 +35,7 @@ import by.offvanhooijdonk.tofreedom.helper.anim.AnimCountdownHelper;
 import by.offvanhooijdonk.tofreedom.helper.countdown.CountdownBean;
 import by.offvanhooijdonk.tofreedom.helper.countdown.FreedomCountdownTimer;
 import by.offvanhooijdonk.tofreedom.ui.StartActivity;
+import by.offvanhooijdonk.tofreedom.ui.fances.CelebrateFragment;
 import by.offvanhooijdonk.tofreedom.ui.pref.PreferenceActivity;
 
 public class CountdownActivity extends AppCompatActivity implements FreedomCountdownTimer.CountdownListener {
@@ -54,6 +54,8 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     private View blockYear;
     private View blockMonthDay;
     private View blockTime;
+    private View blockContainer;
+    private View blockCountdown;
 
     private AnimCountdownHelper animHelper;
     private StringBuilder builderTime = new StringBuilder();
@@ -143,7 +145,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         String timeText = timeToString();
         //Log.i(ToFreedomApp.LOG, "Time to output: " + timeText);
         int textDiff = prevTimeTextLength - timeText.length();
-        if (textDiff >= 2 || textDiff <=-2) {
+        if (textDiff >= 2 || textDiff <= -2) {
             // TODO do some animation to smooth the process
             animHelper.addView(txtTime);
             animHelper.animateFadeOut(new AnimatorListenerAdapter() {
@@ -161,7 +163,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
     @Override
     public void onFinish() {
-        // todo WIN FREEDOM HAPPINESS
+        goToCelebrate();
     }
 
     @Override
@@ -183,6 +185,29 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         return true;
     }
 
+    private void goToCelebrate() {
+        if (!PrefHelper.getCelebrateShown(this)) {
+            blockCountdown.setVisibility(View.GONE);
+            blockContainer.setVisibility(View.VISIBLE);
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.blockContainer, new CelebrateFragment())
+                    .commit();
+            PrefHelper.setCelebrateShown(this, true);
+        } else {
+            // TODO show screen with info that countdown finished
+            // tmp workflow
+            blockCountdown.setVisibility(View.GONE);
+            new AlertDialog.Builder(this)
+                    .setCancelable(true)
+                    .setTitle("The Time is Here!")
+                    .setMessage("Your countdown is over.")
+                    .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
+                    .show();
+        }
+    }
+
     private void initCountdown() {
         freedomTime = PrefHelper.getFreedomTime(this);
         if (freedomTime == PrefHelper.FREEDOM_TIME_DEFAULT) {
@@ -194,7 +219,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         long timeDiff = freedomTime - System.currentTimeMillis();
         if (timeDiff <= 0) {
             // todo WIN FREEDOM HAPPINESS - for the first time. Other times - just PEACE
-            Toast.makeText(this, "HOOORAAY!!!", Toast.LENGTH_LONG).show();
+            goToCelebrate();
 
             return;
         }
@@ -215,6 +240,8 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         txtLabelDay = findViewById(R.id.txtLabelDay);
         blockYear = findViewById(R.id.blockYear);
         blockMonthDay = findViewById(R.id.blockMonthDay);
+        blockContainer = findViewById(R.id.blockContainer);
+        blockCountdown = findViewById(R.id.blockCountdown);
     }
 
     private void startDropConfirmDialog() {
@@ -229,6 +256,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
     private void dropTime() {
         PrefHelper.dropFreedomTime(this);
+        PrefHelper.setCelebrateShown(this, false);
 
         Intent intent = new Intent(this, StartActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

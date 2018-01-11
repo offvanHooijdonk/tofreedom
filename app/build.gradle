@@ -37,6 +37,8 @@ dependencies {
     compile 'net.danlew:android.joda:2.9.9.1'
     compile "net.time4j:time4j-android:3.38-2017c"
 
+    compile 'com.plattysoft.leonids:LeonidsLib:1.3.2'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'

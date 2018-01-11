@@ -30,6 +30,15 @@ public class PrefHelper {
         provideSharedPreferences(ctx).edit().putLong(ctx.getString(R.string.pref_cnt_started_date_key), value).apply();
     }
 
+    public static boolean getCelebrateShown(Context ctx) {
+        return provideSharedPreferences(ctx).getBoolean(ctx.getString(R.string.pref_celebrate_shown), false);
+    }
+
+    public static void setCelebrateShown(Context ctx, boolean value) {
+        provideSharedPreferences(ctx).edit().putBoolean(ctx.getString(R.string.pref_celebrate_shown), value).apply();
+    }
+
+
     private static SharedPreferences provideSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
