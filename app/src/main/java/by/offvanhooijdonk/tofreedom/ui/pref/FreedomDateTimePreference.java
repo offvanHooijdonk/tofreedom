@@ -70,6 +70,7 @@ public class FreedomDateTimePreference extends Preference implements DatePickerD
         Calendar calendar = getValueAsCalendar();
         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         calendar.set(Calendar.MINUTE, minute);
+        // TODO add check that the date and time is in the future!
 
         saveValue(calendar.getTimeInMillis());
     }

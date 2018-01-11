@@ -141,7 +141,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         }
 
         String timeText = timeToString();
-        Log.i(ToFreedomApp.LOG, "Time to output: " + timeText);
+        //Log.i(ToFreedomApp.LOG, "Time to output: " + timeText);
         int textDiff = prevTimeTextLength - timeText.length();
         if (textDiff >= 2 || textDiff <=-2) {
             // TODO do some animation to smooth the process
@@ -206,13 +206,13 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     }
 
     private void initViews() {
-        txtYear = (DigitalClockView) findViewById(R.id.txtYears);
-        txtMonth = (DigitalClockView) findViewById(R.id.txtMonths);
-        txtDay = (DigitalClockView) findViewById(R.id.txtDays);
-        txtTime = (DigitalClockView) findViewById(R.id.txtTime);
-        txtLabelYear = (TextView) findViewById(R.id.txtLabelYear);
-        txtLabelMonth = (TextView) findViewById(R.id.txtLabelMonth);
-        txtLabelDay = (TextView) findViewById(R.id.txtLabelDay);
+        txtYear = findViewById(R.id.txtYears);
+        txtMonth = findViewById(R.id.txtMonths);
+        txtDay = findViewById(R.id.txtDays);
+        txtTime = findViewById(R.id.txtTime);
+        txtLabelYear = findViewById(R.id.txtLabelYear);
+        txtLabelMonth = findViewById(R.id.txtLabelMonth);
+        txtLabelDay = findViewById(R.id.txtLabelDay);
         blockYear = findViewById(R.id.blockYear);
         blockMonthDay = findViewById(R.id.blockMonthDay);
     }

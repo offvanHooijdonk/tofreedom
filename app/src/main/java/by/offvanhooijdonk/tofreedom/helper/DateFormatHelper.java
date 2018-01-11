@@ -38,7 +38,8 @@ public class DateFormatHelper {
 
     public static void formatForCountdown(CountdownBean countdownBean, long timeMillis) {
         FORMATTED_DATE.setTime(timeMillis);
-        Period period = new Period(0, timeMillis);
+        long currentTime = System.currentTimeMillis();
+        Period period = new Period(currentTime, currentTime + timeMillis);
 
         countdownBean.year = String.valueOf(period.getYears()).intern();
         countdownBean.month = String.valueOf(period.getMonths()).intern();

@@ -1,18 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.3"
     defaultConfig {
         applicationId "by.offvanhooijdonk.tofreedom"
         minSdkVersion 18
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        jackOptions {
-            enabled true
-        }
     }
     buildTypes {
         release {
@@ -27,7 +24,7 @@ android {
 }
 
 dependencies {
-    ext.support_version = "25.4.0"
+    ext.support_version = "26.1.0"
     ext.butterknife_version = "7.0.1"
 
     compile "com.android.support:appcompat-v7:$support_version"
@@ -38,7 +35,7 @@ dependencies {
 
     //compile 'joda-time:joda-time:2.9.9'
     compile 'net.danlew:android.joda:2.9.9.1'
-    compile "net.time4j:time4j-android:3.33-2017b"
+    compile "net.time4j:time4j-android:3.38-2017c"
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
