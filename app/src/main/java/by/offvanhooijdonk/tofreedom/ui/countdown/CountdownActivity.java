@@ -2,6 +2,7 @@ package by.offvanhooijdonk.tofreedom.ui.countdown;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -98,6 +99,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
         initViews();
 
+        //goToCelebrate();
         initCountdown();
     }
 
@@ -188,12 +190,14 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     private void goToCelebrate() {
         if (!PrefHelper.getCelebrateShown(this)) {
             blockCountdown.setVisibility(View.GONE);
-            blockContainer.setVisibility(View.VISIBLE);
 
             getFragmentManager()
                     .beginTransaction()
                     .replace(R.id.blockContainer, new CelebrateFragment())
                     .commit();
+            blockContainer.setVisibility(View.VISIBLE);
+            ObjectAnimator.ofFloat(blockContainer, View.ALPHA, 0f, 1f).setDuration(500).start();
+
             PrefHelper.setCelebrateShown(this, true);
         } else {
             // TODO show screen with info that countdown finished
@@ -227,6 +231,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         DateFormatHelper.formatForCountdown(countdown, timeDiff);
         initCountdownValue();
         drawInitialCountdown();
+        blockCountdown.setVisibility(View.VISIBLE);
         countdownTimer = new FreedomCountdownTimer(freedomTime - System.currentTimeMillis(), this).start();
     }
 
