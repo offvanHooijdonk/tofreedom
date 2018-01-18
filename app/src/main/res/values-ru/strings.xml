@@ -15,4 +15,6 @@
     <string name="countdown_activity_title">На Свободу</string>
     <string name="date_warning_title">Внимание</string>
     <string name="date_warning_msg">Пожалуйста, выберите дату в будущем.</string>
+    <string name="story_text_hint">Как вы себя чуствуете сегодня</string>
+    <string name="btn_save_feel_today">Запомнить</string>
 </resources>

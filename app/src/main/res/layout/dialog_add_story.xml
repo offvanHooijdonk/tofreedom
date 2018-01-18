@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_margin_v"
+    android:paddingEnd="@dimen/activity_margin_h"
+    android:paddingStart="@dimen/activity_margin_h"
+    android:paddingTop="@dimen/activity_margin_v">
+
+    <EditText
+        android:id="@+id/editStoryText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:hint="@string/story_text_hint" />
+
+    <!--<ImageButton
+        android:id="@+id/btnSend"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_send_24"
+        android:tint="@color/colorAccent" />-->
+
+    <Button
+        android:id="@+id/btnSend"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/editStoryText"
+        android:text="@string/btn_save_feel_today" />
+
+    <Spinner
+        android:id="@+id/spMood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/btnSend" />
+</RelativeLayout>

@@ -1,100 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/md_blue_grey_500"
     tools:context="by.offvanhooijdonk.tofreedom.ui.countdown.CountdownActivity">
 
-    <LinearLayout
-        android:id="@+id/blockCountdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:id="@+id/blockYear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:orientation="horizontal">
-
-            <com.bydavy.morpher.DigitalClockView
-                android:id="@+id/txtYears"
-                style="@style/CountdownYearNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="1" />
-
-            <TextView
-                android:id="@+id/txtLabelYear"
-                style="@style/CountdownYearText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_left_year" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/blockMonthDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:orientation="horizontal">
-
-            <com.bydavy.morpher.DigitalClockView
-                android:id="@+id/txtMonths"
-                style="@style/CountdownMonthDayNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/txtLabelMonth"
-                style="@style/CountdownMonthDayText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_left_months" />
-
-            <com.bydavy.morpher.DigitalClockView
-                android:id="@+id/txtDays"
-                style="@style/CountdownMonthDayNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/txtLabelDay"
-                style="@style/CountdownMonthDayText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_left_days" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/blockTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.bydavy.morpher.DigitalClockView
-                android:id="@+id/txtTime"
-                style="@style/CountdownTimeNumber"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/blockContainer"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:background="@color/md_blue_grey_500">
 
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/blockCountdown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="96dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:id="@+id/blockYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:orientation="horizontal">
+
+                <com.bydavy.morpher.DigitalClockView
+                    android:id="@+id/txtYears"
+                    style="@style/CountdownYearNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1" />
+
+                <TextView
+                    android:id="@+id/txtLabelYear"
+                    style="@style/CountdownYearText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_left_year" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/blockMonthDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:orientation="horizontal">
+
+                <com.bydavy.morpher.DigitalClockView
+                    android:id="@+id/txtMonths"
+                    style="@style/CountdownMonthDayNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/txtLabelMonth"
+                    style="@style/CountdownMonthDayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_left_months" />
+
+                <com.bydavy.morpher.DigitalClockView
+                    android:id="@+id/txtDays"
+                    style="@style/CountdownMonthDayNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/txtLabelDay"
+                    style="@style/CountdownMonthDayText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_left_days" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/blockTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.bydavy.morpher.DigitalClockView
+                    android:id="@+id/txtTime"
+                    style="@style/CountdownTimeNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </LinearLayout>
+        <!--
+            <LinearLayout
+                android:id="@+id/blockStoriesBtns"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:layout_width="@dimen/story_icon_size"
+                    android:layout_height="@dimen/story_icon_size"
+                    android:tint="@color/md_white_1000"
+                    android:src="@drawable/ic_autograph_96" />
+            </LinearLayout>-->
+        <FrameLayout
+            android:id="@+id/blockContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabStories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_autograph_96"
+        android:tint="@color/md_white_1000"
+        app:backgroundTint="@color/md_blue_grey_500"
+        app:fabSize="normal" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabFeelToday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginBottom="88dp"
+        android:src="@drawable/ic_sentiment_neutral_24"
+        android:tint="@color/md_grey_800"
+        android:visibility="invisible"
+        app:backgroundTint="@color/fab_feel_today"
+        app:fabSize="mini"
+        app:layout_anchor="@id/fabStories"
+        app:layout_anchorGravity="center_horizontal" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabFuturePlans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginBottom="140dp"
+        android:src="@drawable/ic_plans_24"
+        android:tint="@color/md_white_1000"
+        android:visibility="invisible"
+        app:backgroundTint="@color/md_red_400"
+        app:fabSize="mini"
+        app:layout_anchor="@id/fabFeelToday"
+        app:layout_anchorGravity="center_horizontal" />
+
+    <ImageView
+        android:id="@+id/viewReveal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:src="@drawable/circle_reveal" />
+
+</android.support.design.widget.CoordinatorLayout>

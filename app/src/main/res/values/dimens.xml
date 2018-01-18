@@ -9,4 +9,9 @@
     <dimen name="countdown_number_margin_h">16dp</dimen>
     <dimen name="countdown_text_margin_h">8dp</dimen>
     <dimen name="logo_bottom_margin">64dp</dimen>
+    <dimen name="story_icon_size">48dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+
+    <dimen name="story_dlg_padding_v">16dp</dimen>
+    <dimen name="mood_icon_padding">8dp</dimen>
 </resources>

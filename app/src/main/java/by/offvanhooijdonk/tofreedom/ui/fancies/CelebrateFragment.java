@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.tofreedom.ui.fances;
+package by.offvanhooijdonk.tofreedom.ui.fancies;
 
 import android.app.Fragment;
 import android.os.Bundle;
