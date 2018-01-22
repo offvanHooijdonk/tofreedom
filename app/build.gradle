@@ -26,10 +26,18 @@ android {
 dependencies {
     ext.support_version = "26.1.0"
     ext.butterknife_version = "7.0.1"
+    ext.room_version = '1.0.0'
+    ext.rx_version = '2.0.1'
 
     compile "com.android.support:appcompat-v7:$support_version"
     compile "com.android.support:design:$support_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile "android.arch.persistence.room:runtime:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
+    annotationProcessor "android.arch.persistence.room:compiler:$room_version"
+
+    compile "io.reactivex.rxjava2:rxandroid:$rx_version"
 
     compile 'com.github.ronaldsmartin:android-number-morphing:v1.0.0'
 

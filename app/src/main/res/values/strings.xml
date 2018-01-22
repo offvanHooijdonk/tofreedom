@@ -28,4 +28,21 @@
     <string name="pref_celebrate_shown" translatable="false">pref_celebrate_shown</string>
     <string name="story_text_hint">Tell your mood right now</string>
     <string name="btn_save_feel_today">Save</string>
+    <string name="action_see_stories">See Stories</string>
+    <string name="activity_my_stories">My Stories</string>
+    <string name="fish_big" translatable="false">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu metus at erat blandit iaculis. Duis porta lacus sit amet ligula tincidunt, ac auctor metus tincidunt. Sed a nisl pharetra, cursus dolor et, egestas leo.</string>
+    <string name="fish_date_time_long">Tue, 12 Sept 2017, 12:35 PM</string>
+
+    <string name="share_title">Share</string>
+
+    <string-array name="mood_texts">
+        <item>So bad</item>
+        <item>Unhappy</item>
+        <item>Fine</item>
+        <item>Cool</item>
+        <item>So happy</item>
+    </string-array>
+
+    <integer name="story_item_max_lines">2</integer>
+    <string name="share_story_macro">On %s \\n Mood: %s  \\n %s</string>
 </resources>

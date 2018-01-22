@@ -41,6 +41,8 @@ import by.offvanhooijdonk.tofreedom.helper.countdown.FreedomCountdownTimer;
 import by.offvanhooijdonk.tofreedom.ui.StartActivity;
 import by.offvanhooijdonk.tofreedom.ui.fancies.CelebrateFragment;
 import by.offvanhooijdonk.tofreedom.ui.pref.PreferenceActivity;
+import by.offvanhooijdonk.tofreedom.ui.stories.FeelTodayDialog;
+import by.offvanhooijdonk.tofreedom.ui.stories.PastStoriesActivity;
 
 public class CountdownActivity extends AppCompatActivity implements FreedomCountdownTimer.CountdownListener {
     private CountDownTimer countdownTimer;
@@ -179,10 +181,16 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int itemId = item.getItemId();
-        if (itemId == R.id.action_settings) {
-            startActivity(new Intent(this, PreferenceActivity.class));
-        } else if (itemId == R.id.action_drop_time) {
-            startDropConfirmDialog();
+        switch (itemId) {
+            case R.id.action_stories:
+                startActivity(new Intent(this, PastStoriesActivity.class));
+                break;
+            case R.id.action_settings:
+                startActivity(new Intent(this, PreferenceActivity.class));
+                break;
+            case R.id.action_drop_time:
+                startDropConfirmDialog();
+                break;
         }
 
         return true;

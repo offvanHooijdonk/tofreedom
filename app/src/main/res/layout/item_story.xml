@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingBottom="@dimen/activity_margin_v"
+    android:paddingEnd="@dimen/activity_margin_h"
+    android:paddingStart="@dimen/activity_margin_h"
+    android:paddingTop="@dimen/activity_margin_v">
+
+    <ImageView
+        android:id="@+id/imgMood"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_mood_neutral_24"
+        android:tint="@color/mood_icon" />
+
+    <TextView
+        android:id="@+id/txtStoryText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/imgMood"
+        android:ellipsize="end"
+        android:maxLines="@integer/story_item_max_lines"
+        android:text="@string/fish_big"
+        android:textColor="@android:color/primary_text_light" />
+
+    <TextView
+        android:id="@+id/txtDateCreated"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/txtStoryText"
+        android:layout_below="@id/txtStoryText"
+        android:text="@string/fish_date_time"
+        android:textSize="12sp" />
+
+</RelativeLayout>

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/md_deep_purple_500</color>
-    <color name="colorPrimaryDark">@color/md_deep_purple_700</color>
+    <color name="colorPrimary">@color/md_indigo_500</color>
+    <color name="colorPrimaryDark">@color/md_indigo_700</color>
     <color name="colorAccent">@color/md_deep_orange_A400</color>
     <color name="transparent">#00ffffff</color>
 
     <color name="start_picked_date">#E0FFFFFF</color>
     <color name="story_dialog_bckgr">@color/md_purple_600</color>
+    <color name="mood_icon">@color/colorAccent</color>
 
     <color name="fab_feel_today">@color/md_yellow_200</color>
 </resources>

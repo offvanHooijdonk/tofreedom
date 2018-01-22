@@ -30,6 +30,11 @@
             android:label="@string/countdown_activity_title">
 
         </activity>
+
+        <activity android:name=".ui.stories.PastStoriesActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/activity_my_stories"/>
+
         <activity
             android:name=".ui.pref.PreferenceActivity"
             android:label="@string/action_settings">
