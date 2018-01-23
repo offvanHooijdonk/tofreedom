@@ -6,7 +6,7 @@
     <color name="transparent">#00ffffff</color>
 
     <color name="start_picked_date">#E0FFFFFF</color>
-    <color name="mood_icon">@color/md_blue_600</color>
+    <color name="mood_icon">@color/md_blue_500</color>
 
     <color name="fab_feel_today">@color/md_yellow_200</color>
     <color name="fab_future_plans">@color/md_red_400</color>
