@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
@@ -26,14 +25,20 @@ import io.reactivex.Maybe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class FeelTodayDialog extends DialogFragment {
+public class AddStoryDialog extends DialogFragment {
     private EditText editStoryText;
-    private /*ImageButton*/ Button btnSend;
+    private Button btnSend;
     private Spinner spMood;
-    //private IBinder windowToken;
 
-    public static FeelTodayDialog getInstance() {
-        return new FeelTodayDialog();
+    private StoryModel.Type storyType;
+    private StorySaveListener listener;
+
+    public static AddStoryDialog getInstance(@NonNull StoryModel.Type storyType, @Nullable StorySaveListener l) {
+        AddStoryDialog dialog = new AddStoryDialog();
+        dialog.setStoryType(storyType);
+        dialog.setListener(l);
+
+        return dialog;
     }
 
     @Override
@@ -52,11 +57,17 @@ public class FeelTodayDialog extends DialogFragment {
         spMood = v.findViewById(R.id.spMood);
         btnSend = v.findViewById(R.id.btnSend);
 
-        spMood.setAdapter(new MoodSpinnerAdapter(getActivity()));
-        spMood.setSelection(2);
+        if (storyType.equals(StoryModel.Type.FEEL_TODAY)) {
+            spMood.setAdapter(new MoodSpinnerAdapter(getActivity()));
+            spMood.setSelection(2);
+            editStoryText.setHint(R.string.feel_today_text_hint);
+        } else {
+            spMood.setVisibility(View.INVISIBLE);
+            editStoryText.setHint(R.string.future_plans_text_hint);
+        }
 
         btnSend.setOnClickListener(view -> {
-            saveFeelToday();
+            saveStory();
         });
 
         return v;
@@ -77,12 +88,22 @@ public class FeelTodayDialog extends DialogFragment {
 
     }
 
-    private void saveFeelToday() {
+    public void setStoryType(StoryModel.Type storyType) {
+        this.storyType = storyType;
+    }
+
+    public void setListener(StorySaveListener listener) {
+        this.listener = listener;
+    }
+
+    private void saveStory() {
         StoryModel model = new StoryModel();
-        model.setMoodOption(spMood.getSelectedItemPosition());
+        if (storyType.equals(StoryModel.Type.FEEL_TODAY)) {
+            model.setMoodOption(spMood.getSelectedItemPosition());
+        }
         model.setText(editStoryText.getText().toString());
         model.setDateCreated(System.currentTimeMillis());
-        model.setType(StoryModel.Type.FEEL_TODAY.getIndex());
+        model.setType(storyType.getIndex());
 
         Maybe.fromAction(() -> ToFreedomApp.getAppDatabase().storyDao().save(model))
                 .subscribeOn(Schedulers.io())
@@ -90,9 +111,16 @@ public class FeelTodayDialog extends DialogFragment {
                 .subscribe(o -> {
                 }, th -> {
                 }, () -> {
-                    Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                    if (listener != null) {
+                        listener.onStorySaved(model);
+                    }
                     dismiss();
                 }); // TODO th
+    }
+
+    public interface StorySaveListener {
+        void onStorySaved(StoryModel model);
     }
 
     private static class MoodSpinnerAdapter extends BaseAdapter {

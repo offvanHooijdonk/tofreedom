@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -27,6 +29,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 public class PastStoriesActivity extends AppCompatActivity {
+    private static final String TAB_TAG_FEEL_TODAY = "feel_today";
+    private static final String TAB_TAG_FUTURE_PLANS = "future_plans";
+
     private TabLayout tabLayout;
     private RecyclerView rvStories;
     private FloatingActionButton fabShare;
@@ -67,19 +72,13 @@ public class PastStoriesActivity extends AppCompatActivity {
                 }
             }
         });
-        loadStories();
+        loadStories(StoryModel.Type.FEEL_TODAY);
     }
 
     private void startStoryView(int position) {
         StoryModel story = stories.get(position);
 
         StoryDetailsDialog dialog = StoryDetailsDialog.getInstance(story);
-
-        //getFragmentManager().beginTransaction().add(android.R.id.content, dialog).addToBackStack(null).commit();
-/*        Slide slideTransition = new Slide();
-        slideTransition.setSlideEdge(Gravity.BOTTOM);
-        slideTransition.setDuration(1500);
-        dialog.setEnterTransition(slideTransition);*/
 
         dialog.show(getFragmentManager(), "story");
     }
@@ -88,15 +87,49 @@ public class PastStoriesActivity extends AppCompatActivity {
         TabLayout.Tab tabFeelToday = tabLayout.newTab();
         tabFeelToday.setText("Feel Today");
         tabLayout.addTab(tabFeelToday);
+        tabFeelToday.setTag(TAB_TAG_FEEL_TODAY);
         tabFeelToday.select();
 
         TabLayout.Tab tabFuturePlans = tabLayout.newTab();
         tabFuturePlans.setText("Future Plans");
+        tabFuturePlans.setTag(TAB_TAG_FUTURE_PLANS);
         tabLayout.addTab(tabFuturePlans);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getTag() != null) {
+                    if (tab.getTag().toString().equals(TAB_TAG_FEEL_TODAY)) {
+                        loadStories(StoryModel.Type.FEEL_TODAY);
+                    } else if (tab.getTag().toString().equals(TAB_TAG_FUTURE_PLANS)) {
+                        loadStories(StoryModel.Type.FUTURE_PLAN);
+                    }
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
-    private void loadStories() {
-        ToFreedomApp.getAppDatabase().storyDao().getAllByType(StoryModel.Type.FEEL_TODAY.getIndex())
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home) {
+            finish();
+        }
+        return true;
+    }
+
+    private void loadStories(StoryModel.Type type) {
+        ToFreedomApp.getAppDatabase().storyDao().getAllByType(type.getIndex())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::updateListView, th -> {
@@ -131,9 +164,14 @@ public class PastStoriesActivity extends AppCompatActivity {
         public void onBindViewHolder(ViewHolder vh, int position) {
             StoryModel model = models.get(position);
 
-            vh.imgMood.setImageResource(ResHelper.moodResources[model.getMoodOption()]);
+            if (model.getType() == StoryModel.Type.FEEL_TODAY.getIndex()) {
+                vh.imgMood.setVisibility(View.VISIBLE);
+                vh.imgMood.setImageResource(ResHelper.moodResources[model.getMoodOption()]);
+            } else {
+                vh.imgMood.setVisibility(View.GONE);
+            }
             vh.txtStoryText.setText(model.getText());
-            vh.txtDateCreated.setText(DateFormatHelper.formatForStart(model.getDateCreated()));
+            vh.txtDateCreated.setText(DateFormatHelper.formatForStart(model.getDateCreated(), DateFormat.is24HourFormat(ctx)));
 
             vh.root.setOnClickListener(v -> {
                 if (listener != null) {

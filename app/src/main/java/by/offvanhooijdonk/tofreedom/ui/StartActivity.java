@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -132,7 +133,7 @@ public class StartActivity extends AppCompatActivity implements DatePickerDialog
 
     private void updateFreedomDateView() {
         if (freedomTime != PrefHelper.FREEDOM_TIME_DEFAULT) {
-            txtPickedTime.setText(DateFormatHelper.formatForStart(freedomTime));
+            txtPickedTime.setText(DateFormatHelper.formatForStart(freedomTime, DateFormat.is24HourFormat(this)));
             txtPickedTime.setVisibility(View.VISIBLE);
         }
     }

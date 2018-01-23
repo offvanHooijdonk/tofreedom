@@ -12,29 +12,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".ui.StartActivity"
             android:configChanges="orientation|screenSize"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.countdown.CountdownActivity"
-            android:label="@string/countdown_activity_title">
-
-        </activity>
-
-        <activity android:name=".ui.stories.PastStoriesActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/activity_my_stories"/>
-
+            android:label="@string/countdown_activity_title"></activity>
+        <activity
+            android:name=".ui.stories.PastStoriesActivity"
+            android:label="@string/activity_my_stories"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.pref.PreferenceActivity"
             android:label="@string/action_settings">
@@ -44,7 +39,7 @@
                 <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".ui.AboutActivity"></activity>
     </application>
 
 </manifest>

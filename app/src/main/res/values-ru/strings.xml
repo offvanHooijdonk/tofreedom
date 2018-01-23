@@ -15,11 +15,25 @@
     <string name="countdown_activity_title">На Свободу</string>
     <string name="date_warning_title">Внимание</string>
     <string name="date_warning_msg">Пожалуйста, выберите дату в будущем.</string>
-    <string name="story_text_hint">Как вы себя чуствуете сегодня</string>
+    <string name="feel_today_text_hint">Как вы себя чуствуете сегодня</string>
     <string name="btn_save_feel_today">Запомнить</string>
-    <string name="share_story_macro">%s \\n Настрой: %s  \\n %s</string>
+    <string name="share_feel_today_macro">%s \n Настрой: %s \n %s \n Из КСвободе ©</string>
+    <string name="share_future_plan_macro">%s \n На свободе я сделаю: \n %s \n Из КСвободе ©</string>
     <string name="fish_date_time_long">Вт, 12 Сент 2017, 14:35</string>
     <string name="share_title">Поделиться</string>
     <string name="activity_my_stories">Мои Истории</string>
     <string name="action_see_stories">Просмотреть истории</string>
+    <string name="story_saved_confirmed">История сохранена.</string>
+    <string name="action_share_story">Поделиться</string>
+    <string name="future_plans_text_hint">Чем займётесь на свободе</string>
+
+    <string-array name="mood_texts">
+        <item>Всё плохо</item>
+        <item>Плохо</item>
+        <item>Норм</item>
+        <item>Хорошо</item>
+        <item>Изуметельно!</item>
+    </string-array>
+    <string name="encourage_donate">Не стесняйтесь поддержать, если желаете :)</string>
+
 </resources>

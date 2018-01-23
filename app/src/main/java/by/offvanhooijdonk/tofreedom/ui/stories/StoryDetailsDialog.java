@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -51,8 +52,12 @@ public class StoryDetailsDialog extends DialogFragment {
         txtDate = v.findViewById(R.id.txtDateCreated);
         fabShare = v.findViewById(R.id.fabShare);
 
-        imgMood.setImageResource(ResHelper.moodResources[storyModel.getMoodOption()]);
-        txtDate.setText(DateFormatHelper.formatForStart(storyModel.getDateCreated()));
+        if (storyModel.getType() == StoryModel.Type.FEEL_TODAY.getIndex()) {
+            imgMood.setImageResource(ResHelper.moodResources[storyModel.getMoodOption()]);
+        } else {
+            imgMood.setImageResource(R.drawable.ic_plans_24);
+        }
+        txtDate.setText(DateFormatHelper.formatForStart(storyModel.getDateCreated(), DateFormat.is24HourFormat(getActivity())));
         txtStoryText.setText(storyModel.getText());
 
         fabShare.setOnClickListener(btn -> {

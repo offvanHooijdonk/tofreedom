@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -35,13 +36,16 @@ import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
+import by.offvanhooijdonk.tofreedom.helper.ShareHelper;
 import by.offvanhooijdonk.tofreedom.helper.anim.AnimCountdownHelper;
 import by.offvanhooijdonk.tofreedom.helper.countdown.CountdownBean;
 import by.offvanhooijdonk.tofreedom.helper.countdown.FreedomCountdownTimer;
+import by.offvanhooijdonk.tofreedom.model.StoryModel;
+import by.offvanhooijdonk.tofreedom.ui.AboutActivity;
 import by.offvanhooijdonk.tofreedom.ui.StartActivity;
 import by.offvanhooijdonk.tofreedom.ui.fancies.CelebrateFragment;
 import by.offvanhooijdonk.tofreedom.ui.pref.PreferenceActivity;
-import by.offvanhooijdonk.tofreedom.ui.stories.FeelTodayDialog;
+import by.offvanhooijdonk.tofreedom.ui.stories.AddStoryDialog;
 import by.offvanhooijdonk.tofreedom.ui.stories.PastStoriesActivity;
 
 public class CountdownActivity extends AppCompatActivity implements FreedomCountdownTimer.CountdownListener {
@@ -191,6 +195,9 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
             case R.id.action_drop_time:
                 startDropConfirmDialog();
                 break;
+            case R.id.action_about :
+                startActivity(new Intent(this, AboutActivity.class));
+                break;
         }
 
         return true;
@@ -269,6 +276,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
         fabStories.setOnClickListener(v -> expandStoryButtons(fabFeelToday.getVisibility() != View.VISIBLE));
         fabFeelToday.setOnClickListener(v -> openFeelToday());
+        fabFuturePlans.setOnClickListener(v -> openFuturePlans());
     }
 
     private void startDropConfirmDialog() {
@@ -432,8 +440,20 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     }
 
     private void openFeelToday() {
+        openStoryDialog(StoryModel.Type.FEEL_TODAY);
+    }
+
+    private void openFuturePlans() {
+        openStoryDialog(StoryModel.Type.FUTURE_PLAN);
+    }
+
+    private void openStoryDialog(StoryModel.Type storyType) {
         expandStoryButtons(false);
-        DialogFragment dialog = FeelTodayDialog.getInstance();
+        DialogFragment dialog = AddStoryDialog.getInstance(storyType, model -> {
+            Snackbar.make(blockCountdown, R.string.story_saved_confirmed, Snackbar.LENGTH_LONG).setAction(R.string.action_share_story, v -> {
+                ShareHelper.shareStory(CountdownActivity.this, model);
+            }).show();
+        });
         dialog.show(getFragmentManager(), "tmp");
     }
 

@@ -20,7 +20,12 @@ public class DateFormatHelper {
     
     
     private static final DateFormat START_DATE_FORMAT = DateFormat.getDateInstance(DateFormat.FULL);
-    private static final DateFormat START_TIME_FORMAT = new SimpleDateFormat("HH:mm");
+    private static final DateFormat START_TIME_FORMAT_24 = new SimpleDateFormat("HH:mm");
+    private static final DateFormat START_TIME_FORMAT = new SimpleDateFormat("hh:mm a");
+
+    private static final DateFormat SHARE_DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
+    private static final DateFormat SHARE_TIME_FORMAT_24 = START_TIME_FORMAT_24;
+    private static final DateFormat SHARE_TIME_FORMAT = START_TIME_FORMAT;
 
     private static final Date FORMATTED_DATE = new Date();
 
@@ -49,11 +54,21 @@ public class DateFormatHelper {
         countdownBean.second = SECOND_FORMAT.format(FORMATTED_DATE).intern();
     }
 
-    public static String formatForStart(long timeMillis) {
-        String formatted = START_TIME_FORMAT.format(new Date(timeMillis));
+    public static String formatForStart(long timeMillis, boolean is24Hours) {
+        Date date = new Date(timeMillis);
+        String formatted = is24Hours ? START_TIME_FORMAT_24.format(date) : START_TIME_FORMAT.format(date);
         if (!isDateDefault(timeMillis)) {
-            formatted = START_DATE_FORMAT.format(new Date(timeMillis)) + " " + formatted;
+            formatted = START_DATE_FORMAT.format(date) + " " + formatted;
         }
+
+        return formatted;
+    }
+
+    public static String formatForShare(long timeMillis, boolean is24Hours) {
+        Date date = new Date(timeMillis);
+        String formatted = is24Hours ? SHARE_TIME_FORMAT_24.format(date) : SHARE_TIME_FORMAT.format(date);
+        formatted = SHARE_DATE_FORMAT.format(date) + " " + formatted;
+
 
         return formatted;
     }

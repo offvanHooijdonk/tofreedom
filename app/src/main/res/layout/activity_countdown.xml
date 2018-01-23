@@ -151,7 +151,7 @@
         android:src="@drawable/ic_plans_24"
         android:tint="@color/md_white_1000"
         android:visibility="invisible"
-        app:backgroundTint="@color/md_red_400"
+        app:backgroundTint="@color/fab_future_plans"
         app:fabSize="mini"
         app:layout_anchor="@id/fabFeelToday"
         app:layout_anchorGravity="center_horizontal" />

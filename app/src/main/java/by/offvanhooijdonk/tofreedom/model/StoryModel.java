@@ -17,7 +17,7 @@ public class StoryModel {
     @ColumnInfo(name = "date_created")
     private long dateCreated;
     @ColumnInfo(name = "type")
-    private int type;
+    private int type; // make as ENUM and add converter
 
     public long getId() {
         return id;
