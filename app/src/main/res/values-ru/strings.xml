@@ -9,7 +9,7 @@
     <string name="dialog_btn_negative">Нет</string>
     <string name="dialog_btn_positive">Да</string>
     <string name="fish_date_time">вторник, 26 июня 2017 18:30</string>
-    <string name="start_set_freedom_day">Выберите Ваш День Свободы</string>
+    <string name="start_set_freedom_day">Выберите День Свободы</string>
     <string name="start_set_freedom_time">И Время Свободы</string>
     <string name="pref_freedom_date_title">Ваши День и Время Свободы</string>
     <string name="countdown_activity_title">На Свободу</string>

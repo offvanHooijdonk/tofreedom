@@ -1,7 +1,7 @@
 <resources>
     <dimen name="activity_margin_h">16dp</dimen>
     <dimen name="activity_margin_v">16dp</dimen>
-    <dimen name="start_text">32sp</dimen>
+    <dimen name="start_text">24sp</dimen>
     <dimen name="start_chain_size">80dp</dimen>
     <dimen name="start_text_margin_v">8dp</dimen>
     <dimen name="start_picked_time">14sp</dimen>
@@ -15,4 +15,5 @@
     <dimen name="story_dlg_padding_v">16dp</dimen>
     <dimen name="item_mood_icon_padding">8dp</dimen>
     <dimen name="item_mood_icon_size">48dp</dimen>
+    <dimen name="divider_fab_margin_v">20dp</dimen>
 </resources>

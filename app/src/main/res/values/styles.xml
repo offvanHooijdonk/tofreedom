@@ -14,6 +14,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.StartScreen" parent="AppTheme.NoActionBar">
+        <item name="colorPrimaryDark">@color/start_notif_bar</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -77,5 +81,6 @@
 
     <style name="AppBaseTheme.Dialog.StoryDetails" parent="AppBaseTheme.Dialog">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 </resources>

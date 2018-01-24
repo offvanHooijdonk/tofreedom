@@ -80,7 +80,7 @@ public class PastStoriesActivity extends AppCompatActivity {
 
         StoryDetailsDialog dialog = StoryDetailsDialog.getInstance(story);
 
-        dialog.show(getFragmentManager(), "story");
+        dialog.show(getSupportFragmentManager(), "story");
     }
 
     private void setupTabs() {

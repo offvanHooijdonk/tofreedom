@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/start_bckgr"
     tools:context="by.offvanhooijdonk.tofreedom.ui.StartActivity">
 
 
@@ -51,7 +51,7 @@
         android:background="@color/md_white_1000"
         android:text="@string/btn_continue"
         android:textAllCaps="true"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/start_bckgr"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -16,7 +16,7 @@
             android:name=".ui.StartActivity"
             android:configChanges="orientation|screenSize"
             android:noHistory="true"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.StartScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,7 @@
         </activity>
         <activity
             android:name=".ui.countdown.CountdownActivity"
-            android:label="@string/countdown_activity_title"></activity>
+            android:label="@string/countdown_activity_title" />
         <activity
             android:name=".ui.stories.PastStoriesActivity"
             android:label="@string/activity_my_stories"
@@ -39,7 +39,7 @@
                 <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.AboutActivity"></activity>
+        <activity android:name=".ui.AboutActivity" />
     </application>
 
 </manifest>

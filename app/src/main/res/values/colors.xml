@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/md_indigo_500</color>
+    <!--<color name="colorPrimary">@color/md_indigo_500</color>
     <color name="colorPrimaryDark">@color/md_indigo_700</color>
-    <color name="colorAccent">@color/md_deep_orange_A400</color>
+    <color name="colorAccent">@color/md_deep_orange_A400</color>-->
+    <color name="colorPrimary">@color/md_teal_500</color>
+    <color name="colorPrimaryDark">@color/md_teal_700</color>
+    <color name="colorAccent">@color/md_green_A700</color>
+    <color name="colorPrimaryLight">@color/md_teal_100</color>
     <color name="transparent">#00ffffff</color>
 
+    <color name="start_bckgr">@color/md_deep_purple_500</color>
+    <color name="start_notif_bar">@color/md_deep_purple_700</color>
+
     <color name="start_picked_date">#E0FFFFFF</color>
-    <color name="mood_icon">@color/md_blue_500</color>
+<!--    <color name="mood_icon">@color/md_blue_500</color>-->
+    <color name="mood_icon">@color/md_red_A200</color>
 
     <color name="fab_feel_today">@color/md_yellow_200</color>
-    <color name="fab_future_plans">@color/md_red_400</color>
+    <color name="fab_future_plans">@color/colorAccent</color>
+    <!--<color name="divider">#cccccc</color>-->
+    <color name="divider">@color/colorPrimaryLight</color>
 </resources>
