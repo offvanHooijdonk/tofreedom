@@ -2,8 +2,11 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusable="true"
     tools:context="by.offvanhooijdonk.tofreedom.ui.countdown.CountdownActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -94,21 +97,7 @@
 
             </LinearLayout>
         </LinearLayout>
-        <!--
-            <LinearLayout
-                android:id="@+id/blockStoriesBtns"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent">
 
-                <ImageView
-                    android:layout_width="@dimen/story_icon_size"
-                    android:layout_height="@dimen/story_icon_size"
-                    android:tint="@color/md_white_1000"
-                    android:src="@drawable/ic_autograph_96" />
-            </LinearLayout>-->
         <FrameLayout
             android:id="@+id/blockContainer"
             android:layout_width="match_parent"
@@ -155,12 +144,5 @@
         app:fabSize="mini"
         app:layout_anchor="@id/fabFeelToday"
         app:layout_anchorGravity="center_horizontal" />
-
-    <ImageView
-        android:id="@+id/viewReveal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:src="@drawable/circle_reveal" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -69,7 +70,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     private FloatingActionButton fabStories;
     private FloatingActionButton fabFeelToday;
     private FloatingActionButton fabFuturePlans;
-    private View viewReveal;
+    private ViewGroup root;
 
     private AnimCountdownHelper animHelper;
     private StringBuilder builderTime = new StringBuilder();
@@ -195,7 +196,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
             case R.id.action_drop_time:
                 startDropConfirmDialog();
                 break;
-            case R.id.action_about :
+            case R.id.action_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
         }
@@ -272,8 +273,13 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         fabStories = findViewById(R.id.fabStories);
         fabFeelToday = findViewById(R.id.fabFeelToday);
         fabFuturePlans = findViewById(R.id.fabFuturePlans);
-        viewReveal = findViewById(R.id.viewReveal);
+        root = findViewById(R.id.root);
 
+        root.setOnClickListener(v -> {
+            if (fabFeelToday.getVisibility() == View.VISIBLE) {
+                expandStoryButtons(false);
+            }
+        });
         fabStories.setOnClickListener(v -> expandStoryButtons(fabFeelToday.getVisibility() != View.VISIBLE));
         fabFeelToday.setOnClickListener(v -> openFeelToday());
         fabFuturePlans.setOnClickListener(v -> openFuturePlans());
@@ -427,12 +433,14 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
             fabFeelToday.show();
             fabFuturePlans.show();
             srcRes = R.drawable.ic_close_24;
+            root.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         } else {
             angleFrom = 90;
             angleTo = 0f;
             fabFuturePlans.hide();
             fabFeelToday.hide();
             srcRes = R.drawable.ic_autograph_96;
+            root.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
         }
 
         ObjectAnimator.ofFloat(fabStories, "rotation", angleFrom, angleTo).setDuration(200).start();
