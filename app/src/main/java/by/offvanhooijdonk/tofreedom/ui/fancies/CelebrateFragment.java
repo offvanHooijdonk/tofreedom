@@ -13,14 +13,14 @@ import android.widget.TextView;
 import com.plattysoft.leonids.ParticleSystem;
 
 import by.offvanhooijdonk.tofreedom.R;
+import by.offvanhooijdonk.tofreedom.helper.fancies.ParticlesHelper;
 
 public class CelebrateFragment extends Fragment {
 
     private TextView txtGreeting;
     private View viewAnchor;
-    private int maxXParticle;
-    private int maxYParticle;
-    private int marginParticle;
+
+    private ParticlesHelper particlesHelper = new ParticlesHelper();
 
     @Nullable
     @Override
@@ -31,55 +31,46 @@ public class CelebrateFragment extends Fragment {
         txtGreeting = v.findViewById(R.id.txtGreeting);
         txtGreeting.setOnClickListener(v1 -> tryParticle(viewAnchor));
 
+        particlesHelper.initialize();
+
         return v;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    private void tryParticle(View v ) {
-        //particleSystem.setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f).oneShot(v, 20, new DecelerateInterpolator());
-        setupMaxDimens();
+    public void onStart() {
+        super.onStart();
 
         new Handler().postDelayed(() -> {
-            changeParticleLocation(v);
+            particlesHelper.setupMaxDimens(getView());
+            particlesHelper.runParticles(getActivity(), viewAnchor);
+        }, 100);
+    }
+
+    private void tryParticle(View v) {
+        //particleSystem.setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f).oneShot(v, 20, new DecelerateInterpolator());
+        //setupMaxDimens();
+
+        new Handler().postDelayed(() -> {
+            //changeParticleLocation(v);
             new ParticleSystem(getActivity(), 10, R.drawable.particle_round_red, 1000).setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f)
                     .oneShot(v, 10, new DecelerateInterpolator());
         }, 100);
         new Handler().postDelayed(() -> {
-            changeParticleLocation(v);
+            //changeParticleLocation(v);
             new ParticleSystem(getActivity(), 10, R.drawable.particle_round_blue, 1000).setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f)
                     .oneShot(v, 10, new DecelerateInterpolator());
         }, 500);
         new Handler().postDelayed(() -> {
-            changeParticleLocation(v);
+            //changeParticleLocation(v);
             new ParticleSystem(getActivity(), 10, R.drawable.particle_round_red, 1000).setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f)
                     .oneShot(v, 10, new DecelerateInterpolator());
         }, 1000);
         new Handler().postDelayed(() -> {
-            changeParticleLocation(v);
+            //changeParticleLocation(v);
             new ParticleSystem(getActivity(), 10, R.drawable.particle_round_green, 1000).setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f)
                     .oneShot(v, 10, new DecelerateInterpolator());
         }, 1400);
 
     }
 
-    private void changeParticleLocation(View v) {
-        v.setX(generateParticleCoord(maxXParticle));
-        v.setY(generateParticleCoord(maxYParticle));
-    }
-
-    private void setupMaxDimens() {
-        if (getView() != null) {
-            maxXParticle = getView().getWidth();
-            maxYParticle = (int) (getView().getHeight() *.75f);
-            marginParticle = (int) (Math.min(maxXParticle, maxYParticle) * 0.1f);
-        }
-    }
-
-    private int generateParticleCoord(int max) {
-        return (int) (Math.random() * (max - 2 * marginParticle)) + marginParticle;
-    }
 }

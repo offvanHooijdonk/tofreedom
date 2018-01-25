@@ -4,23 +4,28 @@
 
     <item
         android:id="@+id/action_stories"
+        android:icon="@drawable/ic_history_24"
         android:title="@string/action_see_stories"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_history_24"/>
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_drop_time"
         android:title="@string/action_drop_time"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_settings"
         android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_celebrate"
+        android:title="@string/celebrate"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_about"
         android:title="@string/action_about"
-        app:showAsAction="never"/>
+        app:showAsAction="never" />
 
 </menu>

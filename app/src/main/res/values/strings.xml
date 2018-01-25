@@ -52,4 +52,5 @@
     <string name="action_about">About</string>
     <string name="my_email_link" translatable="false">yahor.fralou@gmail.com</string>
     <string name="encourage_donate">Feel free to Donate if you like :)</string>
+    <string name="celebrate">Celebrate</string>
 </resources>

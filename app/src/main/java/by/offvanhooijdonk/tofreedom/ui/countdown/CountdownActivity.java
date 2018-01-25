@@ -199,6 +199,11 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
             case R.id.action_about:
                 startActivity(new Intent(this, AboutActivity.class));
                 break;
+            case R.id.action_celebrate: {
+                PrefHelper.setCelebrateShown(this, false);
+                goToCelebrate();
+            }
+            break;
         }
 
         return true;
