@@ -19,19 +19,22 @@ public class CelebrateFragment extends Fragment {
 
     private TextView txtGreeting;
     private View viewAnchor;
+    private View viewEndCorner;
 
-    private ParticlesHelper particlesHelper = new ParticlesHelper();
+    private ParticlesHelper.Fireworks fireworksHelper = new ParticlesHelper.Fireworks();
+    private ParticlesHelper.Confetti confettiHelper = new ParticlesHelper.Confetti();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_celebrate, container, false);
 
+        viewEndCorner = v.findViewById(R.id.viewEndCorner);
         viewAnchor = v.findViewById(R.id.viewAnchor);
         txtGreeting = v.findViewById(R.id.txtGreeting);
         txtGreeting.setOnClickListener(v1 -> tryParticle(viewAnchor));
 
-        particlesHelper.initialize();
+        fireworksHelper.initialize();
 
         return v;
     }
@@ -41,8 +44,10 @@ public class CelebrateFragment extends Fragment {
         super.onStart();
 
         new Handler().postDelayed(() -> {
-            particlesHelper.setupMaxDimens(getView());
-            particlesHelper.runParticles(getActivity(), viewAnchor);
+            fireworksHelper.setupMaxDimens(getView());
+            //fireworksHelper.runParticles(getActivity(), viewAnchor);
+
+            confettiHelper.runConfetti(getActivity(), viewEndCorner);
         }, 100);
     }
 
