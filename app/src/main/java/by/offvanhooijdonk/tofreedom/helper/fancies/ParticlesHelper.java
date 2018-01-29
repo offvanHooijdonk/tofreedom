@@ -18,7 +18,7 @@ import by.offvanhooijdonk.tofreedom.R;
 public class ParticlesHelper {
 
     public static class Fireworks {
-        private static final int PARTICLES_AMOUNT_BASE = 25;
+        private static final int PARTICLES_AMOUNT_BASE = /*25*/ 12;
         private static final int DELAY_BASE = 400;
         private static final int NUMBER_BASE = 14;
         private static final int DURATION_BASE = 440;
@@ -28,6 +28,7 @@ public class ParticlesHelper {
         private int maxYParticle;
         private int marginParticle;
         private int amount;
+        private long lastDelay;
 
         private Map<Long, ParticleBean> circleParticles;
 
@@ -49,12 +50,17 @@ public class ParticlesHelper {
                 );
 
                 circleParticles.put(delay, bean);
+                lastDelay = delay;
             }
+        }
+
+        public long getLastDelay() {
+            return lastDelay;
         }
 
         public void runParticles(Activity activity, View v) {
             for (Long delay : circleParticles.keySet()) {
-                new Handler().postDelayed(() -> {
+                new Handler().postDelayed(() -> { // TODO try reuse ParticleSystem
                     changeParticleLocation(v);
                     ParticleBean bean = circleParticles.get(delay);
                     new ParticleSystem(activity, NUMBER_BASE * 2, bean.getResDrawable(), DURATION_BASE * 2)
@@ -90,22 +96,28 @@ public class ParticlesHelper {
     }
 
     public static class Confetti {
-        public void runConfetti(Activity a, View v) {
+        public void runConfetti(Activity a, View v, boolean toLeft) { // TODO support rtl, use enum at least
+            int angleStart = toLeft ? 90 : 0;
+            int angleEnd = toLeft ? 180 : 90;
             Drawable confBlue = a.getDrawable(R.drawable.confetti_rect);
             DrawableCompat.setTint(confBlue, a.getResources().getColor(R.color.md_blue_300));
             new ParticleSystem(a, 60, /*R.drawable.confetti_rect*/confBlue, 10000)
-                    .setSpeedModuleAndAngleRange(0.05f, 0.15f, 90, 180)
+                    .setSpeedModuleAndAngleRange(0.05f, 0.15f, angleStart, angleEnd)
                     .setRotationSpeed(144)
                     .setAcceleration(0.00005f, 90)
-                    .emit(v, 4);
+                    .emit(v, 4, 10000);
 
             Drawable confRed = a.getDrawable(R.drawable.confetti_rect);
             DrawableCompat.setTint(confRed, a.getResources().getColor(R.color.md_red_300));
             new ParticleSystem(a, 60, /*R.drawable.confetti_rect*/confRed, 10000)
-                    .setSpeedModuleAndAngleRange(0.05f, 0.15f, 90, 180)
+                    .setSpeedModuleAndAngleRange(0.05f, 0.15f, angleStart, angleEnd)
                     .setRotationSpeed(144)
                     .setAcceleration(0.00005f, 90)
-                    .emit(v, 4);
+                    .emit(v, 4, 10000);
+        }
+
+        public long getDuration() {
+            return 10000;
         }
     }
 

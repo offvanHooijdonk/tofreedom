@@ -7,10 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
-
-import com.plattysoft.leonids.ParticleSystem;
 
 import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.helper.fancies.ParticlesHelper;
@@ -19,6 +16,7 @@ public class CelebrateFragment extends Fragment {
 
     private TextView txtGreeting;
     private View viewAnchor;
+    private View viewStartCorner;
     private View viewEndCorner;
 
     private ParticlesHelper.Fireworks fireworksHelper = new ParticlesHelper.Fireworks();
@@ -29,10 +27,10 @@ public class CelebrateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_celebrate, container, false);
 
+        viewStartCorner = v.findViewById(R.id.viewStartCorner);
         viewEndCorner = v.findViewById(R.id.viewEndCorner);
         viewAnchor = v.findViewById(R.id.viewAnchor);
         txtGreeting = v.findViewById(R.id.txtGreeting);
-        txtGreeting.setOnClickListener(v1 -> tryParticle(viewAnchor));
 
         fireworksHelper.initialize();
 
@@ -43,39 +41,19 @@ public class CelebrateFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        long confDelay = fireworksHelper.getLastDelay() - 2000;// TODO make either static or random
         new Handler().postDelayed(() -> {
             fireworksHelper.setupMaxDimens(getView());
-            //fireworksHelper.runParticles(getActivity(), viewAnchor);
-
-            confettiHelper.runConfetti(getActivity(), viewEndCorner);
+            fireworksHelper.runParticles(getActivity(), viewAnchor);
         }, 100);
-    }
 
-    private void tryParticle(View v) {
-        //particleSystem.setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f).oneShot(v, 20, new DecelerateInterpolator());
-        //setupMaxDimens();
+        new Handler().postDelayed(() ->
+                confettiHelper.runConfetti(getActivity(), viewEndCorner, true), confDelay);
 
-        new Handler().postDelayed(() -> {
-            //changeParticleLocation(v);
-            new ParticleSystem(getActivity(), 10, R.drawable.particle_round_red, 1000).setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f)
-                    .oneShot(v, 10, new DecelerateInterpolator());
-        }, 100);
-        new Handler().postDelayed(() -> {
-            //changeParticleLocation(v);
-            new ParticleSystem(getActivity(), 10, R.drawable.particle_round_blue, 1000).setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f)
-                    .oneShot(v, 10, new DecelerateInterpolator());
-        }, 500);
-        new Handler().postDelayed(() -> {
-            //changeParticleLocation(v);
-            new ParticleSystem(getActivity(), 10, R.drawable.particle_round_red, 1000).setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f)
-                    .oneShot(v, 10, new DecelerateInterpolator());
-        }, 1000);
-        new Handler().postDelayed(() -> {
-            //changeParticleLocation(v);
-            new ParticleSystem(getActivity(), 10, R.drawable.particle_round_green, 1000).setSpeedRange(.1f, .2f).setFadeOut(350).setScaleRange(1f, 2f)
-                    .oneShot(v, 10, new DecelerateInterpolator());
-        }, 1400);
+        confDelay += confettiHelper.getDuration() - 2000; // TODO make either static or random
 
+        new Handler().postDelayed(() ->
+                confettiHelper.runConfetti(getActivity(), viewStartCorner, false), confDelay);
     }
 
 }
