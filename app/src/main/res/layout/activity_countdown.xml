@@ -106,43 +106,4 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabStories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_autograph_96"
-        android:tint="@color/md_white_1000"
-        app:backgroundTint="@color/md_blue_grey_500"
-        app:fabSize="normal" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabFeelToday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginBottom="88dp"
-        android:src="@drawable/ic_sentiment_neutral_24"
-        android:tint="@color/md_grey_800"
-        android:visibility="invisible"
-        app:backgroundTint="@color/fab_feel_today"
-        app:fabSize="mini"
-        app:layout_anchor="@id/fabStories"
-        app:layout_anchorGravity="center_horizontal" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabFuturePlans"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|center_horizontal"
-        android:layout_marginBottom="140dp"
-        android:src="@drawable/ic_plans_24"
-        android:tint="@color/md_white_1000"
-        android:visibility="invisible"
-        app:backgroundTint="@color/fab_future_plans"
-        app:fabSize="mini"
-        app:layout_anchor="@id/fabFeelToday"
-        app:layout_anchorGravity="center_horizontal" />
-
 </android.support.design.widget.CoordinatorLayout>

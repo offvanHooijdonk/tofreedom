@@ -3,12 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_stories"
-        android:icon="@drawable/ic_history_24"
-        android:title="@string/action_see_stories"
-        app:showAsAction="ifRoom" />
-
-    <item
         android:id="@+id/action_drop_time"
         android:title="@string/action_drop_time"
         app:showAsAction="never" />

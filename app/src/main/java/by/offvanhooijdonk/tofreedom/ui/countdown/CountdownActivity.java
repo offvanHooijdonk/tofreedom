@@ -3,16 +3,12 @@ package by.offvanhooijdonk.tofreedom.ui.countdown;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -37,17 +33,13 @@ import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
-import by.offvanhooijdonk.tofreedom.helper.ShareHelper;
 import by.offvanhooijdonk.tofreedom.helper.anim.AnimCountdownHelper;
 import by.offvanhooijdonk.tofreedom.helper.countdown.CountdownBean;
 import by.offvanhooijdonk.tofreedom.helper.countdown.FreedomCountdownTimer;
-import by.offvanhooijdonk.tofreedom.model.StoryModel;
 import by.offvanhooijdonk.tofreedom.ui.AboutActivity;
 import by.offvanhooijdonk.tofreedom.ui.StartActivity;
 import by.offvanhooijdonk.tofreedom.ui.fancies.CelebrateFragment;
 import by.offvanhooijdonk.tofreedom.ui.pref.PreferenceActivity;
-import by.offvanhooijdonk.tofreedom.ui.stories.AddStoryDialog;
-import by.offvanhooijdonk.tofreedom.ui.stories.PastStoriesActivity;
 
 public class CountdownActivity extends AppCompatActivity implements FreedomCountdownTimer.CountdownListener {
     private CountDownTimer countdownTimer;
@@ -67,9 +59,6 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
     private View blockTime;
     private View blockContainer;
     private View blockCountdown;
-    private FloatingActionButton fabStories;
-    private FloatingActionButton fabFeelToday;
-    private FloatingActionButton fabFuturePlans;
     private ViewGroup root;
 
     private AnimCountdownHelper animHelper;
@@ -160,6 +149,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
         String timeText = timeToString();
         //Log.i(ToFreedomApp.LOG, "Time to output: " + timeText);
+        // check if text size changes substantially - then add fade animation to hide view resize
         int textDiff = prevTimeTextLength - timeText.length();
         if (textDiff >= 2 || textDiff <= -2) {
             // TODO do some animation to smooth the process
@@ -187,9 +177,6 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
 
         int itemId = item.getItemId();
         switch (itemId) {
-            case R.id.action_stories:
-                startActivity(new Intent(this, PastStoriesActivity.class));
-                break;
             case R.id.action_settings:
                 startActivity(new Intent(this, PreferenceActivity.class));
                 break;
@@ -275,19 +262,7 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         blockMonthDay = findViewById(R.id.blockMonthDay);
         blockContainer = findViewById(R.id.blockContainer);
         blockCountdown = findViewById(R.id.blockCountdown);
-        fabStories = findViewById(R.id.fabStories);
-        fabFeelToday = findViewById(R.id.fabFeelToday);
-        fabFuturePlans = findViewById(R.id.fabFuturePlans);
         root = findViewById(R.id.root);
-
-        root.setOnClickListener(v -> {
-            if (fabFeelToday.getVisibility() == View.VISIBLE) {
-                expandStoryButtons(false);
-            }
-        });
-        fabStories.setOnClickListener(v -> expandStoryButtons(fabFeelToday.getVisibility() != View.VISIBLE));
-        fabFeelToday.setOnClickListener(v -> openFeelToday());
-        fabFuturePlans.setOnClickListener(v -> openFuturePlans());
     }
 
     private void startDropConfirmDialog() {
@@ -426,48 +401,6 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         String timeText = timeToString();
         prevTimeTextLength = timeText.length();
         txtTime.setTime(timeText);
-    }
-
-    private void expandStoryButtons(boolean isExpand) {
-        float angleFrom;
-        float angleTo;
-        int srcRes;
-        if (isExpand) {
-            angleFrom = 0;
-            angleTo = 90f;
-            fabFeelToday.show();
-            fabFuturePlans.show();
-            srcRes = R.drawable.ic_close_24;
-            root.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        } else {
-            angleFrom = 90;
-            angleTo = 0f;
-            fabFuturePlans.hide();
-            fabFeelToday.hide();
-            srcRes = R.drawable.ic_autograph_96;
-            root.setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
-        }
-
-        ObjectAnimator.ofFloat(fabStories, "rotation", angleFrom, angleTo).setDuration(200).start();
-        new Handler().postDelayed(() -> fabStories.setImageDrawable(ContextCompat.getDrawable(this, srcRes)), 100);
-    }
-
-    private void openFeelToday() {
-        openStoryDialog(StoryModel.Type.FEEL_TODAY);
-    }
-
-    private void openFuturePlans() {
-        openStoryDialog(StoryModel.Type.FUTURE_PLAN);
-    }
-
-    private void openStoryDialog(StoryModel.Type storyType) {
-        expandStoryButtons(false);
-        DialogFragment dialog = AddStoryDialog.getInstance(storyType, model -> {
-            Snackbar.make(blockCountdown, R.string.story_saved_confirmed, Snackbar.LENGTH_LONG).setAction(R.string.action_share_story, v -> {
-                ShareHelper.shareStory(CountdownActivity.this, model);
-            }).show();
-        });
-        dialog.show(getFragmentManager(), "tmp");
     }
 
     private class FadeOutListener extends AnimatorListenerAdapter {

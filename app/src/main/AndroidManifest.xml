@@ -27,10 +27,6 @@
             android:name=".ui.countdown.CountdownActivity"
             android:label="@string/countdown_activity_title" />
         <activity
-            android:name=".ui.stories.PastStoriesActivity"
-            android:label="@string/activity_my_stories"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".ui.pref.PreferenceActivity"
             android:label="@string/action_settings">
             <intent-filter>
