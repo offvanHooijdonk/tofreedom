@@ -32,7 +32,8 @@ public class CelebrateFragment extends Fragment {
         viewAnchor = v.findViewById(R.id.viewAnchor);
         txtGreeting = v.findViewById(R.id.txtGreeting);
 
-        fireworksHelper.initialize();
+        fireworksHelper.initialize(getActivity());
+        confettiHelper.initialize(getActivity());
 
         return v;
     }
@@ -41,19 +42,13 @@ public class CelebrateFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        long confDelay = fireworksHelper.getLastDelay() - 2000;// TODO make either static or random
-        new Handler().postDelayed(() -> {
+        new Handler().postDelayed(() -> { // delay here to be able to measure the fragment view
             fireworksHelper.setupMaxDimens(getView());
             fireworksHelper.runParticles(getActivity(), viewAnchor);
         }, 100);
 
-        new Handler().postDelayed(() ->
-                confettiHelper.runConfetti(getActivity(), viewEndCorner, true), confDelay);
-
-        confDelay += confettiHelper.getDuration() - 2000; // TODO make either static or random
-
-        new Handler().postDelayed(() ->
-                confettiHelper.runConfetti(getActivity(), viewStartCorner, false), confDelay);
+        long confDelay = fireworksHelper.getLastDelay();
+        confettiHelper.runConfetti(getActivity(), viewStartCorner, viewEndCorner, confDelay);
     }
 
 }

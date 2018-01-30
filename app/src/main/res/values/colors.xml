@@ -20,4 +20,17 @@
     <color name="fab_future_plans">@color/colorAccent</color>
     <!--<color name="divider">#cccccc</color>-->
     <color name="divider">@color/colorPrimaryLight</color>
+
+    <integer-array name="firework_colors">
+        <item>@color/md_blue_300</item>
+        <item>@color/md_red_300</item>
+        <item>@color/md_green_A700</item>
+    </integer-array>
+
+    <integer-array name="confetti_colors">
+        <item>@color/md_deep_purple_300</item>
+        <item>@color/md_pink_A200</item>
+        <item>@color/md_orange_300</item>
+        <item>@color/md_teal_300</item>
+    </integer-array>
 </resources>

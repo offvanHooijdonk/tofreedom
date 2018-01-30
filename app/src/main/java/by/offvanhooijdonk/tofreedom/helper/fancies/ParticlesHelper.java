@@ -2,6 +2,7 @@ package by.offvanhooijdonk.tofreedom.helper.fancies;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -16,13 +17,14 @@ import java.util.Map;
 import by.offvanhooijdonk.tofreedom.R;
 
 public class ParticlesHelper {
+    private static final int OVERLAP_DURATION_BASE = 2000;
 
     public static class Fireworks {
         private static final int PARTICLES_AMOUNT_BASE = /*25*/ 12;
         private static final int DELAY_BASE = 400;
         private static final int NUMBER_BASE = 14;
         private static final int DURATION_BASE = 440;
-        private static final int[] PARTICLE_RESOURCES = new int[]{R.drawable.particle_round_red, R.drawable.particle_round_blue, R.drawable.particle_round_green};
+        private static int[] FIREWORKS_COLOR_RESOURCES;
 
         private int maxXParticle;
         private int maxYParticle;
@@ -33,7 +35,8 @@ public class ParticlesHelper {
         private Map<Long, ParticleBean> circleParticles;
 
         @SuppressLint("UseSparseArrays")
-        public void initialize() {
+        public void initialize(Context ctx) {
+            FIREWORKS_COLOR_RESOURCES = ctx.getResources().getIntArray(R.array.firework_colors);
             circleParticles = new HashMap<>();
             amount = randomize(PARTICLES_AMOUNT_BASE, 0.2f);
             long delay = 0;
@@ -42,7 +45,7 @@ public class ParticlesHelper {
                 delay += randomize(DELAY_BASE, 0.2f);
 
                 ParticleBean bean = new ParticleBean(
-                        getRandomParticleDrawable(),
+                        getRandomParticleColor(),
                         randomize(NUMBER_BASE, 0.3f),
                         0.1f,
                         0.2f,
@@ -63,7 +66,7 @@ public class ParticlesHelper {
                 new Handler().postDelayed(() -> { // TODO try reuse ParticleSystem
                     changeParticleLocation(v);
                     ParticleBean bean = circleParticles.get(delay);
-                    new ParticleSystem(activity, NUMBER_BASE * 2, bean.getResDrawable(), DURATION_BASE * 2)
+                    new ParticleSystem(activity, NUMBER_BASE * 2, generateColoredParticle(activity, bean.getDrawableColor()), DURATION_BASE * 2)
                             .setSpeedRange(bean.getSpeedFrom(), bean.getSpeedTo())
                             .setFadeOut(bean.getDuration())
                             .setScaleRange(bean.getScaleFrom(), bean.getScaleTo())
@@ -80,9 +83,15 @@ public class ParticlesHelper {
             }
         }
 
-        private int getRandomParticleDrawable() {
-            int index = (int) Math.floor(Math.random() * PARTICLE_RESOURCES.length);
-            return PARTICLE_RESOURCES[index];
+        private Drawable generateColoredParticle(Context ctx, int drawableColor) { // TODO make a map of available
+            Drawable particle = ctx.getDrawable(R.drawable.particle_round);
+            DrawableCompat.setTint(particle, drawableColor);
+
+            return particle;
+        }
+
+        private int getRandomParticleColor() {
+            return getRandom(FIREWORKS_COLOR_RESOURCES);
         }
 
         private void changeParticleLocation(View v) {
@@ -96,32 +105,84 @@ public class ParticlesHelper {
     }
 
     public static class Confetti {
-        public void runConfetti(Activity a, View v, boolean toLeft) { // TODO support rtl, use enum at least
-            int angleStart = toLeft ? 90 : 0;
-            int angleEnd = toLeft ? 180 : 90;
-            Drawable confBlue = a.getDrawable(R.drawable.confetti_rect);
-            DrawableCompat.setTint(confBlue, a.getResources().getColor(R.color.md_blue_300));
-            new ParticleSystem(a, 60, /*R.drawable.confetti_rect*/confBlue, 10000)
-                    .setSpeedModuleAndAngleRange(0.05f, 0.15f, angleStart, angleEnd)
-                    .setRotationSpeed(144)
-                    .setAcceleration(0.00005f, 90)
-                    .emit(v, 4, 10000);
+        private static int[] CONFETTI_COLOR_RESOURCES;
 
-            Drawable confRed = a.getDrawable(R.drawable.confetti_rect);
-            DrawableCompat.setTint(confRed, a.getResources().getColor(R.color.md_red_300));
-            new ParticleSystem(a, 60, /*R.drawable.confetti_rect*/confRed, 10000)
-                    .setSpeedModuleAndAngleRange(0.05f, 0.15f, angleStart, angleEnd)
-                    .setRotationSpeed(144)
-                    .setAcceleration(0.00005f, 90)
-                    .emit(v, 4, 10000);
+        public void initialize(Context ctx) {
+            CONFETTI_COLOR_RESOURCES = ctx.getResources().getIntArray(R.array.confetti_colors);
+        }
+
+        public void runConfetti(Activity a, View viewStartCorner, View viewEndCorner, long initialDelay) {
+            boolean isLtR = a.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR;
+            long confDelay = initialDelay - generateConfettiOverlapTime();
+            runConfetti(a, viewEndCorner, isLtR, confDelay);
+
+            confDelay += getDuration() - generateConfettiOverlapTime();
+            runConfetti(a, viewStartCorner, !isLtR, confDelay);
         }
 
         public long getDuration() {
             return 10000;
         }
+
+        private void runConfetti(Activity a, View v, boolean toLeft, long delay) { // TODO support rtl, use enum at least
+            int[] confettiColors = getTwoRandom(CONFETTI_COLOR_RESOURCES);
+            int angleStart = toLeft ? 90 : 0;
+            int angleEnd = toLeft ? 180 : 90;
+
+            ParticleSystem confettiOne = prepareConfetti(a, confettiColors[0], angleStart, angleEnd);
+            ParticleSystem confettiTwo = prepareConfetti(a, confettiColors[1], angleStart, angleEnd);
+            new Handler().postDelayed(() -> {
+                confettiOne.emit(v, 4, 10000);
+                confettiTwo.emit(v, 4, 10000);
+            }, delay);
+        }
+
+        private ParticleSystem prepareConfetti(Activity a,int color, int angleStart, int angleEnd) {
+            Drawable confDrawable = a.getDrawable(R.drawable.confetti_rect);
+            DrawableCompat.setTint(confDrawable, color);
+            return new ParticleSystem(a, 60, confDrawable, 10000)
+                    .setSpeedModuleAndAngleRange(0.05f, 0.15f, angleStart, angleEnd)
+                    .setRotationSpeedRange(90, 180)
+                    .setAcceleration(0.00005f, 90);
+        }
+
+        private static long generateConfettiOverlapTime() {
+            return randomize(OVERLAP_DURATION_BASE, 0.3f);
+        }
     }
 
     private static int randomize(int base, float radius) {
         return (int) (base * (1 + (Math.random() - 0.5) * radius));
+    }
+
+    private static int getRandom(int[] array) {
+        int index = randomInt(0, array.length);//(int) Math.floor(Math.random() * array.length);
+
+        return array[index];
+    }
+
+    /**
+     * @param start inclusive
+     * @param end   exclusive
+     * @return random int
+     */
+    private static int randomInt(int start, int end) {
+        return (int) Math.floor(Math.random() * (end - start)) + start; // use Random nextInt ?
+    }
+
+    private static int[] getTwoRandom(int[] array) {
+        if (array.length == 0) {
+            return new int[]{0, 0};
+        } else if (array.length == 1) {
+            return new int[]{array[0], 0};
+        } else {
+            int index = randomInt(0, array.length);
+            int colorOne = array[index];
+            index += randomInt(1, array.length - 1);
+            index = index >= array.length ? array.length - index : index; // if new index bigger, then length - make a lap over
+            int colorTwo = array[index];
+
+            return new int[]{colorOne, colorTwo};
+        }
     }
 }

@@ -3,7 +3,7 @@ package by.offvanhooijdonk.tofreedom.helper.fancies;
 import java.util.Objects;
 
 public class ParticleBean {
-    private int resDrawable;
+    private int drawableColor;
     private float speedFrom;
     private float speedTo;
     private long duration;
@@ -11,8 +11,8 @@ public class ParticleBean {
     private float scaleTo = 2.0f;
     private int number;
 
-    public ParticleBean(int resDrawable,int number, float speedFrom, float speedTo, long duration, float scaleFrom, float scaleTo) {
-        this.resDrawable = resDrawable;
+    public ParticleBean(int color, int number, float speedFrom, float speedTo, long duration, float scaleFrom, float scaleTo) {
+        this.drawableColor = color;
         this.speedFrom = speedFrom;
         this.speedTo = speedTo;
         this.duration = duration;
@@ -21,20 +21,20 @@ public class ParticleBean {
         this.number = number;
     }
 
-    public ParticleBean(int resDrawable, int number, float speedFrom, float speedTo, long duration) {
-        this.resDrawable = resDrawable;
+    public ParticleBean(int drawableColor, int number, float speedFrom, float speedTo, long duration) {
+        this.drawableColor = drawableColor;
         this.speedFrom = speedFrom;
         this.speedTo = speedTo;
         this.duration = duration;
         this.number = number;
     }
 
-    public int getResDrawable() {
-        return resDrawable;
+    public int getDrawableColor() {
+        return drawableColor;
     }
 
-    public void setResDrawable(int resDrawable) {
-        this.resDrawable = resDrawable;
+    public void setDrawableColor(int drawableColor) {
+        this.drawableColor = drawableColor;
     }
 
     public float getSpeedFrom() {
@@ -87,7 +87,7 @@ public class ParticleBean {
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, resDrawable, duration);
+        return Objects.hash(number, drawableColor, duration);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class ParticleBean {
         if (this == o) return true;
         if (!(o instanceof ParticleBean)) return false;
         ParticleBean that = (ParticleBean) o;
-        return resDrawable == that.resDrawable &&
+        return drawableColor == that.drawableColor &&
                 Float.compare(that.speedFrom, speedFrom) == 0 &&
                 Float.compare(that.speedTo, speedTo) == 0 &&
                 duration == that.duration &&
