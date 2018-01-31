@@ -105,6 +105,11 @@ public class ParticlesHelper {
     }
 
     public static class Confetti {
+        private static final int EMIT_TIME_BASE = 10000;
+        private static final float SPEED_MIN = 0.05f;
+        private static final float SPEED_MAX = 0.15f;
+        private static final float ROTATION_MIN = 90f;
+        private static final float ROTATION_MAX = 180f;
         private static int[] CONFETTI_COLOR_RESOURCES;
 
         public void initialize(Context ctx) {
@@ -116,12 +121,8 @@ public class ParticlesHelper {
             long confDelay = initialDelay - generateConfettiOverlapTime();
             runConfetti(a, viewEndCorner, isLtR, confDelay);
 
-            confDelay += getDuration() - generateConfettiOverlapTime();
+            confDelay += EMIT_TIME_BASE - generateConfettiOverlapTime();
             runConfetti(a, viewStartCorner, !isLtR, confDelay);
-        }
-
-        public long getDuration() {
-            return 10000;
         }
 
         private void runConfetti(Activity a, View v, boolean toLeft, long delay) { // TODO support rtl, use enum at least
@@ -132,15 +133,16 @@ public class ParticlesHelper {
             ParticleSystem confettiOne = prepareConfetti(a, confettiColors[0], angleStart, angleEnd);
             ParticleSystem confettiTwo = prepareConfetti(a, confettiColors[1], angleStart, angleEnd);
             new Handler().postDelayed(() -> {
-                confettiOne.emit(v, 4, 10000);
-                confettiTwo.emit(v, 4, 10000);
+                int emitTime = randomize(EMIT_TIME_BASE, 0.1f);
+                confettiOne.emit(v, 4, emitTime);
+                confettiTwo.emit(v, 4, emitTime);
             }, delay);
         }
 
         private ParticleSystem prepareConfetti(Activity a,int color, int angleStart, int angleEnd) {
             Drawable confDrawable = a.getDrawable(R.drawable.confetti_rect);
             DrawableCompat.setTint(confDrawable, color);
-            return new ParticleSystem(a, 60, confDrawable, 10000)
+            return new ParticleSystem(a, 60, confDrawable, EMIT_TIME_BASE * 2)
                     .setSpeedModuleAndAngleRange(0.05f, 0.15f, angleStart, angleEnd)
                     .setRotationSpeedRange(90, 180)
                     .setAcceleration(0.00005f, 90);

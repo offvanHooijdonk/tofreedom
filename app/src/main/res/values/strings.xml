@@ -53,4 +53,7 @@
     <string name="my_email_link" translatable="false">yahor.fralou@gmail.com</string>
     <string name="encourage_donate">Feel free to Donate if you like :)</string>
     <string name="celebrate">Celebrate</string>
+
+    <integer name="sound_time_1812">5000</integer>
+    <integer name="punch_time_1812">7000</integer>
 </resources>

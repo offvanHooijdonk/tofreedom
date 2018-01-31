@@ -1,12 +1,15 @@
 package by.offvanhooijdonk.tofreedom.ui.fancies;
 
+import android.animation.ValueAnimator;
 import android.app.Fragment;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 import by.offvanhooijdonk.tofreedom.R;
@@ -19,6 +22,7 @@ public class CelebrateFragment extends Fragment {
     private View viewStartCorner;
     private View viewEndCorner;
 
+    private MediaPlayer player;
     private ParticlesHelper.Fireworks fireworksHelper = new ParticlesHelper.Fireworks();
     private ParticlesHelper.Confetti confettiHelper = new ParticlesHelper.Confetti();
 
@@ -42,13 +46,53 @@ public class CelebrateFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        new Handler().postDelayed(() -> { // delay here to be able to measure the fragment view
-            fireworksHelper.setupMaxDimens(getView());
-            fireworksHelper.runParticles(getActivity(), viewAnchor);
-        }, 100);
+        //Animator greetingFadeIn = ObjectAnimator.ofFloat(txtGreeting, View.ALPHA, 0.0f, 1.0f).setDuration(4000);
+        //greetingFadeIn.start();
+
+        playMusic();
+
+        // delay here to be able to measure the fragment view
+        new Handler().postDelayed(this::startParticles, 7000);
+
+
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        if (player != null) player.release();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if (player != null) player.release();
+    }
+
+    private void startParticles() {
+        fireworksHelper.setupMaxDimens(getView());
+        fireworksHelper.runParticles(getActivity(), viewAnchor);
 
         long confDelay = fireworksHelper.getLastDelay();
         confettiHelper.runConfetti(getActivity(), viewStartCorner, viewEndCorner, confDelay);
     }
 
+    private void playMusic() {
+        player = MediaPlayer.create(getActivity(), R.raw.overture1812);
+        player.setVolume(0.1f, 0.1f);
+        player.seekTo(9500);
+
+        ValueAnimator volumeAnim = ValueAnimator.ofFloat(0.1f, 1.0f).setDuration(5000);
+        volumeAnim.setInterpolator(new AccelerateInterpolator(3.0f));
+        volumeAnim.addUpdateListener(animation -> {
+            Float val = (Float) animation.getAnimatedValue();
+            player.setVolume(val, val);
+            txtGreeting.setAlpha(val);
+        });
+
+        player.start();
+        volumeAnim.start();
+    }
 }
