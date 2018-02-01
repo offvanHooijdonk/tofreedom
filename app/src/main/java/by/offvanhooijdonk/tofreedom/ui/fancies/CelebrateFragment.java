@@ -1,18 +1,16 @@
 package by.offvanhooijdonk.tofreedom.ui.fancies;
 
-import android.animation.ValueAnimator;
 import android.app.Fragment;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 import by.offvanhooijdonk.tofreedom.R;
+import by.offvanhooijdonk.tofreedom.helper.fancies.MusicHelper;
 import by.offvanhooijdonk.tofreedom.helper.fancies.ParticlesHelper;
 
 public class CelebrateFragment extends Fragment {
@@ -22,9 +20,9 @@ public class CelebrateFragment extends Fragment {
     private View viewStartCorner;
     private View viewEndCorner;
 
-    private MediaPlayer player;
     private ParticlesHelper.Fireworks fireworksHelper = new ParticlesHelper.Fireworks();
     private ParticlesHelper.Confetti confettiHelper = new ParticlesHelper.Confetti();
+    private MusicHelper musicHelper;
 
     @Nullable
     @Override
@@ -45,30 +43,27 @@ public class CelebrateFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
         //Animator greetingFadeIn = ObjectAnimator.ofFloat(txtGreeting, View.ALPHA, 0.0f, 1.0f).setDuration(4000);
         //greetingFadeIn.start();
-
+        musicHelper = new MusicHelper();
         playMusic();
-
+        int particleDelay = musicHelper.getPunchTime(getActivity());
         // delay here to be able to measure the fragment view
-        new Handler().postDelayed(this::startParticles, 7000);
-
-
+        new Handler().postDelayed(this::startParticles, particleDelay);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
 
-        if (player != null) player.release();
+        if (musicHelper != null) musicHelper.releasePlayer();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (player != null) player.release();
+        if (musicHelper != null) musicHelper.releasePlayer();
     }
 
     private void startParticles() {
@@ -80,19 +75,9 @@ public class CelebrateFragment extends Fragment {
     }
 
     private void playMusic() {
-        player = MediaPlayer.create(getActivity(), R.raw.overture1812);
-        player.setVolume(0.1f, 0.1f);
-        player.seekTo(9500);
-
-        ValueAnimator volumeAnim = ValueAnimator.ofFloat(0.1f, 1.0f).setDuration(5000);
-        volumeAnim.setInterpolator(new AccelerateInterpolator(3.0f));
-        volumeAnim.addUpdateListener(animation -> {
-            Float val = (Float) animation.getAnimatedValue();
-            player.setVolume(val, val);
-            txtGreeting.setAlpha(val);
+        musicHelper.play(getActivity(), animation -> {
+            Float value = (Float) animation.getAnimatedValue();
+            txtGreeting.setAlpha(value);
         });
-
-        player.start();
-        volumeAnim.start();
     }
 }

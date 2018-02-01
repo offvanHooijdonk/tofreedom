@@ -56,4 +56,5 @@
 
     <integer name="sound_time_1812">5000</integer>
     <integer name="punch_time_1812">7000</integer>
+    <integer name="track_duration_1812">35000</integer>
 </resources>

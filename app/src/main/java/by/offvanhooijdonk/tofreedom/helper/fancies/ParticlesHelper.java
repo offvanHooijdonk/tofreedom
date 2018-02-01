@@ -181,7 +181,7 @@ public class ParticlesHelper {
             int index = randomInt(0, array.length);
             int colorOne = array[index];
             index += randomInt(1, array.length - 1);
-            index = index >= array.length ? array.length - index : index; // if new index bigger, then length - make a lap over
+            index = index >= array.length ? index - array.length : index; // if new index bigger, then length - make a lap over
             int colorTwo = array[index];
 
             return new int[]{colorOne, colorTwo};

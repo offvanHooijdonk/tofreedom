@@ -1,28 +1,95 @@
 package by.offvanhooijdonk.tofreedom.helper.fancies;
 
+import android.animation.ValueAnimator;
+import android.content.Context;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.support.annotation.Nullable;
+import android.util.Log;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 import by.offvanhooijdonk.tofreedom.R;
+import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 
 public class MusicHelper {
+    private static final int VOLUME_FADE_OUT_DURATION = 2500;
+    private static final float VOLUME_LOWEST = 0.1f;
+    private static final float VOLUME_FULL = 1.0f;
 
+    private MediaPlayer player;
     private static Set<MusicBean> musicSamples;
     private MusicBean pickedMusic;
 
     public MusicHelper() {
-        if (musicSamples != null) {
-            musicSamples = new HashSet<>();
-
-            musicSamples.add(new MusicBean(R.raw.overture1812, R.integer.sound_time_1812, R.integer.punch_time_1812));
+        if (musicSamples == null) {
+            initTracks();
         }
-
         shuffle();
+    }
+
+    public void play(Context ctx, @Nullable ValueAnimator.AnimatorUpdateListener l) {
+        initPlayer(ctx);
+
+        ValueAnimator volumeAnim = ValueAnimator.ofFloat(VOLUME_LOWEST, VOLUME_FULL)
+                .setDuration(ctx.getResources().getInteger(pickedMusic.getVolumeIncreaseTimeRes()));
+        volumeAnim.setInterpolator(new AccelerateInterpolator(3.0f));
+        volumeAnim.addUpdateListener(animation -> {
+            Float val = (Float) animation.getAnimatedValue();
+            player.setVolume(val, val);
+            if (l != null) l.onAnimationUpdate(animation);
+        });
+
+        player.start();
+        volumeAnim.start();
+        setupFadeTrack(ctx);
+    }
+
+    public int getPunchTime(Context ctx) {
+        return ctx.getResources().getInteger(pickedMusic.getDelayTillPunchRes());
     }
 
     public void shuffle() {
         pickedMusic = getRandomMusicSample();
+    }
+
+    public void releasePlayer() {
+        if (player != null) player.release();
+    }
+
+    private void setupFadeTrack(Context ctx) {
+        int duration = ctx.getResources().getInteger(pickedMusic.getDurationRes());
+        new Handler().postDelayed(() -> {
+            ValueAnimator anim = ValueAnimator.ofFloat(VOLUME_FULL, VOLUME_LOWEST)
+                    .setDuration(VOLUME_FADE_OUT_DURATION);
+            anim.setInterpolator(new DecelerateInterpolator(2.0f));
+            anim.addUpdateListener(animation -> {
+                Float val = (Float) animation.getAnimatedValue();
+                player.setVolume(val, val);
+                if (Float.compare(animation.getAnimatedFraction(), 1.0f) == 0) {
+                    Log.i(ToFreedomApp.LOG, "Stop sound!");
+                    player.stop();
+                }
+            });
+            anim.start();
+        }, duration - VOLUME_FADE_OUT_DURATION);
+    }
+
+    private void initTracks() {
+        musicSamples = new HashSet<>();
+        musicSamples.add(new MusicBean(R.raw.overture1812, R.integer.sound_time_1812, R.integer.punch_time_1812, R.integer.track_duration_1812));
+    }
+
+    private void initPlayer(Context ctx) {
+        releasePlayer();
+
+        player = MediaPlayer.create(ctx, R.raw.overture1812);
+        player.setVolume(VOLUME_LOWEST, VOLUME_LOWEST);
+        player.seekTo(9500); //  TODO remove when tracks are cut
     }
 
     private MusicBean getRandomMusicSample() {
@@ -45,11 +112,13 @@ public class MusicHelper {
         private int trackRes;
         private int volumeIncreaseTimeRes;
         private int delayTillPunchRes;
+        private int durationRes;
 
-        public MusicBean(int trackRes, int volumeIncreaseTimeRes, int delayTillPunchRes) {
+        public MusicBean(int trackRes, int volumeIncreaseTimeRes, int delayTillPunchRes, int durationRes) {
             this.trackRes = trackRes;
             this.volumeIncreaseTimeRes = volumeIncreaseTimeRes;
             this.delayTillPunchRes = delayTillPunchRes;
+            this.durationRes = durationRes;
         }
 
         public int getTrackRes() {
@@ -74,6 +143,14 @@ public class MusicHelper {
 
         public void setDelayTillPunchRes(int delayTillPunchRes) {
             this.delayTillPunchRes = delayTillPunchRes;
+        }
+
+        public int getDurationRes() {
+            return durationRes;
+        }
+
+        public void setDurationRes(int durationRes) {
+            this.durationRes = durationRes;
         }
 
         @Override
