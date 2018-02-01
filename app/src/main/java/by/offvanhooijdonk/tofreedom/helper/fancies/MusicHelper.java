@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.animation.AccelerateInterpolator;
@@ -24,16 +25,18 @@ public class MusicHelper {
     private MediaPlayer player;
     private static Set<MusicBean> musicSamples;
     private MusicBean pickedMusic;
+    private Context ctx;
 
-    public MusicHelper() {
+    public MusicHelper(@NonNull Context context) {
+        this.ctx = context;
         if (musicSamples == null) {
             initTracks();
         }
         shuffle();
     }
 
-    public void play(Context ctx, @Nullable ValueAnimator.AnimatorUpdateListener l) {
-        initPlayer(ctx);
+    public void play(@Nullable ValueAnimator.AnimatorUpdateListener l) {
+        initPlayer();
 
         ValueAnimator volumeAnim = ValueAnimator.ofFloat(VOLUME_LOWEST, VOLUME_FULL)
                 .setDuration(ctx.getResources().getInteger(pickedMusic.getVolumeIncreaseTimeRes()));
@@ -46,10 +49,10 @@ public class MusicHelper {
 
         player.start();
         volumeAnim.start();
-        setupFadeTrack(ctx);
+        setupFadeTrack();
     }
 
-    public int getPunchTime(Context ctx) {
+    public int getPunchTime() {
         return ctx.getResources().getInteger(pickedMusic.getDelayTillPunchRes());
     }
 
@@ -61,7 +64,7 @@ public class MusicHelper {
         if (player != null) player.release();
     }
 
-    private void setupFadeTrack(Context ctx) {
+    private void setupFadeTrack() {
         int duration = ctx.getResources().getInteger(pickedMusic.getDurationRes());
         new Handler().postDelayed(() -> {
             ValueAnimator anim = ValueAnimator.ofFloat(VOLUME_FULL, VOLUME_LOWEST)
@@ -84,7 +87,7 @@ public class MusicHelper {
         musicSamples.add(new MusicBean(R.raw.overture1812, R.integer.sound_time_1812, R.integer.punch_time_1812, R.integer.track_duration_1812));
     }
 
-    private void initPlayer(Context ctx) {
+    private void initPlayer() {
         releasePlayer();
 
         player = MediaPlayer.create(ctx, R.raw.overture1812);

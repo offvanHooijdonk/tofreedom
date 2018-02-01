@@ -43,12 +43,11 @@ public class CelebrateFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //Animator greetingFadeIn = ObjectAnimator.ofFloat(txtGreeting, View.ALPHA, 0.0f, 1.0f).setDuration(4000);
-        //greetingFadeIn.start();
-        musicHelper = new MusicHelper();
+
+        musicHelper = new MusicHelper(getActivity().getApplicationContext());
         playMusic();
-        int particleDelay = musicHelper.getPunchTime(getActivity());
-        // delay here to be able to measure the fragment view
+        int particleDelay = musicHelper.getPunchTime();
+
         new Handler().postDelayed(this::startParticles, particleDelay);
     }
 
@@ -75,7 +74,7 @@ public class CelebrateFragment extends Fragment {
     }
 
     private void playMusic() {
-        musicHelper.play(getActivity(), animation -> {
+        musicHelper.play(animation -> {
             Float value = (Float) animation.getAnimatedValue();
             txtGreeting.setAlpha(value);
         });
