@@ -55,6 +55,8 @@ public class CelebrateFragment extends Fragment {
         playMusic();
         int particleDelay = musicHelper.getPunchTime();
 
+        fireworksHelper = new ParticlesHelper.Fireworks();
+        confettiHelper = new ParticlesHelper.Confetti();
         new Handler().postDelayed(this::startParticles, particleDelay);
     }
 
@@ -73,9 +75,6 @@ public class CelebrateFragment extends Fragment {
     }
 
     private void startParticles() {
-        fireworksHelper = new ParticlesHelper.Fireworks();
-        confettiHelper = new ParticlesHelper.Confetti();
-
         fireworksHelper.initialize(getActivity());
         confettiHelper.initialize(getActivity());
 
@@ -100,12 +99,10 @@ public class CelebrateFragment extends Fragment {
 
         if (fireworksHelper != null) {
             fireworksHelper.stop();
-            fireworksHelper = null;
         }
 
         if (confettiHelper != null) {
             confettiHelper.stop();
-            confettiHelper = null;
         }
     }
 }

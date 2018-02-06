@@ -2,7 +2,6 @@ package by.offvanhooijdonk.tofreedom.ui.countdown;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -208,25 +207,22 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         if (!PrefHelper.getCelebrateShown(this)) {
             blockCountdown.setVisibility(View.GONE);
 
-            getFragmentManager()// TODO move to a method
+            getFragmentManager()// TODO instead - start an activity that is not in a stack
                     .beginTransaction()
-                    .replace(R.id.blockContainer, new CelebrateFragment())
+                    .add(R.id.blockContainer, new CelebrateFragment())
                     .addToBackStack(STACK_NAME_CELEBRATE_SCREEN)
                     .commit();
             blockContainer.setVisibility(View.VISIBLE);
-            ObjectAnimator.ofFloat(blockContainer, View.ALPHA, 0f, 1f).setDuration(500).start();
 
             PrefHelper.setCelebrateShown(this, true);
         } else {
             // TODO show screen with info that countdown finished
             // tmp workflow
-            blockCountdown.setVisibility(View.GONE);
-            new AlertDialog.Builder(this)
-                    .setCancelable(true)
-                    .setTitle("The Time is Here!")
-                    .setMessage("Your countdown is over.")
-                    .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
-                    .show();
+            getFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.blockContainer, new CompletedFragment())
+                    .commit();
+            blockContainer.setVisibility(View.VISIBLE);
         }
     }
 

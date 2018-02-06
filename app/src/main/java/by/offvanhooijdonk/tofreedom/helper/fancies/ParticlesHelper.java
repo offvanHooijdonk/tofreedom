@@ -132,6 +132,7 @@ public class ParticlesHelper {
         Set<ParticleSystem> emitters = new HashSet<>();
 
         public void initialize(Context ctx) {
+            if (isStopped) return;
             CONFETTI_COLOR_RESOURCES = ctx.getResources().getIntArray(R.array.confetti_colors);
         }
 // TODO implement a way to stop emitting
