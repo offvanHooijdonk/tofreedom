@@ -26,6 +26,8 @@ public class MusicHelper {
     private static Set<MusicBean> musicSamples;
     private MusicBean pickedMusic;
     private Context ctx;
+    private ValueAnimator volumeAnim;
+    private boolean isStopped = false;
 
     public MusicHelper(@NonNull Context context) {
         this.ctx = context;
@@ -38,10 +40,11 @@ public class MusicHelper {
     public void play(@Nullable ValueAnimator.AnimatorUpdateListener l) {
         initPlayer();
 
-        ValueAnimator volumeAnim = ValueAnimator.ofFloat(VOLUME_LOWEST, VOLUME_FULL)
+        volumeAnim = ValueAnimator.ofFloat(VOLUME_LOWEST, VOLUME_FULL)
                 .setDuration(ctx.getResources().getInteger(pickedMusic.getVolumeIncreaseTimeRes()));
         volumeAnim.setInterpolator(new AccelerateInterpolator(3.0f));
         volumeAnim.addUpdateListener(animation -> {
+            if (isStopped) return;
             Float val = (Float) animation.getAnimatedValue();
             player.setVolume(val, val);
             if (l != null) l.onAnimationUpdate(animation);
@@ -61,12 +64,15 @@ public class MusicHelper {
     }
 
     public void releasePlayer() {
+        isStopped = true;
+        if (volumeAnim != null) volumeAnim.cancel();
         if (player != null) player.release();
     }
 
     private void setupFadeTrack() {
         int duration = ctx.getResources().getInteger(pickedMusic.getDurationRes());
         new Handler().postDelayed(() -> {
+            if (isStopped) return;
             ValueAnimator anim = ValueAnimator.ofFloat(VOLUME_FULL, VOLUME_LOWEST)
                     .setDuration(VOLUME_FADE_OUT_DURATION);
             anim.setInterpolator(new DecelerateInterpolator(2.0f));
@@ -88,7 +94,7 @@ public class MusicHelper {
     }
 
     private void initPlayer() {
-        releasePlayer();
+        if (player != null) player.release();
 
         player = MediaPlayer.create(ctx, R.raw.overture1812);
         player.setVolume(VOLUME_LOWEST, VOLUME_LOWEST);

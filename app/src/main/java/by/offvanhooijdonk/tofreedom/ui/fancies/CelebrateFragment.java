@@ -4,12 +4,14 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import by.offvanhooijdonk.tofreedom.R;
+import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.fancies.MusicHelper;
 import by.offvanhooijdonk.tofreedom.helper.fancies.ParticlesHelper;
 
@@ -20,8 +22,8 @@ public class CelebrateFragment extends Fragment {
     private View viewStartCorner;
     private View viewEndCorner;
 
-    private ParticlesHelper.Fireworks fireworksHelper = new ParticlesHelper.Fireworks();
-    private ParticlesHelper.Confetti confettiHelper = new ParticlesHelper.Confetti();
+    private ParticlesHelper.Fireworks fireworksHelper;
+    private ParticlesHelper.Confetti confettiHelper;
     private MusicHelper musicHelper;
 
     @Nullable
@@ -34,15 +36,20 @@ public class CelebrateFragment extends Fragment {
         viewAnchor = v.findViewById(R.id.viewAnchor);
         txtGreeting = v.findViewById(R.id.txtGreeting);
 
-        fireworksHelper.initialize(getActivity());
-        confettiHelper.initialize(getActivity());
-
         return v;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        releaseAll();
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Log.i(ToFreedomApp.LOG, "onStart");
 
         musicHelper = new MusicHelper(getActivity().getApplicationContext());
         playMusic();
@@ -55,17 +62,23 @@ public class CelebrateFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 
-        if (musicHelper != null) musicHelper.releasePlayer();
+        releaseAll();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        if (musicHelper != null) musicHelper.releasePlayer();
+        releaseAll();
     }
 
     private void startParticles() {
+        fireworksHelper = new ParticlesHelper.Fireworks();
+        confettiHelper = new ParticlesHelper.Confetti();
+
+        fireworksHelper.initialize(getActivity());
+        confettiHelper.initialize(getActivity());
+
         fireworksHelper.setupMaxDimens(getView());
         fireworksHelper.runParticles(getActivity(), viewAnchor);
 
@@ -78,5 +91,21 @@ public class CelebrateFragment extends Fragment {
             Float value = (Float) animation.getAnimatedValue();
             txtGreeting.setAlpha(value);
         });
+    }
+
+    private void releaseAll() {
+        if (musicHelper != null) {
+            musicHelper.releasePlayer();
+        }
+
+        if (fireworksHelper != null) {
+            fireworksHelper.stop();
+            fireworksHelper = null;
+        }
+
+        if (confettiHelper != null) {
+            confettiHelper.stop();
+            confettiHelper = null;
+        }
     }
 }

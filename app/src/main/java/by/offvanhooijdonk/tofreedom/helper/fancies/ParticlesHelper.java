@@ -12,7 +12,9 @@ import android.view.animation.DecelerateInterpolator;
 import com.plattysoft.leonids.ParticleSystem;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import by.offvanhooijdonk.tofreedom.R;
 
@@ -31,17 +33,21 @@ public class ParticlesHelper {
         private int marginParticle;
         private int amount;
         private long lastDelay;
+        private boolean isStopped = false;
 
         private Map<Long, ParticleBean> circleParticles;
 
         @SuppressLint("UseSparseArrays")
         public void initialize(Context ctx) {
+            if (isStopped) return;
+
             FIREWORKS_COLOR_RESOURCES = ctx.getResources().getIntArray(R.array.firework_colors);
             circleParticles = new HashMap<>();
             amount = randomize(PARTICLES_AMOUNT_BASE, 0.2f);
             long delay = 0;
 
             for (int i = 0; i < amount; i++) {
+                if (isStopped) return;
                 delay += randomize(DELAY_BASE, 0.2f);
 
                 ParticleBean bean = new ParticleBean(
@@ -62,8 +68,10 @@ public class ParticlesHelper {
         }
 
         public void runParticles(Activity activity, View v) {
+            if (isStopped) return;
             for (Long delay : circleParticles.keySet()) {
                 new Handler().postDelayed(() -> { // TODO try reuse ParticleSystem
+                    if (isStopped) return;
                     changeParticleLocation(v);
                     ParticleBean bean = circleParticles.get(delay);
                     new ParticleSystem(activity, NUMBER_BASE * 2, generateColoredParticle(activity, bean.getDrawableColor()), DURATION_BASE * 2)
@@ -81,6 +89,14 @@ public class ParticlesHelper {
                 maxYParticle = (int) (v.getHeight() * .75f);
                 marginParticle = (int) (Math.min(maxXParticle, maxYParticle) * 0.1f);
             }
+        }
+
+        public void stop() {
+            isStopped = true;
+        }
+
+        public void clearState() {
+            isStopped = false;
         }
 
         private Drawable generateColoredParticle(Context ctx, int drawableColor) { // TODO make a map of available
@@ -112,11 +128,15 @@ public class ParticlesHelper {
         private static final float ROTATION_MAX = 180f;
         private static int[] CONFETTI_COLOR_RESOURCES;
 
+        private boolean isStopped = false;
+        Set<ParticleSystem> emitters = new HashSet<>();
+
         public void initialize(Context ctx) {
             CONFETTI_COLOR_RESOURCES = ctx.getResources().getIntArray(R.array.confetti_colors);
         }
-
+// TODO implement a way to stop emitting
         public void runConfetti(Activity a, View viewStartCorner, View viewEndCorner, long initialDelay) {
+            if (isStopped) return;
             boolean isLtR = a.getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_LTR;
             long confDelay = initialDelay - generateConfettiOverlapTime();
             runConfetti(a, viewEndCorner, isLtR, confDelay);
@@ -125,7 +145,21 @@ public class ParticlesHelper {
             runConfetti(a, viewStartCorner, !isLtR, confDelay);
         }
 
-        private void runConfetti(Activity a, View v, boolean toLeft, long delay) { // TODO support rtl, use enum at least
+        public void stop() {
+            isStopped = true;
+
+            for (ParticleSystem ps : emitters) {
+                //ps.stopEmitting();
+                ps.cancel();
+            }
+            emitters.clear();
+        }
+
+        public void clearState() {
+            isStopped = false;
+        }
+
+        private void runConfetti(Activity a, View v, boolean toLeft, long delay) {
             int[] confettiColors = getTwoRandom(CONFETTI_COLOR_RESOURCES);
             int angleStart = toLeft ? 90 : 0;
             int angleEnd = toLeft ? 180 : 90;
@@ -133,9 +167,12 @@ public class ParticlesHelper {
             ParticleSystem confettiOne = prepareConfetti(a, confettiColors[0], angleStart, angleEnd);
             ParticleSystem confettiTwo = prepareConfetti(a, confettiColors[1], angleStart, angleEnd);
             new Handler().postDelayed(() -> {
+                if (isStopped) return;
                 int emitTime = randomize(EMIT_TIME_BASE, 0.1f);
                 confettiOne.emit(v, 4, emitTime);
                 confettiTwo.emit(v, 4, emitTime);
+                emitters.add(confettiOne);
+                emitters.add(confettiTwo);
             }, delay);
         }
 
@@ -143,8 +180,8 @@ public class ParticlesHelper {
             Drawable confDrawable = a.getDrawable(R.drawable.confetti_rect);
             DrawableCompat.setTint(confDrawable, color);
             return new ParticleSystem(a, 60, confDrawable, EMIT_TIME_BASE * 2)
-                    .setSpeedModuleAndAngleRange(0.05f, 0.15f, angleStart, angleEnd)
-                    .setRotationSpeedRange(90, 180)
+                    .setSpeedModuleAndAngleRange(SPEED_MIN, SPEED_MAX, angleStart, angleEnd)
+                    .setRotationSpeedRange(ROTATION_MIN, ROTATION_MAX)
                     .setAcceleration(0.00005f, 90);
         }
 

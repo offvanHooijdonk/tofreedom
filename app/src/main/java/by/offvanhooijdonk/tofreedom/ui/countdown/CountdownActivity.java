@@ -42,6 +42,8 @@ import by.offvanhooijdonk.tofreedom.ui.fancies.CelebrateFragment;
 import by.offvanhooijdonk.tofreedom.ui.pref.PreferenceActivity;
 
 public class CountdownActivity extends AppCompatActivity implements FreedomCountdownTimer.CountdownListener {
+    private static final String STACK_NAME_CELEBRATE_SCREEN = "celebrate_screen";
+
     private CountDownTimer countdownTimer;
     private CountdownBean countdown = new CountdownBean();
     private long freedomTime;
@@ -206,9 +208,10 @@ public class CountdownActivity extends AppCompatActivity implements FreedomCount
         if (!PrefHelper.getCelebrateShown(this)) {
             blockCountdown.setVisibility(View.GONE);
 
-            getFragmentManager()
+            getFragmentManager()// TODO move to a method
                     .beginTransaction()
                     .replace(R.id.blockContainer, new CelebrateFragment())
+                    .addToBackStack(STACK_NAME_CELEBRATE_SCREEN)
                     .commit();
             blockContainer.setVisibility(View.VISIBLE);
             ObjectAnimator.ofFloat(blockContainer, View.ALPHA, 0f, 1f).setDuration(500).start();
