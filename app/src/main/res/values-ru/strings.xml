@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Свобода</string>
+    <string name="app_name">Я Свободен</string>
     <string name="action_drop_time">Сбросить Время</string>
     <string name="action_settings">Настройки</string>
     <string name="btn_continue">Продолжить</string>
@@ -35,5 +35,9 @@
         <item>Изуметельно!</item>
     </string-array>
     <string name="encourage_donate">Не стесняйтесь поддержать, если желаете :)</string>
+    <string name="action_about">О приложении</string>
+    <string name="celebrate">Радоваться</string>
+    <string name="btn_repeat_celebration">Повторить</string>
+    <string name="free_now_txt">Теперь Вы Свободны!</string>
 
 </resources>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">To Freedom</string>
+    <string name="app_name">Break Free</string>
     <string name="pref_freedom_date_title">Your Freedom Date</string>
     <string name="action_settings">Settings</string>
     <string name="action_drop_time">Drop Time</string>
