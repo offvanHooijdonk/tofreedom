@@ -48,7 +48,7 @@
         android:src="@drawable/ic_replay_24"
         android:tint="@color/md_white_1000"
         android:visibility="invisible"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -36,6 +36,11 @@ public class CelebrateActivity extends AppCompatActivity {
         viewAnchor = findViewById(R.id.viewAnchor);
         txtGreeting = findViewById(R.id.txtGreeting);
         fabReplay = findViewById(R.id.fabStopReplay);
+
+        fabReplay.setOnClickListener(v -> {
+            fabReplay.hide();
+            runCelebrations();
+        });
     }
 
     @Override
