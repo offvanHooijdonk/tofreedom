@@ -36,6 +36,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.AboutActivity" />
+        <activity
+            android:name=".ui.fancies.CelebrateActivity"
+            android:noHistory="true" />
     </application>
 
 </manifest>

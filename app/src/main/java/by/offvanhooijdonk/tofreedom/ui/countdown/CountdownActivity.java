@@ -11,7 +11,7 @@ import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.ui.AboutActivity;
 import by.offvanhooijdonk.tofreedom.ui.StartActivity;
-import by.offvanhooijdonk.tofreedom.ui.fancies.CelebrateFragment;
+import by.offvanhooijdonk.tofreedom.ui.fancies.CelebrateActivity;
 import by.offvanhooijdonk.tofreedom.ui.pref.PreferenceActivity;
 
 public class CountdownActivity extends AppCompatActivity implements MainView {
@@ -27,8 +27,6 @@ public class CountdownActivity extends AppCompatActivity implements MainView {
             // todo show message that date not set, or go to Start Activity?
             goToStartActivity();
         }
-
-        initViews();
     }
 
     @Override
@@ -93,18 +91,10 @@ public class CountdownActivity extends AppCompatActivity implements MainView {
     }
 
     private void goToCelebrate() {
-        getFragmentManager()// TODO instead - start an activity that is not in a stack
-                .beginTransaction()
-                .add(R.id.blockContainer, new CelebrateFragment())
-                .addToBackStack(STACK_NAME_CELEBRATE_SCREEN)
-                .commit();
+        startActivity(new Intent(this, CelebrateActivity.class));
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
         PrefHelper.setCelebrateShown(this, true);
-    }
-
-    @Deprecated
-    private void initViews() {
-
     }
 
     private void startDropConfirmDialog() {

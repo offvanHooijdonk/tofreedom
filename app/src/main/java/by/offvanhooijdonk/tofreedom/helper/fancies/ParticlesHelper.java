@@ -14,6 +14,7 @@ import com.plattysoft.leonids.ParticleSystem;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import by.offvanhooijdonk.tofreedom.R;
@@ -207,7 +208,7 @@ public class ParticlesHelper {
      * @return random int
      */
     private static int randomInt(int start, int end) {
-        return (int) Math.floor(Math.random() * (end - start)) + start; // use Random nextInt ?
+        return (int) Math.floor(new Random().nextInt(end - start)) + start; // use Random nextInt ?
     }
 
     private static int[] getTwoRandom(int[] array) {

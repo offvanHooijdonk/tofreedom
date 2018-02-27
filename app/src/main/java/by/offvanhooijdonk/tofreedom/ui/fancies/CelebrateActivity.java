@@ -1,57 +1,46 @@
 package by.offvanhooijdonk.tofreedom.ui.fancies;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import by.offvanhooijdonk.tofreedom.R;
-import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.fancies.MusicHelper;
 import by.offvanhooijdonk.tofreedom.helper.fancies.ParticlesHelper;
 
-public class CelebrateFragment extends Fragment {
-
+public class CelebrateActivity extends AppCompatActivity {
     private TextView txtGreeting;
     private View viewAnchor;
     private View viewStartCorner;
     private View viewEndCorner;
+    private View root;
 
     private ParticlesHelper.Fireworks fireworksHelper;
     private ParticlesHelper.Confetti confettiHelper;
     private MusicHelper musicHelper;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.frag_celebrate, container, false);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_celebrate);
 
-        viewStartCorner = v.findViewById(R.id.viewStartCorner);
-        viewEndCorner = v.findViewById(R.id.viewEndCorner);
-        viewAnchor = v.findViewById(R.id.viewAnchor);
-        txtGreeting = v.findViewById(R.id.txtGreeting);
-
-        return v;
+        root = findViewById(R.id.root);
+        viewStartCorner = findViewById(R.id.viewStartCorner);
+        viewEndCorner = findViewById(R.id.viewEndCorner);
+        viewAnchor = findViewById(R.id.viewAnchor);
+        txtGreeting = findViewById(R.id.txtGreeting);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-
-        releaseAll();
-    }
-
-    @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        Log.i(ToFreedomApp.LOG, "onStart");
 
-        musicHelper = new MusicHelper(getActivity().getApplicationContext());
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        musicHelper = new MusicHelper(getApplicationContext());
         playMusic();
         int particleDelay = musicHelper.getPunchTime();
 
@@ -61,28 +50,22 @@ public class CelebrateFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
+    protected void onStop() {
+        super.onStop();
 
-        releaseAll();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         releaseAll();
     }
 
     private void startParticles() {
-        fireworksHelper.initialize(getActivity());
-        confettiHelper.initialize(getActivity());
+        fireworksHelper.initialize(getApplicationContext());
+        confettiHelper.initialize(getApplicationContext());
 
-        fireworksHelper.setupMaxDimens(getView());
-        fireworksHelper.runParticles(getActivity(), viewAnchor);
+        fireworksHelper.setupMaxDimens(root);
+        fireworksHelper.runParticles(this, viewAnchor);
 
         long confDelay = fireworksHelper.getLastDelay();
-        confettiHelper.runConfetti(getActivity(), viewStartCorner, viewEndCorner, confDelay);
+        confettiHelper.runConfetti(this, viewStartCorner, viewEndCorner, confDelay);
     }
 
     private void playMusic() {

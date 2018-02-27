@@ -55,8 +55,6 @@ public class CountdownFragment extends Fragment implements FreedomCountdownTimer
     private TextView txtLabelDay;
     private View blockYear;
     private View blockMonthDay;
-    private View blockTime;
-    private View blockContainer;
     private View root;
 
     @Nullable
