@@ -45,10 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_stop_24"
+        android:src="@drawable/ic_replay_24"
         android:tint="@color/md_white_1000"
+        android:visibility="invisible"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent" />
 </android.support.constraint.ConstraintLayout>

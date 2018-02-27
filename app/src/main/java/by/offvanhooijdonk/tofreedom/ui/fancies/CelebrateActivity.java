@@ -3,6 +3,7 @@ package by.offvanhooijdonk.tofreedom.ui.fancies;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,6 +19,7 @@ public class CelebrateActivity extends AppCompatActivity {
     private View viewStartCorner;
     private View viewEndCorner;
     private View root;
+    private FloatingActionButton fabReplay;
 
     private ParticlesHelper.Fireworks fireworksHelper;
     private ParticlesHelper.Confetti confettiHelper;
@@ -33,6 +35,7 @@ public class CelebrateActivity extends AppCompatActivity {
         viewEndCorner = findViewById(R.id.viewEndCorner);
         viewAnchor = findViewById(R.id.viewAnchor);
         txtGreeting = findViewById(R.id.txtGreeting);
+        fabReplay = findViewById(R.id.fabStopReplay);
     }
 
     @Override
@@ -40,6 +43,18 @@ public class CelebrateActivity extends AppCompatActivity {
         super.onStart();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        runCelebrations();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        releaseAll();
+    }
+
+    private void runCelebrations() {
         musicHelper = new MusicHelper(getApplicationContext());
         playMusic();
         int particleDelay = musicHelper.getPunchTime();
@@ -47,14 +62,6 @@ public class CelebrateActivity extends AppCompatActivity {
         fireworksHelper = new ParticlesHelper.Fireworks();
         confettiHelper = new ParticlesHelper.Confetti();
         new Handler().postDelayed(this::startParticles, particleDelay);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        releaseAll();
     }
 
     private void startParticles() {
@@ -72,6 +79,11 @@ public class CelebrateActivity extends AppCompatActivity {
         musicHelper.play(animation -> {
             Float value = (Float) animation.getAnimatedValue();
             txtGreeting.setAlpha(value);
+        }, animation -> {
+            Float value = (Float) animation.getAnimatedValue();
+            if (Float.compare(animation.getAnimatedFraction(), 1.0f) == 0) {
+                fabReplay.show();
+            }
         });
     }
 

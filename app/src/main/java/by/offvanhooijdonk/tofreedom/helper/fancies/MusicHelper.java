@@ -37,7 +37,7 @@ public class MusicHelper {
         shuffle();
     }
 
-    public void play(@Nullable ValueAnimator.AnimatorUpdateListener l) {
+    public void play(@Nullable ValueAnimator.AnimatorUpdateListener lStart, @Nullable ValueAnimator.AnimatorUpdateListener lStop) {
         initPlayer();
 
         volumeAnim = ValueAnimator.ofFloat(VOLUME_LOWEST, VOLUME_FULL)
@@ -47,12 +47,12 @@ public class MusicHelper {
             if (isStopped) return;
             Float val = (Float) animation.getAnimatedValue();
             player.setVolume(val, val);
-            if (l != null) l.onAnimationUpdate(animation);
+            if (lStart != null) lStart.onAnimationUpdate(animation);
         });
 
         player.start();
         volumeAnim.start();
-        setupFadeTrack();
+        setupFadeTrack(lStop);
     }
 
     public int getPunchTime() {
@@ -69,7 +69,7 @@ public class MusicHelper {
         if (player != null) player.release();
     }
 
-    private void setupFadeTrack() {
+    private void setupFadeTrack(@Nullable ValueAnimator.AnimatorUpdateListener lStop) {
         int duration = ctx.getResources().getInteger(pickedMusic.getDurationRes());
         new Handler().postDelayed(() -> {
             if (isStopped) return;
@@ -83,6 +83,7 @@ public class MusicHelper {
                     Log.i(ToFreedomApp.LOG, "Stop sound!");
                     player.stop();
                 }
+                if (lStop != null) lStop.onAnimationUpdate(animation);
             });
             anim.start();
         }, duration - VOLUME_FADE_OUT_DURATION);
