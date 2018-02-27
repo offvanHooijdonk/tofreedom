@@ -66,6 +66,11 @@
         <item name="textSize">56sp</item>
     </style>
 
+    <style name="AchievementText">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+
     <style name="AppBaseTheme.Dialog" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowFrame">@null</item>

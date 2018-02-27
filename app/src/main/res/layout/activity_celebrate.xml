@@ -14,10 +14,59 @@
         android:textAlignment="center"
         android:textColor="@color/colorAccent"
         android:textSize="48sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/glGreeting"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/glGreeting" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/activity_margin_v"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtGreeting">
+
+        <TextView
+            android:id="@+id/txtTimeElapsed"
+            style="@style/AchievementText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Random achievement"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/txtStarredNumber"
+            style="@style/AchievementText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Random achievement"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/txtSorrowTimes"
+            style="@style/AchievementText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Random achievement"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/txtHappyTimes"
+            style="@style/AchievementText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Random achievement"
+            android:visibility="invisible" />
+    </LinearLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/glGreeting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
     <View
         android:id="@+id/viewAnchor"
