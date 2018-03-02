@@ -11,6 +11,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import by.offvanhooijdonk.tofreedom.R;
+import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
+import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.AchievementsHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.MusicHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.ParticlesHelper;
@@ -38,17 +40,7 @@ public class CelebrateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_celebrate);
 
-        root = findViewById(R.id.root);
-        viewStartCorner = findViewById(R.id.viewStartCorner);
-        viewEndCorner = findViewById(R.id.viewEndCorner);
-        viewAnchor = findViewById(R.id.viewAnchor);
-        txtGreeting = findViewById(R.id.txtGreeting);
-        txtTimeElapsed = findViewById(R.id.txtTimeElapsed);
-        txtStarredNumber = findViewById(R.id.txtStarredNumber);
-        txtSorrowTimes = findViewById(R.id.txtSorrowTimes);
-        txtHappyTimes = findViewById(R.id.txtHappyTimes);
-        glGreeting = findViewById(R.id.glGreeting);
-        fabReplay = findViewById(R.id.fabStopReplay);
+        initViews();
 
         fabReplay.setOnClickListener(v -> {
             if (achievementsHelper != null) {
@@ -73,6 +65,24 @@ public class CelebrateActivity extends AppCompatActivity {
 
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         releaseAll();
+    }
+
+    private void initViews() {
+        root = findViewById(R.id.root);
+        viewStartCorner = findViewById(R.id.viewStartCorner);
+        viewEndCorner = findViewById(R.id.viewEndCorner);
+        viewAnchor = findViewById(R.id.viewAnchor);
+        txtGreeting = findViewById(R.id.txtGreeting);
+        txtTimeElapsed = findViewById(R.id.txtTimeElapsed);
+        txtStarredNumber = findViewById(R.id.txtStarredNumber);
+        txtSorrowTimes = findViewById(R.id.txtSorrowTimes);
+        txtHappyTimes = findViewById(R.id.txtHappyTimes);
+        glGreeting = findViewById(R.id.glGreeting);
+        fabReplay = findViewById(R.id.fabStopReplay);
+
+        txtTimeElapsed.setText("You waited " + DateFormatHelper.formatElapsed(
+                PrefHelper.getCountdownStartDate(this), PrefHelper.getFreedomTime(this)
+        ));
     }
 
     private void runCelebrations() {
@@ -139,4 +149,5 @@ public class CelebrateActivity extends AppCompatActivity {
             confettiHelper.stop();
         }
     }
+
 }

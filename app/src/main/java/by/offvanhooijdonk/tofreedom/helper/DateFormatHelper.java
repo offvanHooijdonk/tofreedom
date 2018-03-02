@@ -1,14 +1,24 @@
 package by.offvanhooijdonk.tofreedom.helper;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
+
+import net.time4j.CalendarUnit;
+import net.time4j.ClockUnit;
+import net.time4j.IsoUnit;
+import net.time4j.PrettyTime;
+import net.time4j.format.TextWidth;
 
 import org.joda.time.Period;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
+import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.countdown.CountdownBean;
 
 @SuppressLint("SimpleDateFormat")
@@ -44,7 +54,11 @@ public class DateFormatHelper {
     public static void formatForCountdown(CountdownBean countdownBean, long timeMillis) {
         FORMATTED_DATE.setTime(timeMillis);
         long currentTime = System.currentTimeMillis();
-        Period period = new Period(currentTime, currentTime + timeMillis);
+        formatForCountdown(countdownBean, currentTime, currentTime + timeMillis);
+    }
+
+    public static void formatForCountdown(CountdownBean countdownBean, long timeFrom, long timeTo) {
+        Period period = new Period(timeFrom, timeTo);
 
         countdownBean.year = String.valueOf(period.getYears()).intern();
         countdownBean.month = String.valueOf(period.getMonths()).intern();
@@ -71,6 +85,48 @@ public class DateFormatHelper {
 
 
         return formatted;
+    }
+
+    public static String formatElapsed(long timeFrom, long timeTo) {
+        long totalMinutes = (timeTo - timeFrom) / (60 * 1000);
+        return DecimalFormat.getNumberInstance().format(totalMinutes) + " " + getLocalDateTimeText(String.valueOf(totalMinutes), ClockUnit.MINUTES);
+        /*CountdownBean bean = new CountdownBean();
+        formatForCountdown(bean, timeFrom, timeTo);
+
+        return getLocalDateTimeText(bean.year, CalendarUnit.YEARS) +
+                getLocalDateTimeText(bean.month, CalendarUnit.MONTHS) +
+                getLocalDateTimeText(bean.day, CalendarUnit.DAYS) +
+                getLocalDateTimeText(bean.hour, ClockUnit.HOURS) +
+                getLocalDateTimeText(bean.minute, ClockUnit.MINUTES);*/
+    }
+
+    /*private static String getLocalDateTimeText(String value, IsoUnit unit) {
+        if (value != null && !value.isEmpty()) {
+            int valueNum = Integer.valueOf(value);
+            return unit instanceof CalendarUnit ? PrettyTime.of(Locale.getDefault()).print(valueNum, (CalendarUnit) unit, TextWidth.WIDE) :
+                    PrettyTime.of(Locale.getDefault()).print(valueNum, (ClockUnit) unit, TextWidth.WIDE);
+        } else {
+            // TODO handle properly
+            return "";
+        }
+    }*/
+
+    public static String getLocalDateTimeText(String value, IsoUnit unit) {
+        if (value != null && !value.isEmpty()) {
+            int valueNum = Integer.valueOf(value);
+            String unitText = unit instanceof CalendarUnit ? PrettyTime.of(Locale.getDefault()).print(valueNum, (CalendarUnit) unit, TextWidth.WIDE) :
+                    PrettyTime.of(Locale.getDefault()).print(valueNum, (ClockUnit) unit, TextWidth.WIDE);
+            try {
+                unitText = unitText.substring(value.length() + 1).intern(); // TODO rtl support?
+            } catch (IndexOutOfBoundsException e) {
+                Log.e(ToFreedomApp.LOG, "Error while substring date locale representation: " + unitText, e);
+                return "";
+            }
+            return unitText;
+        } else {
+            // TODO handle properly
+            return "";
+        }
     }
 
     /**

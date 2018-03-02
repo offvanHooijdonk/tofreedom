@@ -78,7 +78,7 @@ public class FreedomDateTimePreference extends Preference implements DatePickerD
 
     private void saveValue(long timeMillis) {
         persistLong(timeMillis);
-        PrefHelper.setCountdownStartDate(getContext(), System.currentTimeMillis());
+        //PrefHelper.setCountdownStartDate(getContext(), System.currentTimeMillis());
 
         updateSummary(timeMillis);
     }

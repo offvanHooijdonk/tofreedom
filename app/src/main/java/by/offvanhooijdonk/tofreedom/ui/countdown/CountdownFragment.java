@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,18 +22,15 @@ import android.widget.TextView;
 import com.bydavy.morpher.DigitalClockView;
 
 import net.time4j.CalendarUnit;
-import net.time4j.PrettyTime;
-import net.time4j.format.TextWidth;
-
-import java.util.Locale;
 
 import by.offvanhooijdonk.tofreedom.R;
-import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.helper.countdown.AnimCountdownHelper;
 import by.offvanhooijdonk.tofreedom.helper.countdown.CountdownBean;
 import by.offvanhooijdonk.tofreedom.helper.countdown.FreedomCountdownTimer;
+
+import static by.offvanhooijdonk.tofreedom.helper.DateFormatHelper.getLocalDateTimeText;
 
 public class CountdownFragment extends Fragment implements FreedomCountdownTimer.CountdownListener {
     private CountDownTimer countdownTimer;
@@ -124,15 +120,15 @@ public class CountdownFragment extends Fragment implements FreedomCountdownTimer
 
         if (countdown.year != null) {
             txtYear.setTime(countdown.year);
-            txtLabelYear.setText(getLocalCalendarUnitText(countdown.year, CalendarUnit.YEARS));
+            txtLabelYear.setText(getLocalDateTimeText(countdown.year, CalendarUnit.YEARS));
         }
         if (countdown.month != null) {
             txtMonth.setTime(countdown.month);
-            txtLabelMonth.setText(getLocalCalendarUnitText(countdown.month, CalendarUnit.MONTHS));
+            txtLabelMonth.setText(getLocalDateTimeText(countdown.month, CalendarUnit.MONTHS));
         }
         if (countdown.day != null) {
             txtDay.setTime(countdown.day);
-            txtLabelDay.setText(getLocalCalendarUnitText(countdown.day, CalendarUnit.DAYS));
+            txtLabelDay.setText(getLocalDateTimeText(countdown.day, CalendarUnit.DAYS));
         }
 
         String timeText = timeToString();
@@ -258,7 +254,7 @@ public class CountdownFragment extends Fragment implements FreedomCountdownTimer
         return builderTime.toString();
     }
 
-    private String getLocalCalendarUnitText(String value, CalendarUnit unit) {
+    /*private String getLocalDateTimeText(String value, CalendarUnit unit) {
         if (value != null && !value.isEmpty()) {
             int valueNum = Integer.valueOf(value);
             String unitText = PrettyTime.of(Locale.getDefault()).print(valueNum, unit, TextWidth.WIDE);
@@ -273,7 +269,7 @@ public class CountdownFragment extends Fragment implements FreedomCountdownTimer
             // TODO handle properly
             return "";
         }
-    }
+    }*/
 
     private void drawInitialCountdown() {
         if (countdown.year == null) {
