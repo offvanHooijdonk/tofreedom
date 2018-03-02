@@ -32,7 +32,7 @@ import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.app.ToFreedomApp;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
-import by.offvanhooijdonk.tofreedom.helper.anim.AnimCountdownHelper;
+import by.offvanhooijdonk.tofreedom.helper.countdown.AnimCountdownHelper;
 import by.offvanhooijdonk.tofreedom.helper.countdown.CountdownBean;
 import by.offvanhooijdonk.tofreedom.helper.countdown.FreedomCountdownTimer;
 

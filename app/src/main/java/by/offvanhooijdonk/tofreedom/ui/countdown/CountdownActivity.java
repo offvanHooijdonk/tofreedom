@@ -11,7 +11,7 @@ import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.ui.AboutActivity;
 import by.offvanhooijdonk.tofreedom.ui.StartActivity;
-import by.offvanhooijdonk.tofreedom.ui.fancies.CelebrateActivity;
+import by.offvanhooijdonk.tofreedom.ui.celebrate.CelebrateActivity;
 import by.offvanhooijdonk.tofreedom.ui.pref.PreferenceActivity;
 
 public class CountdownActivity extends AppCompatActivity implements MainView {

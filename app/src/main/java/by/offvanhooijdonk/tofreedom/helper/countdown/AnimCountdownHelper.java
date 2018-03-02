@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.tofreedom.helper.anim;
+package by.offvanhooijdonk.tofreedom.helper.countdown;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

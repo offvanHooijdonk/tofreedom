@@ -37,7 +37,7 @@
         </activity>
         <activity android:name=".ui.AboutActivity" />
         <activity
-            android:name=".ui.fancies.CelebrateActivity"
+            android:name=".ui.celebrate.CelebrateActivity"
             android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>

@@ -1,30 +1,21 @@
-package by.offvanhooijdonk.tofreedom.ui.fancies;
+package by.offvanhooijdonk.tofreedom.ui.celebrate;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Guideline;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.List;
-
 import by.offvanhooijdonk.tofreedom.R;
-import by.offvanhooijdonk.tofreedom.helper.fancies.MusicHelper;
-import by.offvanhooijdonk.tofreedom.helper.fancies.ParticlesHelper;
+import by.offvanhooijdonk.tofreedom.helper.celebrate.AchievementsHelper;
+import by.offvanhooijdonk.tofreedom.helper.celebrate.MusicHelper;
+import by.offvanhooijdonk.tofreedom.helper.celebrate.ParticlesHelper;
 
 public class CelebrateActivity extends AppCompatActivity {
-    private static final float GUIDELINE_START = 0.5f;
-    private static final float GUIDELINE_FINISH = 0.2f;
-
     private TextView txtGreeting;
     private TextView txtTimeElapsed;
     private TextView txtStarredNumber;
@@ -40,7 +31,7 @@ public class CelebrateActivity extends AppCompatActivity {
     private ParticlesHelper.Fireworks fireworksHelper;
     private ParticlesHelper.Confetti confettiHelper;
     private MusicHelper musicHelper;
-    private List<View> achievementViews;
+    private AchievementsHelper achievementsHelper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,9 +50,10 @@ public class CelebrateActivity extends AppCompatActivity {
         glGreeting = findViewById(R.id.glGreeting);
         fabReplay = findViewById(R.id.fabStopReplay);
 
-        achievementViews = Arrays.asList(txtTimeElapsed, txtStarredNumber, txtSorrowTimes, txtHappyTimes);
-
         fabReplay.setOnClickListener(v -> {
+            if (achievementsHelper != null) {
+                achievementsHelper.dropToInitial();
+            }
             fabReplay.hide();
             runCelebrations();
         });
@@ -90,29 +82,26 @@ public class CelebrateActivity extends AppCompatActivity {
 
         fireworksHelper = new ParticlesHelper.Fireworks();
         confettiHelper = new ParticlesHelper.Confetti();
+        prepareAchievements();
+
         new Handler().postDelayed(this::startParticles, particleDelay);
-        new Handler().postDelayed(this::runRetrospective, particleDelay); // different them the particles delay
+        new Handler().postDelayed(this::runAchievements, particleDelay); // different than the particles delay
     }
 
-    private void runRetrospective() {
-        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) glGreeting.getLayoutParams();
-        ValueAnimator animator = ValueAnimator.ofFloat(GUIDELINE_START, GUIDELINE_FINISH).setDuration(18000);
-        animator.setInterpolator(new DecelerateInterpolator(1.5f));
-        animator.addUpdateListener(animation -> {
-            lp.guidePercent = (Float) animation.getAnimatedValue();
-            glGreeting.setLayoutParams(lp);
-        });
+    private void prepareAchievements() {
+        achievementsHelper = new AchievementsHelper.Builder()
+                .moveView(glGreeting)
+                .addAchievement(txtTimeElapsed)
+                .addAchievement(txtStarredNumber)
+                .addAchievement(txtSorrowTimes)
+                .addAchievement(txtHappyTimes)
+                .durationDefault()
+                .delayBetweenDefault()
+                .build();
+    }
 
-        int delay = 1500;
-        for (View v : achievementViews) {
-            new Handler().postDelayed(() -> {
-                v.setVisibility(View.VISIBLE);
-                ObjectAnimator.ofFloat(v, View.ALPHA, 0.0f, 1.0f).setDuration(500).start();
-            }, delay);
-            delay += 1500;
-        }
-
-        animator.start();
+    private void runAchievements() {
+        achievementsHelper.runAchievements();
     }
 
     private void startParticles() {

@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.tofreedom.helper.fancies;
+package by.offvanhooijdonk.tofreedom.helper.celebrate;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

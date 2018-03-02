@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.tofreedom.helper.fancies;
+package by.offvanhooijdonk.tofreedom.helper.celebrate;
 
 import java.util.Objects;
 

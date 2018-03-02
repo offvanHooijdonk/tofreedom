@@ -1,4 +1,4 @@
-package by.offvanhooijdonk.tofreedom.helper.fancies;
+package by.offvanhooijdonk.tofreedom.helper.celebrate;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
