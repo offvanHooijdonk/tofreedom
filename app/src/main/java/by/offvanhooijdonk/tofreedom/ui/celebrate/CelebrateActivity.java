@@ -119,10 +119,10 @@ public class CelebrateActivity extends AppCompatActivity {
 
     private void prepareIcons() {
         iconsHelper = new IconsAnimHelper.Builder(this, root)
-                .minMaxIcons(2, 4)
-                .seriesNumber(6)
+                .minMaxIcons(4, 8)
+                .seriesNumber(6) // TODO ability to set alpha
                 .withRotation(true)
-                .rotation(-60, 60)
+                .rotation(-15, 15)
                 .build();
     }
 

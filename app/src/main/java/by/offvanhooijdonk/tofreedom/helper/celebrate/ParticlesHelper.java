@@ -19,6 +19,8 @@ import java.util.Set;
 
 import by.offvanhooijdonk.tofreedom.R;
 
+import static by.offvanhooijdonk.tofreedom.helper.RandomHelper.randomize;
+
 public class ParticlesHelper {
     private static final int OVERLAP_DURATION_BASE = 2000;
 
@@ -190,10 +192,6 @@ public class ParticlesHelper {
         private static long generateConfettiOverlapTime() {
             return randomize(OVERLAP_DURATION_BASE, 0.3f);
         }
-    }
-
-    private static int randomize(int base, float radius) {
-        return (int) (base * (1 + (Math.random() - 0.5) * radius));
     }
 
     private static int getRandom(int[] array) {
