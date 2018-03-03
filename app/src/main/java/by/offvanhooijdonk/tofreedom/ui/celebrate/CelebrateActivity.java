@@ -7,6 +7,7 @@ import android.support.constraint.Guideline;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.AchievementsHelper;
+import by.offvanhooijdonk.tofreedom.helper.celebrate.IconsAnimHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.MusicHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.ParticlesHelper;
 
@@ -28,13 +30,14 @@ public class CelebrateActivity extends AppCompatActivity {
     private View viewAnchor;
     private View viewStartCorner;
     private View viewEndCorner;
-    private View root;
+    private ViewGroup root;
     private FloatingActionButton fabReplay;
 
     private ParticlesHelper.Fireworks fireworksHelper;
     private ParticlesHelper.Confetti confettiHelper;
     private MusicHelper musicHelper;
     private AchievementsHelper achievementsHelper;
+    private IconsAnimHelper iconsHelper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,9 +98,11 @@ public class CelebrateActivity extends AppCompatActivity {
         fireworksHelper = new ParticlesHelper.Fireworks();
         confettiHelper = new ParticlesHelper.Confetti();
         prepareAchievements();
+        prepareIcons();
 
         new Handler().postDelayed(this::startParticles, particleDelay);
-        new Handler().postDelayed(this::runAchievements, particleDelay); // different than the particles delay
+        //new Handler().postDelayed(this::runAchievements, particleDelay); // different than the particles delay
+        new Handler().postDelayed(() -> iconsHelper.runIcons(), particleDelay); // different than the particles delay
     }
 
     private void prepareAchievements() {
@@ -109,6 +114,15 @@ public class CelebrateActivity extends AppCompatActivity {
                 .addAchievement(txtHappyTimes)
                 .durationDefault()
                 .delayBetweenDefault()
+                .build();
+    }
+
+    private void prepareIcons() {
+        iconsHelper = new IconsAnimHelper.Builder(this, root)
+                .minMaxIcons(2, 4)
+                .seriesNumber(6)
+                .withRotation(true)
+                .rotation(-60, 60)
                 .build();
     }
 

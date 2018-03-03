@@ -33,4 +33,16 @@
         <item>@color/md_orange_300</item>
         <item>@color/md_teal_300</item>
     </integer-array>
+
+    <integer-array name="fancy_colors">
+        <item>@color/md_deep_purple_300</item>
+        <item>@color/md_deep_orange_A200</item>
+        <item>@color/md_teal_300</item>
+        <item>@color/md_pink_A100</item>
+        <item>@color/md_red_400</item>
+        <item>@color/md_yellow_A400</item>
+        <item>@color/md_amber_500</item>
+        <item>@color/md_green_A200</item>
+        <item>@color/md_blue_A100</item>
+    </integer-array>
 </resources>
