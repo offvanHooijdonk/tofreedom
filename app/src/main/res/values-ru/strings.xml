@@ -39,5 +39,6 @@
     <string name="celebrate">Радоваться</string>
     <string name="btn_repeat_celebration">Повторить</string>
     <string name="free_now_txt">Теперь Вы Свободны!</string>
+    <string name="achiev_elapsed">Вы ждали %s</string>
 
 </resources>

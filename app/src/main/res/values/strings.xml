@@ -55,6 +55,7 @@
     <string name="celebrate">Celebrate</string>
     <string name="btn_repeat_celebration">Repeat Celebration</string>
     <string name="free_now_txt">You Are Free Now!</string>
+    <string name="achiev_elapsed">You waited %s</string>
 
     <integer name="sound_time_1812">5000</integer>
     <integer name="punch_time_1812">7000</integer>

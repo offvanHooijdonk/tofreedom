@@ -19,6 +19,7 @@ import by.offvanhooijdonk.tofreedom.helper.celebrate.ParticlesHelper;
 
 public class CelebrateActivity extends AppCompatActivity {
     private TextView txtGreeting;
+    private View blockTimeElapsed;
     private TextView txtTimeElapsed;
     private TextView txtStarredNumber;
     private TextView txtSorrowTimes;
@@ -73,6 +74,7 @@ public class CelebrateActivity extends AppCompatActivity {
         viewEndCorner = findViewById(R.id.viewEndCorner);
         viewAnchor = findViewById(R.id.viewAnchor);
         txtGreeting = findViewById(R.id.txtGreeting);
+        blockTimeElapsed = findViewById(R.id.blockTimeElapsed);
         txtTimeElapsed = findViewById(R.id.txtTimeElapsed);
         txtStarredNumber = findViewById(R.id.txtStarredNumber);
         txtSorrowTimes = findViewById(R.id.txtSorrowTimes);
@@ -80,9 +82,9 @@ public class CelebrateActivity extends AppCompatActivity {
         glGreeting = findViewById(R.id.glGreeting);
         fabReplay = findViewById(R.id.fabStopReplay);
 
-        txtTimeElapsed.setText("You waited " + DateFormatHelper.formatElapsed(
+        txtTimeElapsed.setText(getString(R.string.achiev_elapsed, DateFormatHelper.formatElapsed(
                 PrefHelper.getCountdownStartDate(this), PrefHelper.getFreedomTime(this)
-        ));
+        )));
     }
 
     private void runCelebrations() {
@@ -101,7 +103,7 @@ public class CelebrateActivity extends AppCompatActivity {
     private void prepareAchievements() {
         achievementsHelper = new AchievementsHelper.Builder()
                 .moveView(glGreeting)
-                .addAchievement(txtTimeElapsed)
+                .addAchievement(blockTimeElapsed)
                 .addAchievement(txtStarredNumber)
                 .addAchievement(txtSorrowTimes)
                 .addAchievement(txtHappyTimes)

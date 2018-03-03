@@ -31,17 +31,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtGreeting">
 
-        <TextView
-            android:id="@+id/txtTimeElapsed"
-            style="@style/AchievementText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Random achievement"
-            android:visibility="invisible" />
+        <LinearLayout
+            android:id="@+id/blockTimeElapsed"
+            style="@style/AchievementBlock">
+
+            <ImageView
+                style="@style/AchievementBlockIcon"
+                android:src="@drawable/ic_time_24"
+                android:tint="@color/colorPrimaryLight" />
+
+            <TextView
+                android:id="@+id/txtTimeElapsed"
+                style="@style/AchievementBlockText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Random achievement"
+                android:textAlignment="textStart" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/txtStarredNumber"
-            style="@style/AchievementText"
+            style="@style/AchievementBlockText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Random achievement"
@@ -49,7 +59,7 @@
 
         <TextView
             android:id="@+id/txtSorrowTimes"
-            style="@style/AchievementText"
+            style="@style/AchievementBlockText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Random achievement"
@@ -57,7 +67,7 @@
 
         <TextView
             android:id="@+id/txtHappyTimes"
-            style="@style/AchievementText"
+            style="@style/AchievementBlockText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Random achievement"
