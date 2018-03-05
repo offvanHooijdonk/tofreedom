@@ -47,9 +47,9 @@ public class CelebrateActivity extends AppCompatActivity {
         initViews();
 
         fabReplay.setOnClickListener(v -> {
-            if (achievementsHelper != null) {
-                achievementsHelper.dropToInitial();
-            }
+            if (achievementsHelper != null) achievementsHelper.dropToInitial();
+            if (iconsHelper != null) iconsHelper.dropToInitial();
+
             fabReplay.hide();
             runCelebrations();
         });
@@ -119,8 +119,9 @@ public class CelebrateActivity extends AppCompatActivity {
 
     private void prepareIcons() {
         iconsHelper = new IconsAnimHelper.Builder(this, root)
-                .minMaxIcons(4, 8)
-                .seriesNumber(6) // TODO ability to set alpha
+                .minMaxIcons(5, 7)
+                .seriesNumber(4) // TODO ability to set alpha
+                .timeBetweenSeriesStart(3000)
                 .withRotation(true)
                 .rotation(-15, 15)
                 .build();

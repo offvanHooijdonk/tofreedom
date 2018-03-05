@@ -40,9 +40,9 @@
         <item>@color/md_teal_300</item>
         <item>@color/md_pink_A100</item>
         <item>@color/md_red_400</item>
-        <item>@color/md_yellow_A400</item>
         <item>@color/md_amber_500</item>
-        <item>@color/md_green_A200</item>
-        <item>@color/md_blue_A100</item>
+        <item>@color/md_green_A700</item>
+        <item>@color/md_blue_A200</item>
+        <item>@color/md_light_green_600</item>
     </integer-array>
 </resources>

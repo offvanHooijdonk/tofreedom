@@ -18,14 +18,18 @@ import by.offvanhooijdonk.tofreedom.R;
 import static by.offvanhooijdonk.tofreedom.helper.RandomHelper.randomize;
 
 public class IconsAnimHelper {
-    private static final int DELAY_IN_SERIES = 250;
-    private static final int DELAY_BETWEEN_SERIES = 2800;
-    private static final int ICON_LIFE_SPAN = 1500;// TODO make editable within Builder
+    private static final int DELAY_IN_SERIES = 200;// TODO move to builder
+    private static final int DEFAULT_DELAY_BETWEEN_SERIES = 2800;
+    private static final int DEFAULT_ICON_LIFE_SPAN = 500;
+    private static final int FADE_IN_DURATION = 300;
+    private static final int FADE_OUT_DURATION = 200;
 
     private static final int[] ICONS_RES = new int[]{
             R.drawable.f_paw_24, R.drawable.f_star_border_24,
             R.drawable.f_butterfly, R.drawable.f_cat_border,
-            R.drawable.f_dog, R.drawable.f_unicorn
+            R.drawable.f_unicorn_baby, R.drawable.f_unicorn,
+            R.drawable.f_flower_cam, R.drawable.f_flower_rose,
+            R.drawable.f_puppy
     };
     private static int[] COLORS_RES = null;
 
@@ -37,6 +41,8 @@ public class IconsAnimHelper {
     private boolean withRotation = false;
     private int rotationMin = -30;
     private int rotationMax = 30;
+    private int iconLifeSpan = DEFAULT_ICON_LIFE_SPAN;
+    private int delayBetweenSeriesStart = DEFAULT_DELAY_BETWEEN_SERIES;
     private Random random = new Random();
 
     private IconsAnimHelper(Context context) {
@@ -62,14 +68,14 @@ public class IconsAnimHelper {
                 View v = setupIcon(inflater, imageRes, x, y);
                 new Handler().postDelayed(() -> {
                     root.addView(v);
-                    ObjectAnimator.ofFloat(v, View.ALPHA, 0f, 1f).start();
+                    ObjectAnimator.ofFloat(v, View.ALPHA, 0f, 1f).setDuration(FADE_IN_DURATION).start();
                 }, delay);
 
                 new Handler().postDelayed(() -> {
-                    ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f).start();
-                }, delay + num * DELAY_IN_SERIES);
+                    ObjectAnimator.ofFloat(v, View.ALPHA, 1f, 0f).setDuration(FADE_OUT_DURATION).start();
+                }, delay + num * DELAY_IN_SERIES + iconLifeSpan);
             }
-            delay += randomize(DELAY_BETWEEN_SERIES, .6f);
+            delay += randomize(delayBetweenSeriesStart, .6f);
         }
 
     }
@@ -89,7 +95,7 @@ public class IconsAnimHelper {
         return v;
     }
 
-    private int getRandom(int[] array) {
+    private int getRandom(int[] array) { // TODO move to helper
         int index = random.nextInt(array.length);
         return array[index];
     }
@@ -102,6 +108,11 @@ public class IconsAnimHelper {
     private int getHPosition(int totalSpace, int number, int index) {
         Log.i("break-free", "fancy position " + index);
         return (int) (totalSpace * ((float) index / (number - 1)));
+    }
+
+    public void dropToInitial() {
+        View v;
+        while ((v = root.findViewWithTag(ctx.getString(R.string.tag_fancy_icon))) != null) root.removeView(v);
     }
 
     public static class Builder {
@@ -120,6 +131,16 @@ public class IconsAnimHelper {
 
         public Builder withRotation(boolean withRotation) {
             helperObject.withRotation = withRotation;
+            return this;
+        }
+
+        public Builder iconLifeSpan(int iconLifeSpanMillis) {
+            helperObject.iconLifeSpan = iconLifeSpanMillis;
+            return this;
+        }
+
+        public Builder timeBetweenSeriesStart(int timeDelayMillis) {
+            helperObject.delayBetweenSeriesStart = timeDelayMillis;
             return this;
         }
 
