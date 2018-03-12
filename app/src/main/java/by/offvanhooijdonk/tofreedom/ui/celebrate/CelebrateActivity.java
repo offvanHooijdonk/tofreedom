@@ -18,6 +18,7 @@ import by.offvanhooijdonk.tofreedom.helper.celebrate.AchievementsHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.IconsAnimHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.MusicHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.ParticlesHelper;
+import by.offvanhooijdonk.tofreedom.ui.countdown.FreedomComingBR;
 
 public class CelebrateActivity extends AppCompatActivity {
     private TextView txtGreeting;
@@ -53,6 +54,8 @@ public class CelebrateActivity extends AppCompatActivity {
             fabReplay.hide();
             runCelebrations();
         });
+
+        FreedomComingBR.removeNotification(this);
     }
 
     @Override

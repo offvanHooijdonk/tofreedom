@@ -20,11 +20,12 @@ public class FreedomComingBR extends BroadcastReceiver {
     @Override
     public void onReceive(Context ctx, Intent intent) {
         Log.i("break-free", "Notification preparing...");
-        Notification.Builder builder = new Notification.Builder(ctx)
+        Notification.Builder builder = new Notification.Builder(ctx) // TODO move Notifications to a separate Helper class
                 .setContentTitle("Break Free")
                 .setContentText("Your freedom soon approaches!")
                 .setSmallIcon(R.drawable.ic_broken_chain)
                 .setContentIntent(prepareCountdownIntent(ctx))
+                .setOngoing(true)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setAutoCancel(false);
 
@@ -32,6 +33,10 @@ public class FreedomComingBR extends BroadcastReceiver {
 
         getNotificationManager(ctx).notify(ID_FREEDOM_COMING, builder.build());
         Log.i("break-free", "Notification shown.");
+    }
+
+    public static void removeNotification(Context ctx) {
+        getNotificationManager(ctx).cancel(ID_FREEDOM_COMING);
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -45,7 +50,7 @@ public class FreedomComingBR extends BroadcastReceiver {
         return PendingIntent.getActivity(ctx, 0, new Intent(ctx, CountdownActivity.class), 0);
     }
 
-    private NotificationManager getNotificationManager(Context ctx) {
+    private static NotificationManager getNotificationManager(Context ctx) {
         return (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 }

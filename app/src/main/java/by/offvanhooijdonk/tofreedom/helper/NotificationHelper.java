@@ -11,7 +11,7 @@ import java.util.Date;
 
 import by.offvanhooijdonk.tofreedom.ui.countdown.FreedomComingBR;
 
-public class NotificationHelper {
+public class NotificationHelper { // TODO rename
 
     public static void setupFinishingNotification(Context ctx) {
         cancelNotification(ctx);
