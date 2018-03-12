@@ -15,7 +15,6 @@ import by.offvanhooijdonk.tofreedom.ui.celebrate.CelebrateActivity;
 import by.offvanhooijdonk.tofreedom.ui.pref.PreferenceActivity;
 
 public class CountdownActivity extends AppCompatActivity implements MainView {
-    private static final String STACK_NAME_CELEBRATE_SCREEN = "celebrate_screen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -16,4 +16,6 @@
     <dimen name="item_mood_icon_padding">8dp</dimen>
     <dimen name="item_mood_icon_size">48dp</dimen>
     <dimen name="divider_fab_margin_v">20dp</dimen>
+
+    <dimen name="scream_size">75dp</dimen>
 </resources>

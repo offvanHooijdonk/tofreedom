@@ -13,13 +13,19 @@
     <color name="start_notif_bar">@color/md_deep_purple_700</color>
 
     <color name="start_picked_date">#E0FFFFFF</color>
-<!--    <color name="mood_icon">@color/md_blue_500</color>-->
+    <!--    <color name="mood_icon">@color/md_blue_500</color>-->
     <color name="mood_icon">@color/md_red_A200</color>
 
     <color name="fab_feel_today">@color/md_yellow_200</color>
     <color name="fab_future_plans">@color/colorAccent</color>
     <!--<color name="divider">#cccccc</color>-->
     <color name="divider">@color/colorPrimaryLight</color>
+
+    <color name="night_back">@color/md_blue_grey_800</color>
+    <color name="event_bats">@color/md_black_1000</color>
+    <color name="event_scream">@color/md_amber_A700</color>
+    <color name="event_scream_back">@color/md_red_800</color>
+    <color name="event_scream_back_dark">@color/md_red_900</color>
 
     <integer-array name="firework_colors">
         <item>@color/md_blue_300</item>
@@ -44,5 +50,19 @@
         <item>@color/md_green_A700</item>
         <item>@color/md_blue_A200</item>
         <item>@color/md_light_green_600</item>
+    </integer-array>
+
+    <integer-array name="back_colors">
+        <item>@color/md_grey_800</item>
+        <item>@color/md_brown_700</item>
+        <item>@color/md_blue_grey_700</item>
+        <item>@color/md_blue_800</item>
+        <item>@color/md_cyan_700</item>
+        <item>@color/md_light_blue_600</item>
+        <item>@color/md_green_A700</item>
+        <item>@color/md_teal_300</item>
+        <item>@color/md_pink_A100</item>
+        <item>@color/md_yellow_A100</item>
+        <item>@color/md_white_1000</item>
     </integer-array>
 </resources>

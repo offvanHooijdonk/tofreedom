@@ -4,8 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -15,8 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.bydavy.morpher.DigitalClockView;
@@ -29,6 +25,8 @@ import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.helper.countdown.AnimCountdownHelper;
 import by.offvanhooijdonk.tofreedom.helper.countdown.CountdownBean;
 import by.offvanhooijdonk.tofreedom.helper.countdown.FreedomCountdownTimer;
+import by.offvanhooijdonk.tofreedom.helper.surprise.SurpriseHelper;
+import by.offvanhooijdonk.tofreedom.helper.colorize.ColorsHelper;
 
 import static by.offvanhooijdonk.tofreedom.helper.DateFormatHelper.getLocalDateTimeText;
 
@@ -41,6 +39,7 @@ public class CountdownFragment extends Fragment implements FreedomCountdownTimer
     private StringBuilder builderTime = new StringBuilder();
     int prevTimeTextLength = 0;
     private Context ctx;
+    private SurpriseHelper surpriseHelper;
 
     private DigitalClockView txtYear;
     private DigitalClockView txtMonth;
@@ -51,7 +50,7 @@ public class CountdownFragment extends Fragment implements FreedomCountdownTimer
     private TextView txtLabelDay;
     private View blockYear;
     private View blockMonthDay;
-    private View root;
+    private ViewGroup root;
 
     @Nullable
     @Override
@@ -72,31 +71,11 @@ public class CountdownFragment extends Fragment implements FreedomCountdownTimer
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // TODO  make special helper class for this
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar(); //  TODO check for Activity type - compat or not
-        if (actionBar != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                actionBar.setBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.md_blue_grey_500, null)));
-            } else {
-                actionBar.setBackgroundDrawable(new ColorDrawable(this.getResources().getColor(R.color.md_blue_grey_500)));
-            }
-            /*actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayShowTitleEnabled(true);*/
-        }
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        ColorsHelper.setupScreenColors(getActivity(), actionBar, root);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = getActivity().getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            int color;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                color = this.getResources().getColor(R.color.md_blue_grey_700, null);
-            } else {
-                color = this.getResources().getColor(R.color.md_blue_grey_700);
-            }
-            window.setStatusBarColor(color);
-        }
-
-        root.setBackgroundColor(ctx.getResources().getColor(R.color.md_blue_grey_500));
+        surpriseHelper = new SurpriseHelper(ctx, getActivity(), root, actionBar);
+        new Handler().postDelayed(() -> surpriseHelper.startRollingEvent(), 100);
     }
 
     @Override

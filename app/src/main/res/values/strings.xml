@@ -45,8 +45,8 @@
     </string-array>
 
     <integer name="story_item_max_lines">2</integer>
-    <string name="share_feel_today_macro">On %s \n Mood: %s \n %s \n From ToFreedom ©</string>
-    <string name="share_future_plan_macro">On %s \n When free I\'m gonna: \n %s \n From Break Free ©</string>
+    <string name="share_feel_today_macro">On %s \n Mood: %s \n %s \n from Break Free ©</string>
+    <string name="share_future_plan_macro">On %s \n When free I\'m gonna: \n %s \n from Break Free ©</string>
     <string name="story_saved_confirmed">Story saved.</string>
     <string name="action_share_story">Share</string>
     <string name="action_about">About</string>

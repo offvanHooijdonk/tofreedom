@@ -18,13 +18,14 @@ import java.util.Calendar;
 import java.util.Date;
 
 import by.offvanhooijdonk.tofreedom.R;
+import by.offvanhooijdonk.tofreedom.helper.NotificationHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 
 public class FreedomDateTimePreference extends Preference implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     public static final int DEFAULT_VALUE = 0;
     private static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.FULL);
     @SuppressLint("SimpleDateFormat")
-    private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+    private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm"); // TODO get Locale-dependent time
 
     public FreedomDateTimePreference(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -78,7 +79,7 @@ public class FreedomDateTimePreference extends Preference implements DatePickerD
 
     private void saveValue(long timeMillis) {
         persistLong(timeMillis);
-        //PrefHelper.setCountdownStartDate(getContext(), System.currentTimeMillis());
+        NotificationHelper.setupFinishingNotification(getContext());
 
         updateSummary(timeMillis);
     }
@@ -98,7 +99,7 @@ public class FreedomDateTimePreference extends Preference implements DatePickerD
         dialog.getDatePicker().setMinDate(new Date().getTime());
 
         Calendar now = Calendar.getInstance();
-        now.add(Calendar.YEAR, PrefHelper.MAX_YEARS_AHEAD);
+        now.add(Calendar.YEAR, PrefHelper.MAX_YEARS_AHEAD); // TODO move this to resources?
         dialog.getDatePicker().setMaxDate(now.getTimeInMillis());
 
         dialog.show();
