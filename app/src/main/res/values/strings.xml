@@ -57,6 +57,8 @@
     <string name="free_now_txt">You Are Free Now!</string>
     <string name="achiev_elapsed">You waited %s</string>
     <string name="tag_fancy_icon">tag_fancy_icon</string>
+    <string name="notif_title_app_name">Break Free</string>
+    <string name="notif_freedom_soon_msg">Your freedom coming at %s</string>
 
     <integer name="sound_time_1812">5000</integer>
     <integer name="punch_time_1812">7000</integer>

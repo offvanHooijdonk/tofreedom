@@ -18,7 +18,7 @@ import java.util.Calendar;
 
 import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
-import by.offvanhooijdonk.tofreedom.helper.NotificationHelper;
+import by.offvanhooijdonk.tofreedom.helper.AlarmHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.ui.countdown.CountdownActivity;
 
@@ -97,7 +97,7 @@ public class StartActivity extends AppCompatActivity implements DatePickerDialog
             if (isDateSet && freedomTime > System.currentTimeMillis()) {
                 PrefHelper.setFreedomTime(StartActivity.this, freedomTime);
                 PrefHelper.setCountdownStartDate(StartActivity.this, System.currentTimeMillis());
-                NotificationHelper.setupFinishingNotification(StartActivity.this);
+                AlarmHelper.setupFinishingNotification(StartActivity.this);
                 navigateCountdownView();
             } else {
                 new AlertDialog.Builder(this)

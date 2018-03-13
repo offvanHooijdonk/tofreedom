@@ -1,6 +1,7 @@
 package by.offvanhooijdonk.tofreedom.helper;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 
 import net.time4j.CalendarUnit;
@@ -76,6 +77,11 @@ public class DateFormatHelper {
         }
 
         return formatted;
+    }
+
+    public static String formatTime(Context ctx, long timeMillis) {
+        boolean is24Hour = android.text.format.DateFormat.is24HourFormat(ctx);
+        return (is24Hour ? START_TIME_FORMAT_24 : START_TIME_FORMAT).format(new Date(timeMillis));
     }
 
     public static String formatForShare(long timeMillis, boolean is24Hours) {

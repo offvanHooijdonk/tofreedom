@@ -1,61 +1,53 @@
 package by.offvanhooijdonk.tofreedom.helper;
 
-import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
-import java.util.Calendar;
-import java.util.Date;
+import by.offvanhooijdonk.tofreedom.R;
+import by.offvanhooijdonk.tofreedom.ui.countdown.CountdownActivity;
 
-import by.offvanhooijdonk.tofreedom.ui.countdown.FreedomComingBR;
+public class NotificationHelper {
+    private static final int ID_FREEDOM_COMING = 0;
+    private static final String CHANNEL_ID = "BreakFree";
 
-public class NotificationHelper { // TODO rename
-
-    public static void setupFinishingNotification(Context ctx) {
-        cancelNotification(ctx);
-
-        long notifyTime = getTimeBeforeFreedom(ctx);
-        long currTime = System.currentTimeMillis();
-        notifyTime = currTime > notifyTime ? nextMinute(currTime) : notifyTime; // if notify time in past - use current time next minute
-        Log.i("break-free", "Notify at " + new Date(notifyTime).toString());
-
-        getAlarmManager(ctx).setExact(
-                AlarmManager.RTC_WAKEUP,
-                notifyTime,
-                prepareNotificationPI(ctx));
-    }
-
-    private static AlarmManager getAlarmManager(Context ctx) {
-        return (AlarmManager)ctx.getSystemService(Context.ALARM_SERVICE);
-    }
-
-    private static void cancelNotification(Context ctx) {
-        getAlarmManager(ctx).cancel(prepareNotificationPI(ctx));
-        Log.i("break-free", "Notification cancelled.");
-    }
-
-    private static PendingIntent prepareNotificationPI(Context ctx) {
-        Intent intent = new Intent(ctx, FreedomComingBR.class);
-        return PendingIntent.getBroadcast(ctx, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private static long getTimeBeforeFreedom(Context ctx) {
+    public static void showFreedomNotification(Context ctx) {
         long timeFreedom = PrefHelper.getFreedomTime(ctx);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timeFreedom);
-        calendar.add(Calendar.MINUTE, -5); // TODO settings
+        Notification.Builder builder = new Notification.Builder(ctx) // TODO move Notifications to a separate Helper class
+                .setContentTitle(ctx.getString(R.string.notif_title_app_name))
+                .setContentText(ctx.getString(R.string.notif_freedom_soon_msg, DateFormatHelper.formatTime(ctx, timeFreedom)))
+                .setSmallIcon(R.drawable.ic_broken_chain)
+                .setContentIntent(prepareCountdownIntent(ctx))
+                .setOngoing(true)
+                .setPriority(Notification.PRIORITY_HIGH)
+                .setAutoCancel(false);
 
-        return calendar.getTimeInMillis();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) setupChannel(ctx, builder);
+
+        getNotificationManager(ctx).notify(ID_FREEDOM_COMING, builder.build());
     }
 
-    private static long nextMinute(long time) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(time);
-        calendar.add(Calendar.MINUTE, 1);
-        calendar.set(Calendar.SECOND, 0);
+    public static void removeNotification(Context ctx) {
+        getNotificationManager(ctx).cancel(ID_FREEDOM_COMING);
+    }
 
-        return calendar.getTimeInMillis();
+    @RequiresApi(Build.VERSION_CODES.O)
+    private static void setupChannel(Context ctx, Notification.Builder builder) {
+        NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Break Free application", NotificationManager.IMPORTANCE_HIGH);
+        getNotificationManager(ctx).createNotificationChannel(channel);
+        builder.setChannelId(CHANNEL_ID);
+    }
+
+    private static PendingIntent prepareCountdownIntent(Context ctx) {
+        return PendingIntent.getActivity(ctx, 0, new Intent(ctx, CountdownActivity.class), 0);
+    }
+
+    private static NotificationManager getNotificationManager(Context ctx) {
+        return (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 }

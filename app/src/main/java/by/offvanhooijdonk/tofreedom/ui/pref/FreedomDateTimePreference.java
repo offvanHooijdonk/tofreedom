@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import by.offvanhooijdonk.tofreedom.R;
-import by.offvanhooijdonk.tofreedom.helper.NotificationHelper;
+import by.offvanhooijdonk.tofreedom.helper.AlarmHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 
 public class FreedomDateTimePreference extends Preference implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -79,7 +79,7 @@ public class FreedomDateTimePreference extends Preference implements DatePickerD
 
     private void saveValue(long timeMillis) {
         persistLong(timeMillis);
-        NotificationHelper.setupFinishingNotification(getContext());
+        AlarmHelper.setupFinishingNotification(getContext());
 
         updateSummary(timeMillis);
     }

@@ -13,12 +13,12 @@ import android.widget.TextView;
 
 import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.helper.DateFormatHelper;
+import by.offvanhooijdonk.tofreedom.helper.NotificationHelper;
 import by.offvanhooijdonk.tofreedom.helper.PrefHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.AchievementsHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.IconsAnimHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.MusicHelper;
 import by.offvanhooijdonk.tofreedom.helper.celebrate.ParticlesHelper;
-import by.offvanhooijdonk.tofreedom.ui.countdown.FreedomComingBR;
 
 public class CelebrateActivity extends AppCompatActivity {
     private TextView txtGreeting;
@@ -55,7 +55,7 @@ public class CelebrateActivity extends AppCompatActivity {
             runCelebrations();
         });
 
-        FreedomComingBR.removeNotification(this);
+        NotificationHelper.removeNotification(this);
     }
 
     @Override
