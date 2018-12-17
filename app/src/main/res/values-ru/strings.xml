@@ -40,5 +40,7 @@
     <string name="btn_repeat_celebration">Повторить</string>
     <string name="free_now_txt">Теперь Вы Свободны!</string>
     <string name="achiev_elapsed">Вы ждали %s</string>
+    <string name="notif_title_app_name">Я Свободен</string>
+    <string name="notif_freedom_soon_msg">Ваша свобода наступит в %s</string>
 
 </resources>

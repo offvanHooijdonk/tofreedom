@@ -52,7 +52,7 @@ public class BatsEvent extends BaseEvent {
     private void animateBatsImage(ImageView imgBats) {
         ValueAnimator animator = ValueAnimator.ofFloat(0.0f, 1.0f).setDuration(DURATION_SCALE);
         animator.setInterpolator(new AccelerateInterpolator(MAIN_INTERPOLATOR_FACTOR));
-        animator.addUpdateListener(a -> {
+        animator.addUpdateListener(a -> { //TODO use view.animate() 
             float value = (float) a.getAnimatedValue();
             float scale = calculateAnimValue(SCALE_START, SCALE_END, value);
             float rotation = calculateAnimValue(ROTATION_START, ROTATION_END, value);

@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.view.ViewGroup;
 
 public class SurpriseHelper {
-    private static final double FACTOR_EVENT = 0.05;
+    private static final double FACTOR_EVENT = 0.2;
     /*private static final double FACTOR_EVENT = 1;*/
 
     private ViewGroup root;
