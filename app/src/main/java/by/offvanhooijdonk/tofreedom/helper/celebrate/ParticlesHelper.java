@@ -19,7 +19,7 @@ import java.util.Set;
 
 import by.offvanhooijdonk.tofreedom.R;
 
-import static by.offvanhooijdonk.tofreedom.helper.RandomHelper.randomize;
+import static by.offvanhooijdonk.tofreedom.helper.HelpersKt.randomize;
 
 public class ParticlesHelper {
     private static final int OVERLAP_DURATION_BASE = 2000;

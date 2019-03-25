@@ -17,10 +17,10 @@ public class NotificationHelper {
     private static final String CHANNEL_ID = "BreakFree";
 
     public static void showFreedomNotification(Context ctx) {
-        long timeFreedom = PrefHelper.getFreedomTime(ctx);
+        long timeFreedom = PrefHelper.INSTANCE.getFreedomTime(ctx);
         Notification.Builder builder = new Notification.Builder(ctx) // TODO move Notifications to a separate Helper class
                 .setContentTitle(ctx.getString(R.string.notif_title_app_name))
-                .setContentText(ctx.getString(R.string.notif_freedom_soon_msg, DateFormatHelper.formatTime(ctx, timeFreedom)))
+                .setContentText(ctx.getString(R.string.notif_freedom_soon_msg, DateFormatHelper.INSTANCE.formatTime(ctx, timeFreedom)))
                 .setSmallIcon(R.drawable.ic_broken_chain)
                 .setContentIntent(prepareCountdownIntent(ctx))
                 .setOngoing(true)

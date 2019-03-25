@@ -15,7 +15,7 @@ import java.util.Random;
 
 import by.offvanhooijdonk.tofreedom.R;
 
-import static by.offvanhooijdonk.tofreedom.helper.RandomHelper.randomize;
+import static by.offvanhooijdonk.tofreedom.helper.HelpersKt.randomize;
 
 public class IconsAnimHelper {
     private static final int DELAY_IN_SERIES = 200;// TODO move to builder

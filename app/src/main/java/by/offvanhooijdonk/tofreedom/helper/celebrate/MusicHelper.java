@@ -80,7 +80,7 @@ public class MusicHelper {
                 Float val = (Float) animation.getAnimatedValue();
                 player.setVolume(val, val);
                 if (Float.compare(animation.getAnimatedFraction(), 1.0f) == 0) {
-                    Log.i(ToFreedomApp.LOG, "Stop sound!");
+                    Log.i(ToFreedomApp.Companion.getLOG(), "Stop sound!");
                     player.stop();
                 }
                 if (lStop != null) lStop.onAnimationUpdate(animation);

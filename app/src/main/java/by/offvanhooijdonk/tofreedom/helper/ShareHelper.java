@@ -10,12 +10,12 @@ import by.offvanhooijdonk.tofreedom.model.StoryModel;
 public class ShareHelper {
 
     public static void shareStory(Context ctx, StoryModel model) {
-        String date = DateFormatHelper.formatForShare(model.getDateCreated(), DateFormat.is24HourFormat(ctx));
+        String date = DateFormatHelper.INSTANCE.formatForShare(model.getDateCreated(), DateFormat.is24HourFormat(ctx));
         String text;
         if (model.getType() == StoryModel.Type.FEEL_TODAY.getIndex()) {
             text = ctx.getString(R.string.share_feel_today_macro,
                     date,
-                    ResHelper.getMoodText(ctx, StoryModel.Mood.fromIndex(model.getMoodOption())),
+                    ResHelper.getMoodText(ctx, StoryModel.Mood.Companion.fromIndex(model.getMoodOption())),
                     model.getText());
         } else {
             text = ctx.getString(R.string.share_future_plan_macro,

@@ -5,7 +5,7 @@ import android.content.Context;
 import by.offvanhooijdonk.tofreedom.R;
 import by.offvanhooijdonk.tofreedom.model.StoryModel;
 
-public class ResHelper {
+public class ResHelper { // todo rename
     public static final int[] moodResources = {
             R.drawable.ic_mood_very_satisfied_24, R.drawable.ic_mood_satisfied_24, R.drawable.ic_mood_neutral_24,
             R.drawable.ic_mood_dissatisfied_24, R.drawable.ic_mood_very_dissatisfied_24
