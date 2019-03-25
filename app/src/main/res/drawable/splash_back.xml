@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_back" />
+
+    <item
+        android:top="@dimen/logo_top_margin"
+        android:drawable="@drawable/ic_broken_chain"
+        android:gravity="center_horizontal|top" />
+</layer-list>

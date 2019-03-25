@@ -10,6 +10,7 @@
     <color name="transparent">#00ffffff</color>
 
     <color name="start_bckgr">@color/md_deep_purple_500</color>
+    <color name="splash_back">@color/start_bckgr</color>
     <color name="start_notif_bar">@color/md_deep_purple_700</color>
 
     <color name="start_picked_date">#E0FFFFFF</color>

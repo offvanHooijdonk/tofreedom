@@ -7,22 +7,15 @@ import by.offvanhooijdonk.tofreedom.helper.surprise.event.BatsEvent
 import by.offvanhooijdonk.tofreedom.helper.surprise.event.ScreamEvent
 
 object EventFactory {
-    private var events: MutableList<IEvent.IEventBuilder>? = null
+    private var events = mutableListOf<IEvent.IEventBuilder>(
+            BatsEvent.Builder(),
+            ScreamEvent.Builder()
+    )
 
     val randomEventBuilder: IEvent.IEventBuilder
         get() {
-            if (events == null) {
-                initEventsList()
-            }
-
-            val index = Random().nextInt(events!!.size)
-            return events!![index]
+            val index = Random().nextInt(events.size)
+            return events[index]
         }
-
-    private fun initEventsList() {
-        events = ArrayList<IEventBuilder>()
-        events!!.add(BatsEvent.Builder())
-        events!!.add(ScreamEvent.Builder())
-    }
 
 }

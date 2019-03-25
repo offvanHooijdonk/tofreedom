@@ -16,6 +16,8 @@
 
     <style name="AppTheme.StartScreen" parent="AppTheme.NoActionBar">
         <item name="colorPrimaryDark">@color/start_notif_bar</item>
+        
+        <item name="android:windowBackground">@drawable/splash_back</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

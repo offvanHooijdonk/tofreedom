@@ -12,6 +12,7 @@ class SurpriseHelper(private val ctx: Context, private val activity: Activity,
     fun startRollingEvent() {
         startRollForEvent()
     }
+    // todo chance to roll can be based on the time elapsed from the latest surprise
 
     private fun pickAndRunEvent() {
         val builder = EventFactory.randomEventBuilder

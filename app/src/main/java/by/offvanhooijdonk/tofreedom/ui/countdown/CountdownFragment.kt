@@ -29,7 +29,7 @@ class CountdownFragment : Fragment() {
     private var animHelper: AnimCountdownHelper = AnimCountdownHelper(FadeOutListener(), FadeInListener())
     private val builderTime = StringBuilder()
     private var prevTimeTextLength = 0
-    private var ctx: Context? = null
+    private lateinit var ctx: Context
     private lateinit var surpriseHelper: SurpriseHelper
 
     companion object {
@@ -42,13 +42,14 @@ class CountdownFragment : Fragment() {
         ctx = requireContext()
 
         DateFormatHelper.formatForCountdown(emptyCountdown, 0)
-        initCountdown()
 
         return v
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initCountdown()
 
         val actionBar = (activity as AppCompatActivity).supportActionBar
         actionBar?.let { ColorsHelper.setupScreenColors(requireActivity(), it, root!!) }
@@ -157,12 +158,12 @@ class CountdownFragment : Fragment() {
 
     private fun updateCountdownWithDiff(diffCountdown: CountdownBean) {
         if (countdown.year != null) {
-            countdown.year = pickChanges(countdown.year, diffCountdown.year/*, emptyCountdown.year*/)
+            countdown.year = pickChanges(countdown.year, diffCountdown.year, emptyCountdown.year!!)
             if (countdown.year == null) blockYear.fadeAway()
         }
 
         if (countdown.month != null) {
-            countdown.month = pickChanges(countdown.month, diffCountdown.month/*, emptyCountdown.month*/)
+            countdown.month = pickChanges(countdown.month, diffCountdown.month, emptyCountdown.month!!)
             if (countdown.month == null) {
                 txtMonths.fadeAway()
                 txtLabelMonth.fadeAway()
@@ -170,7 +171,7 @@ class CountdownFragment : Fragment() {
         }
 
         if (countdown.day != null) {
-            countdown.day = pickChanges(countdown.day, diffCountdown.day/*, emptyCountdown.day*/)
+            countdown.day = pickChanges(countdown.day, diffCountdown.day, emptyCountdown.day!!)
             if (countdown.day == null) {
                 txtDays.fadeAway()
                 txtLabelDay.fadeAway()
@@ -180,20 +181,15 @@ class CountdownFragment : Fragment() {
         if (countdown.month == null && countdown.day == null) {
             Handler().postDelayed({ blockMonthDay!!.visibility = View.GONE }, DURATION_DEFAULT)
         }
-        countdown.hour = pickChanges(countdown.hour, diffCountdown.hour/*, emptyCountdown.hour*/)
-        countdown.minute = pickChanges(countdown.minute, diffCountdown.minute/*, emptyCountdown.minute*/)
+        countdown.hour = pickChanges(countdown.hour, diffCountdown.hour, emptyCountdown.hour!!)
+        countdown.minute = pickChanges(countdown.minute, diffCountdown.minute, emptyCountdown.minute!!)
 
         // assume seconds always change
         countdown.second = diffCountdown.second
     }
 
-    private fun pickChanges(currValue: String?, diffValue: String?/*, emptyValue: String*/): String? =
-            diffValue?.takeIf { it != EMPTY_STRING } ?: currValue
-    /*if (diffValue != null)
-        if (diffValue == EMPTY_STRING) null else diffValue
-    else
-        currValue*/
-
+    private fun pickChanges(currValue: String?, diffValue: String?, emptyValue: String): String? =
+            diffValue?.takeIf { it != emptyValue } ?: currValue
 
     private fun timeToString(): String {
         builderTime.delete(0, builderTime.length)
@@ -228,31 +224,31 @@ class CountdownFragment : Fragment() {
 
     private fun drawInitialCountdown() {
         if (countdown.year == null) {
-            blockYear!!.visibility = View.GONE
+            blockYear.visibility = View.GONE
         } else {
-            txtYears!!.setTime(countdown.year)
-            blockYear!!.visibility = View.VISIBLE
+            txtYears.setTime(countdown.year)
+            blockYear.visibility = View.VISIBLE
         }
 
         if (countdown.month == null && countdown.day == null) {
-            blockMonthDay!!.visibility = View.GONE
+            blockMonthDay.visibility = View.GONE
         } else {
             if (countdown.month == null) {
-                txtMonths!!.visibility = View.GONE
-                txtLabelMonth!!.visibility = View.GONE
+                txtMonths.visibility = View.GONE
+                txtLabelMonth.visibility = View.GONE
             } else {
-                txtMonths!!.setTime(countdown.month)
-                txtMonths!!.visibility = View.VISIBLE
-                txtLabelMonth!!.visibility = View.VISIBLE
+                txtMonths.setTime(countdown.month)
+                txtMonths.visibility = View.VISIBLE
+                txtLabelMonth.visibility = View.VISIBLE
             }
 
             if (countdown.day == null) {
-                txtDays!!.visibility = View.GONE
-                txtLabelDay!!.visibility = View.GONE
+                txtDays.visibility = View.GONE
+                txtLabelDay.visibility = View.GONE
             } else {
-                txtDays!!.setTime(countdown.day)
-                txtDays!!.visibility = View.VISIBLE
-                txtLabelDay!!.visibility = View.VISIBLE
+                txtDays.setTime(countdown.day)
+                txtDays.visibility = View.VISIBLE
+                txtLabelDay.visibility = View.VISIBLE
             }
         }
 
@@ -262,9 +258,7 @@ class CountdownFragment : Fragment() {
     }
 
     private fun cancelCountdown() {
-        if (countdownTimer != null) {
-            countdownTimer!!.cancel()
-        }
+        countdownTimer?.cancel()
     }
 
     private inner class FadeOutListener : AnimatorListenerAdapter() {
