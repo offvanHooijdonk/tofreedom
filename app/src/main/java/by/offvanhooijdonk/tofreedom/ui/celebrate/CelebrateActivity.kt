@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.activity_celebrate.*
 class CelebrateActivity : AppCompatActivity() {
     private var fireworksHelper: ParticlesHelper.Fireworks? = null
     private var confettiHelper: ParticlesHelper.Confetti? = null
-    private var musicHelper: MusicHelper? = null
+    private lateinit var musicHelper: MusicHelper
     private var achievementsHelper: AchievementsHelper? = null
     private var iconsHelper: IconsAnimHelper? = null
 
@@ -61,7 +61,7 @@ class CelebrateActivity : AppCompatActivity() {
     private fun runCelebrations() {
         musicHelper = MusicHelper(applicationContext)
         playMusic()
-        val particleDelay = musicHelper!!.punchTime
+        val particleDelay = musicHelper.punchTime
 
         fireworksHelper = ParticlesHelper.Fireworks()
         confettiHelper = ParticlesHelper.Confetti()
@@ -107,7 +107,7 @@ class CelebrateActivity : AppCompatActivity() {
     }
 
     private fun playMusic() {
-        musicHelper!!.play({ animation ->
+        musicHelper.play({ animation ->
             val value = animation.animatedValue as Float
             txtGreeting!!.alpha = value
         }, { animation ->
@@ -118,9 +118,7 @@ class CelebrateActivity : AppCompatActivity() {
     }
 
     private fun releaseAll() {
-        if (musicHelper != null) {
-            musicHelper!!.releasePlayer()
-        }
+        musicHelper.releasePlayer()
 
         if (fireworksHelper != null) {
             fireworksHelper!!.stop()
